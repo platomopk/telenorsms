@@ -18,6 +18,7 @@ const Moment = require('moment');
 const MomentRange = require('moment-range');
 const moment = MomentRange.extendMoment(Moment);
 var soap = require('soap');
+var compression = require('compression');
 
 //-----------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ const app = express();
 var upload = require('express-fileupload');
 
 app.use(upload());
+app.use(compression());
 
 //the router file for users
 const users = require('./routes/users');
