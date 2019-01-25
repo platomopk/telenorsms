@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "async": "^2.6.1",
+    "asyncawait": "^1.0.7",
     "bcryptjs": "*",
     "body-parser": "*",
     "cloudinary": "^1.13.2",
