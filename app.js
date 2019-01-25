@@ -123,8 +123,13 @@ app.use('/hybrid', hybrid);
 //  res.send("MangoTree");
 // })
 
-app.use(function(req, res) {
+// app.use(function(req, res) {
+//     res.sendFile(path.join(__dirname, '/public', 'index.html'));
+// });
+
+app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '/public', 'index.html'));
+    // res.sendFile(path.join(__dirname + '/dist/index.html'));
 });
 
 //cron jobs for drip
