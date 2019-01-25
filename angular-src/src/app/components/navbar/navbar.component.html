@@ -1,0 +1,350 @@
+<section id="navbarsection" *ngIf="loggedIn">
+  <div class="" id="nbwrapper">
+    <div id="nditemscontainer">
+
+
+      <div class="nbitems  " routerLinkActive="hoverselected" [routerLink]="['/default']">
+        <div class="nbitemsimg">
+
+        </div>
+        <div class="nbitemstext">
+          <span><i class="fa fa-desktop"></i></span>&nbsp;&nbsp;&nbsp;Home
+        </div>
+      </div>
+
+      <!-- dashboard -->
+      <div class="nbitems" *ngIf="dashboard" routerLinkActive="hoverselected" [routerLink]="['/dashboard']">
+        <div class="nbitemsimg">
+
+        </div>
+        <div class="nbitemstext">
+          <span><i class="fa fa-bar-chart"></i></span>&nbsp;&nbsp;&nbsp;Dashboard
+        </div>
+      </div>
+
+
+      <!-- messaging -->
+      <div class="nbitems" *ngIf="messaging" (click)="onmessagingclicked()" routerLinkActive="hoverselected" >
+        <div class="nbitemstext">
+          <div><span><i class="fa fa-envelope-open"></i></span>&nbsp;&nbsp;&nbsp;Messaging <span class="rightarrow" *ngIf="messagingclicked==true"
+              ><i class="fa fa-caret-down"></i></span><span class="rightarrow" *ngIf="messagingclicked==false"
+              ><i class="fa fa-caret-right"></i></span></div>
+        </div>
+      </div>
+      <div *ngIf="messagingclicked==true">
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/messagingdashboard']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-cloud"></i></span>&nbsp;&nbsp;&nbsp;Dashboard</div>
+          </div>
+        </div>
+        <div class="nbsubitems" (click)="oncomposeclicked()" routerLinkActive="hoverselectedsub" >
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-pencil"></i></span>&nbsp;&nbsp;&nbsp;Compose <span *ngIf="composeclicked==true" class="rightarrow"><i class="fa fa-caret-down"></i></span>
+              <span class="rightarrow" *ngIf="composeclicked==false" ><i class="fa fa-caret-right"></i></span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="composeclicked==true">
+          <div class="nbsubsubitems" routerLinkActive="hoverselectedsubsub" [routerLink]="['/messaging/compose/quick']">
+            <div class="nbitemstext">
+              <div><span><i class="fa fa-angle-right"></i></span>&nbsp;&nbsp;&nbsp;Quick</div>
+            </div>
+          </div>
+          <div class="nbsubsubitems" routerLinkActive="hoverselectedsubsub" [routerLink]="['/messaging/compose/bulk']">
+            <div class="nbitemstext">
+              <div><span><i class="fa fa-angle-right"></i></span>&nbsp;&nbsp;&nbsp;Bulk</div>
+            </div>
+          </div>
+          <div class="nbsubsubitems" routerLinkActive="hoverselectedsubsub" [routerLink]="['/messaging/compose/drip']">
+            <div class="nbitemstext">
+              <div><span><i class="fa fa-angle-right"></i></span>&nbsp;&nbsp;&nbsp;Drip</div>
+            </div>
+          </div>
+          <div class="nbsubsubitems" *ngIf="digital" routerLinkActive="hoverselectedsubsub" [routerLink]="['/messaging/compose/digital']">
+            <div class="nbitemstext">
+              <div><span><i class="fa fa-angle-right"></i></span>&nbsp;&nbsp;&nbsp;WhatsApp</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/inbox']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-inbox"></i></span>&nbsp;&nbsp;&nbsp;Inbox</div>
+          </div>
+        </div>
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/outbox']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-send"></i></span>&nbsp;&nbsp;&nbsp;Outbox</div>
+          </div>
+        </div>
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/prioutbox']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-send"></i></span>&nbsp;&nbsp;&nbsp;Priority Outbox</div>
+          </div>
+        </div>
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/sent']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-rocket"></i></span>&nbsp;&nbsp;&nbsp;Sent</div>
+          </div>
+        </div>
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/campaignmanagement']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-map-signs"></i></span>&nbsp;&nbsp;&nbsp;Campaigns</div>
+          </div>
+        </div>
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/templatemanagement']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-puzzle-piece"></i></span>&nbsp;&nbsp;&nbsp;Templates</div>
+          </div>
+        </div>
+        <div class="nbsubitems" routerLinkActive="hoverselectedsub" [routerLink]="['/messaging/autorespond']">
+          <div class="nbitemstext">
+            <div><span><i class="fa fa-mail-reply-all"></i></span>&nbsp;&nbsp;&nbsp;Auto Response</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- messaging end -->
+
+
+
+
+
+
+
+
+      <!-- notification -->
+      <div class="nbitems  " *ngIf="notification" (click)="onnotificationclicked()" routerLinkActive="hoverselected" >
+        <div class="nbitemstext">
+          <span><i class="fa fa-bell"></i></span>&nbsp;&nbsp;&nbsp;Notification<span *ngIf="notificationclicked==true" class="rightarrow"><i class="fa fa-caret-down"></i></span>
+          <span *ngIf="notificationclicked==false" class="rightarrow"><i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+      <div *ngIf="notificationclicked==true">
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/notification/dashboard']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-cloud"></i></span>&nbsp;&nbsp;&nbsp;Dashboard
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/notification/composen']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-pencil"></i></span>&nbsp;&nbsp;&nbsp;Compose
+          </div>
+        </div>
+
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/notification/templates']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-puzzle-piece"></i></span>&nbsp;&nbsp;&nbsp;Templates
+          </div>
+        </div>
+      </div>
+      <!-- notification end -->
+
+
+
+
+      <!-- hybrid -->
+      <div class="nbitems" *ngIf="hybrid" (click)="onhybridclicked()" routerLinkActive="hoverselected" >
+        <div class="nbitemstext">
+          <span><i class="fa fa-sliders"></i></span>&nbsp;&nbsp;&nbsp;Hybrid<span *ngIf="hybridclicked==true" class="rightarrow"><i class="fa fa-caret-down"></i></span>
+          <span *ngIf="hybridclicked==false" class="rightarrow"><i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+      <div *ngIf="hybridclicked==true">
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/hybrid/dashboard']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-cloud"></i></span>&nbsp;&nbsp;&nbsp;Dashboard
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/hybrid/compose']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-pencil"></i></span>&nbsp;&nbsp;&nbsp;Compose
+          </div>
+        </div>
+
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/hybrid/inbox']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-inbox"></i></span>&nbsp;&nbsp;&nbsp;Inbox
+          </div>
+        </div>
+
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/hybrid/outbox']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-send"></i></span>&nbsp;&nbsp;&nbsp;Outbox
+          </div>
+        </div>
+
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/hybrid/sent']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-rocket"></i></span>&nbsp;&nbsp;&nbsp;Sent
+          </div>
+        </div>
+      </div>
+      <!-- hybrid end -->
+
+
+
+
+      <!-- reporting -->
+      <div class="nbitems  " *ngIf="reporting" routerLinkActive="hoverselected" [routerLink]="['/reporting']">
+        <div class="nbitemsimg">
+
+        </div>
+        <div class="nbitemstext">
+          <span><i class="fa fa-table"></i></span>&nbsp;&nbsp;&nbsp;Reporting
+        </div>
+      </div>
+      <div class="nbitems  " *ngIf="lea" routerLinkActive="hoverselected" [routerLink]="['/leareporting']">
+        <div class="nbitemsimg">
+
+        </div>
+        <div class="nbitemstext">
+          <span><i class="fa fa-table"></i></span>&nbsp;&nbsp;&nbsp;LEA Reporting
+        </div>
+      </div>
+      <!-- address -->
+      <div class="nbitems  " *ngIf="contacts" (click)="onaddressbookclicked()" routerLinkActive="hoverselected" >
+        <div class="nbitemstext">
+          <span><i class="fa fa-address-book"></i></span>&nbsp;&nbsp;&nbsp;Address Book <span *ngIf="addressbookclicked==true"
+            class="rightarrow"><i class="fa fa-caret-down"></i></span><span *ngIf="addressbookclicked==false"
+            class="rightarrow"><i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+      <div *ngIf="addressbookclicked == true">
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/addressbook/newcontact']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-user-circle-o"></i></span>&nbsp;&nbsp;&nbsp;New Contact
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/addressbook/contacts']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-file-text-o"></i></span>&nbsp;&nbsp;&nbsp;Contacts
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/addressbook/groups']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-group"></i></span>&nbsp;&nbsp;&nbsp;Groups
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Issue -->
+      <div class="nbitems  " *ngIf="tracker" (click)="ontrackerclicked()" routerLinkActive="hoverselected" >
+        <div class="nbitemstext">
+          <span><i class="fa fa-balance-scale"></i></span>&nbsp;&nbsp;&nbsp;Tracker <span *ngIf="trackerclicked==true" class="rightarrow"><i class="fa fa-caret-down"></i></span>
+          <span *ngIf="trackerclicked==false" class="rightarrow"><i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+      <div *ngIf="trackerclicked == true">
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/issuestracker/dashboard']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-cloud"></i></span>&nbsp;&nbsp;&nbsp;Dashboard
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/issuestracker/create']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-pencil"></i></span>&nbsp;&nbsp;&nbsp;New Ticket
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/issuestracker/apitest']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-filter"></i></span>&nbsp;&nbsp;&nbsp;Test APIs
+          </div>
+        </div>
+      </div>
+      <!-- prcing -->
+      <div class="nbitems" *ngIf="pricing" routerLinkActive="hoverselected" [routerLink]="['/pricing/buy']">
+        <div class="nbitemstext">
+          <span><i class="far fa-money-bill-alt"></i></span>&nbsp;&nbsp;&nbsp;Pricing
+        </div>
+      </div>
+
+      <!-- settings -->
+      <div class="nbitems" *ngIf="settings" routerLinkActive="hoverselected" (click)="onsettingsclicked()" >
+        <div class="nbitemstext">
+          <span><i class="fa fa-cog"></i></span>&nbsp;&nbsp;&nbsp;Settings <span *ngIf="settingsclicked==true" class="rightarrow"><i class="fa fa-caret-down"></i></span>
+          <span *ngIf="settingsclicked==false" class="rightarrow"><i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+      <div *ngIf="settingsclicked == true">
+
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/settings/uac']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-lock"></i></span>&nbsp;&nbsp;&nbsp;User Access
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/settings/masks']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-wrench"></i></span>&nbsp;&nbsp;&nbsp;Manage Masks
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <!-- master -->
+      <div class="nbitems" *ngIf="master" routerLinkActive="hoverselected" (click)="onmasterclicked()" >
+        <div class="nbitemstext">
+          <span><i class="fa fa-user-secret"></i></span>&nbsp;&nbsp;&nbsp;Master<span *ngIf="masterclicked==true" class="rightarrow"><i class="fa fa-caret-down"></i></span>
+          <span *ngIf="masterclicked==false" class="rightarrow"><i class="fa fa-caret-right"></i></span>
+        </div>
+      </div>
+      <div *ngIf="masterclicked == true">
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/newaccount']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-pencil-square"></i></span>&nbsp;&nbsp;&nbsp;New Account
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/moderate']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-tasks"></i></span>&nbsp;&nbsp;&nbsp;Account Moderation
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/accounts']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-suitcase"></i></span>&nbsp;&nbsp;&nbsp;Accounts
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/bundle']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-tty"></i></span>&nbsp;&nbsp;&nbsp;Bundle
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/credit']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-credit-card"></i></span>&nbsp;&nbsp;&nbsp;Top-Ups
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/masks']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-window-restore"></i></span>&nbsp;&nbsp;&nbsp;Masks/Shortcodes
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/issues']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-database"></i></span>&nbsp;&nbsp;&nbsp;Manage Issues
+          </div>
+        </div>
+        <div class="nbsubitems  " routerLinkActive="hoverselectedsub" [routerLink]="['/master/reports']">
+          <div class="nbitemstext">
+            <span><i class="fa fa-download"></i></span>&nbsp;&nbsp;&nbsp;Reports
+          </div>
+        </div>
+      </div>
+
+
+
+      <br>
+      <div class="nbitems">
+        <input type="button" value="@DevLabsPk" class="btn btn-block btn-sm cardbg btn-xs" >
+      </div>
+
+
+    </div>
+  </div>
+</section>

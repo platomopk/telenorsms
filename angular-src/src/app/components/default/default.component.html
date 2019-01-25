@@ -1,0 +1,112 @@
+<app-topbar></app-topbar>
+
+
+<br>
+<section id="dashboardSection">
+  <div class="row">
+    <div class="col-md-2">
+      <app-navbar></app-navbar>
+    </div>
+    <div class="col-md-10"  style="border-left:1px solid rgba(0,0,0,.1)">
+
+      <p>
+        <u>My Account:</u>
+      </p>
+      <div class="row" *ngIf="obj!=null">
+        <div class="col-md-3">
+          <div class="card cardbg mb-3">
+            <div class="card-header">Welcome, {{user.fullname}}</div>
+            <div class="card-body" style="min-height:66px">
+              <p class="card-text">ID: {{user.id}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card cardbg mb-3">
+            <div class="card-header">Email</div>
+            <div class="card-body" style="min-height:66px">
+              <p class="card-text">{{obj.email}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card cardbg mb-3">
+            <div class="card-header">Phone</div>
+            <div class="card-body" style="min-height:66px">
+              <p class="card-text">{{obj.phone}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        <u>My Resources:</u>
+      </p>
+      <div class="row" *ngIf="obj!=null">
+
+        <div class="col-md-3">
+          <div class="card cardbg mb-3">
+            <div class="card-header">Expiration (Bundle)</div>
+            <div class="card-body" style="min-height:66px">
+              <p class="card-text">{{obj.expirybundle}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card cardbg mb-3">
+            <div class="card-header">Encryption</div>
+            <div class="card-body" style="min-height:66px">
+              <p class="card-text">{{obj.encryption}}</p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row" *ngIf="obj!=null">
+          <div class="col-md-3">
+            <div class="card cardbg mb-3">
+              <div class="card-header">Throuput (SMS)</div>
+              <div class="card-body" style="min-height:66px">
+                <p class="card-text">{{obj.smstp}}</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-3">
+            <div class="card cardbg mb-3">
+              <div class="card-header">Throuput (Digital)</div>
+              <div class="card-body" style="min-height:66px">
+                <p class="card-text">{{obj.watp}}</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-3">
+            <div class="card cardbg mb-3">
+              <div class="card-header">Remaining (SMS)</div>
+              <div class="card-body" style="min-height:66px">
+                <p class="card-text">{{obj.creditsms}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+              <div class="card cardbg mb-3">
+                <div class="card-header">Remaining (Digital)</div>
+                <div class="card-body" style="min-height:66px">
+                  <p class="card-text">{{obj.creditwhatsapp}}</p>
+                </div>
+              </div>
+            </div>
+  
+  
+        </div>
+
+    </div>
+  </div>
+</section>

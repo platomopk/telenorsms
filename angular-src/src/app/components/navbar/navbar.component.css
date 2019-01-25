@@ -1,0 +1,96 @@
+#navbarsection{
+    /* padding-left: 10px;
+    padding-right: 10px; */
+    user-select: none;
+    background-color: white;
+}
+
+#nbitemscontainer{
+    display: inline-block;
+}
+.nbitems{
+    display: block;
+    cursor: pointer;
+    background: white;
+    /* margin-right: 10px; */
+    padding: 10px;
+    color:#444;
+
+    
+}
+
+
+.nbsubitems{
+    display: block;
+    cursor: pointer;
+    background: white;
+    /* margin-right: 10px; */
+    padding: 10px;
+    color:#444;
+    margin-left: 15px;
+}
+
+.nbsubsubitems{
+    display: block;
+    cursor: pointer;
+    background: white;
+    /* margin-right: 10px; */
+    padding: 10px;
+    color:#444;
+    margin-left: 30px;
+}
+
+#nbwrapper{
+}
+
+.nbitemsimg{
+
+}
+
+.nbitemstext{
+    font-size: small;
+    position: relative;
+}
+
+.rightarrow{
+    position: absolute;
+    right: 0;
+}
+
+.hoverselected{
+    color:black;
+    box-sizing: border-box;
+    /* color: #1565C0; */
+    /* border-left: 2px solid #1565C0; */
+    /* padding-left: 8px; */
+    background: #1565c008;
+    /* color: #1565C0; */
+    border-left: 2px solid #1565C0;
+}
+
+.hoverselectedsub{
+    color:black;
+    box-sizing: border-box;
+    /* color: #1565C0; */
+    /* border-left: 2px solid #1565C0; */
+    /* padding-left: 8px; */
+    background: #1565c008;
+    /* color: #1565C0; */
+    border-left: 2px solid #1565C0;
+}
+
+.hoverselectedsubsub{
+    color:black;
+    box-sizing: border-box;
+    /* color: #1565C0; */
+    /* border-left: 2px solid #1565C0; */
+    /* padding-left: 8px; */
+    background: #1565c008;
+    /* color: #1565C0; */
+    border-left: 2px solid #1565C0;
+}
+.cardbg{
+    color:white;
+    background-color:#2f3d5a;
+    /* background: linear-gradient(to right, #182848, #1565C0); */
+}
