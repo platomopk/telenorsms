@@ -66,7 +66,7 @@ const messaging = require('./routes/messaging');
 const hybrid = require('./routes/hybrid');
 
 //port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // const port = 3000;
 
