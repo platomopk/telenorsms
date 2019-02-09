@@ -1,8 +1,9 @@
 <section>
     <p class="lead text-underline"><u> Create Template </u></p>
+    <br>
     <form (submit)="registertemplate()">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="form-group">
               <label for="name">Template Name</label>
               <input type="text" class="form-control" [(ngModel)]="name" name="name" id="name" aria-describedby="name" placeholder="Enter Template Name" required>
@@ -14,7 +15,7 @@
           </div>
           <div class="form-group">
               <label for="desc">Type</label>
-              <select (change)="typechange($event)" [(ngModel)]="type" name="type" id="" class="form-control" required>
+              <select (change)="typechange($event)" [(ngModel)]="type" name="type" id="" class="form-control form-control-sm" required>
                 <option value="" disabled selected>Select Type</option>
                 <option value="static">Static</option>
                 <option value="dynamic">Dynamic</option>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-
+import {Router } from '@angular/router';
 import { AuthService } from "../../services/auth.service";
 import { MessagingService } from "../../services/messaging.service";
 import { CsvService } from "angular2-json2csv";
 import { resolve } from "../../../../node_modules/@types/q";
 import { AES, enc } from "crypto-js";
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: "app-reporting",
@@ -22,6 +23,7 @@ export class ReportingComponent implements OnInit {
     closeOnSelect: true
   };
 
+  navbarshow:boolean = true;
   selfemail: String = "";
   notfound: boolean = false;
   spinner: boolean = false;
@@ -50,7 +52,8 @@ export class ReportingComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private msgService: MessagingService,
-    private _csvService: CsvService
+    private _csvService: CsvService,
+    private dataService:DataService, private router:Router
   ) {}
 
   operation: String;
@@ -74,7 +77,19 @@ export class ReportingComponent implements OnInit {
   localemail: String = "";
 
   ngOnInit() {
+
+    if(localStorage.getItem("user")==null)
+      {
+        this.router.navigate(['/home/login']);
+      }
+
     this.localemail = this.auth.getSavedEmail();
+
+    this.dataService.currentnavbar.subscribe(data=>{
+      this.navbarshow = data;
+    })
+
+
     this.getallchilds();
   }
 

@@ -13,7 +13,7 @@ export class QuickmessageComponent implements OnInit {
 
   name:String;
   language:String;
-  masking:String;
+  masking:String="";
   mobilenos:String="";
   msg:String="";
   msgchars:number;
@@ -135,7 +135,7 @@ export class QuickmessageComponent implements OnInit {
             msg:this.msg,
             msgchars:this.msgchars,
             noofmsgs:this.noofmsgs,
-            preference:this.preference,
+            preference:"withmask",
             createdby: this.authService.getSavedEmail(),
             account:this.account,
             password:this.password
@@ -144,7 +144,7 @@ export class QuickmessageComponent implements OnInit {
             //console.log(data);
             if(data.success){
               alert("Quick Message(s) : Sent") ;
-              location.reload(true);
+              location.reload();
             }else{
               alert(data.error);
             }

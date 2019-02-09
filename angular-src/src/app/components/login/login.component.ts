@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
   email:String;
   password:String;
 
+  sent:boolean = false;
+
   constructor(
     private router:Router,
     private authService:AuthService
@@ -26,6 +28,8 @@ export class LoginComponent implements OnInit {
 
   onLogin(){
 
+    this.sent = true;
+
     let user = {
       email:this.email,
       password:this.password
@@ -33,6 +37,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(user).subscribe(
       data => {
+        this.sent = false;
         if(data.success){
 
           if(data.activated && data.suspended == false){

@@ -22,7 +22,7 @@ export class DripmessageComponent implements OnInit {
   
   name:String;
   language:String;
-  masking:String;
+  masking:String="";
   campaign:String;
   path:String;
   msg:String="";
@@ -149,6 +149,7 @@ export class DripmessageComponent implements OnInit {
     this.messagingService.registerdrip(drip).subscribe(data=>{
       if(data.success){
         alert("Drip Created.")
+        location.reload();
       }else{
         alert(data.error.toString());
       }

@@ -4,14 +4,16 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class MaskService {
-
+  // ip:String="http://localhost:3000/";
+  ip:String="";
+  
   constructor(private http:Http) { }
 
   registermask(mask){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("masks/register",mask,{headers})
+    return this.http.post(this.ip+"masks/register",mask,{headers})
     .map(res => res.json());
   }
 
@@ -19,7 +21,7 @@ export class MaskService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("masks/"+email,{headers})
+    return this.http.get(this.ip+"masks/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -27,7 +29,7 @@ export class MaskService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("masks/pending",{headers})
+    return this.http.get(this.ip+"masks/pending",{headers})
     .map(res => res.json());
   }
 
@@ -35,7 +37,7 @@ export class MaskService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.put("masks/allow",mask,{headers})
+    return this.http.put(this.ip+"masks/allow",mask,{headers})
     .map(res => res.json());
   }
 
@@ -43,7 +45,7 @@ export class MaskService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("masks/id/"+id,{headers})
+    return this.http.get(this.ip+"masks/id/"+id,{headers})
     .map(res => res.json());
   }
 
@@ -51,7 +53,7 @@ export class MaskService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("masks/activated/"+email,{headers})
+    return this.http.get(this.ip+"masks/activated/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -59,7 +61,7 @@ export class MaskService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("masks/"+id,{headers})
+    return this.http.delete(this.ip+"masks/"+id,{headers})
     .map(res => res.json());
   }
 

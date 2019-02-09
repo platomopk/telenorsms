@@ -1,9 +1,12 @@
 #profileSection{
-    padding-left: 10px;
-    padding-right: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
     font-size: small;
     box-sizing: border-box;
+}
 
+label{
+    font-size: small
 }
 
 .form-control{
@@ -11,7 +14,7 @@
 }
 
 .btn{
-    font-size: small;
+    font-size: small;   
     width:100%;
 }
 

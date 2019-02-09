@@ -9,6 +9,23 @@
     #tpdockright{
         float:none;
     }
+
+    .topbars{
+        font-size: 18px !important;
+        padding-left: 0px !important;
+        color: #515356!important;
+    }
+
+    #logotext{
+        position: absolute;
+        top:13px !important;
+        font-weight: 300 !important;
+        padding:0px;
+        margin:0px;
+        padding-left:5px !important;
+        color:#515356!important;
+        font-size: 18px !important;
+    }
 }
 
 .marqueecontainer{
@@ -24,14 +41,18 @@
 }
 
 #topbarsection{
+    min-height: 59px;
     padding-left: 10px;
     padding-right: 10px;
-    background-color:#1565C0;
+    background: #EDEDED;
+    border-bottom: 1px solid #D9DEE4;
+    margin-bottom: 10px;
 }
 
 #tpcontainerwrapper{
-    padding-top: 10px;
-    padding-bottom: 10px;
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 #api{
@@ -42,9 +63,28 @@
 #logotext{
     padding:0px;
     margin:0px;
-    color:white;
-    font-size: large;
-    font-weight:bold;
+    color:#5A738E;
+    font-weight: 300;
+    font-size: 26px;
+    position: absolute;
+    padding-left:5px !important;
+    top:7px;
+}
+
+.topbars{
+    font-size: 26px;
+    padding-left:10px;
+    color:#5A738E;
+}
+
+.topbars:hover{
+    color:#2a3f54;
+    cursor: pointer;
+}
+
+#logotext:hover{
+    color:#2a3f54;
+    cursor: pointer;
 }
 
 #tpdockright{
@@ -52,13 +92,18 @@
 }
 
 .dockitems{
+    user-select: none;
     box-sizing: border-box;
     cursor: pointer;
-    font-size:small;
+    font-size:13px;
     padding:10px;
     /* border:1px solid white; */
-    color:white;
-    margin-left:15px;
+    color:#515356!important;
+    margin-left:0px;
+}
+
+.dockitems:hover{
+    background: #D9DEE4;  
 }
 
 #sidebar{

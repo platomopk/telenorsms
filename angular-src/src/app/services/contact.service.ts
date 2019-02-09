@@ -4,6 +4,8 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ContactService {
+  // ip:String="http://localhost:3000/";
+  ip:String="";
 
   constructor(private http:Http) {
    }
@@ -12,7 +14,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("contacts/register",contact,{headers})
+    return this.http.post(this.ip+"contacts/register",contact,{headers})
     .map(res => res.json());
   }
 
@@ -20,7 +22,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("contacts/group/register",group,{headers})
+    return this.http.post(this.ip+"contacts/group/register",group,{headers})
     .map(res => res.json());
   }
 
@@ -28,7 +30,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("contacts/group/"+email,{headers})
+    return this.http.get(this.ip+"contacts/group/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -36,7 +38,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("contacts/"+email,{headers})
+    return this.http.get(this.ip+"contacts/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -44,7 +46,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("contacts/"+id,{headers})
+    return this.http.delete(this.ip+"contacts/"+id,{headers})
     .map(res => res.json());
   }
 
@@ -52,7 +54,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("contacts/group/contact/"+contact,{headers})
+    return this.http.delete(this.ip+"contacts/group/contact/"+contact,{headers})
     .map(res => res.json());
   }
 
@@ -60,7 +62,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("contacts/group/"+id,{headers})
+    return this.http.delete(this.ip+"contacts/group/"+id,{headers})
     .map(res => res.json());
   }
 
@@ -68,7 +70,7 @@ export class ContactService {
     
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.put("contacts/group",group,{headers})
+    return this.http.put(this.ip+"contacts/group",group,{headers})
     .map(res => res.json());
   }
 
@@ -76,7 +78,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("contacts/group/details/"+email,{headers})
+    return this.http.get(this.ip+"contacts/group/details/"+email,{headers})
     .map(res => res.json());
   }
 

@@ -1,8 +1,8 @@
-#reportingSection{
-    padding-left: 10px;
-    padding-right: 10px;
+#mainsection{
+    margin-left: 25px;
+    margin-right: 25px;
     font-size: small;
-
+    box-sizing: border-box;
 }
 
 .form-control{

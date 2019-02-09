@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PricingService} from '../../services/pricing.service';
 import {AuthService} from '../../services/auth.service'
+import {Router } from '@angular/router';
 
 @Component({
   selector: 'app-buybundles',
@@ -22,9 +23,13 @@ export class BuybundlesComponent implements OnInit {
   itemscredit:String="";
   costcredit:number=0;
 
-  constructor(private pricingService:PricingService, private auth:AuthService) { }
+  constructor(private pricingService:PricingService, private auth:AuthService, private router:Router) { }
 
   ngOnInit() {
+    if(localStorage.getItem("user")==null)
+      {
+        this.router.navigate(['/home/login']);
+      }
     let userob = localStorage.getItem('user');
     let u=JSON.parse(userob);
     this.email = u.email;

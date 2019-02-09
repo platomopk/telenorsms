@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
+import { DataService } from '../../services/data.service';
 import { AuthService } from '../../services/auth.service';
 import { MessagingService } from '../../services/messaging.service';
 import { CsvService } from "angular2-json2csv";
 import { resolve } from '../../../../node_modules/@types/q';
 import {AES, enc} from 'crypto-js'
-
+import {Router } from '@angular/router';
 @Component({
   selector: 'app-leareporting',
   templateUrl: './leareporting.component.html',
@@ -13,6 +13,7 @@ import {AES, enc} from 'crypto-js'
   providers: [CsvService]
 })
 export class LeareportingComponent implements OnInit {
+  navbarshow:boolean = true;
   date: Date = new Date();
   settings = {
     bigBanner: true,
@@ -48,7 +49,7 @@ export class LeareportingComponent implements OnInit {
 
   d: any = new Date();
 
-  constructor(private auth: AuthService, private msgService: MessagingService, private _csvService: CsvService) { }
+  constructor(private auth: AuthService, private msgService: MessagingService, private _csvService: CsvService, private dataService:DataService, private router:Router) { }
 
   operation: String;
   operationname: String;
@@ -65,6 +66,13 @@ export class LeareportingComponent implements OnInit {
   localemail:String="";
 
   ngOnInit() {
+    if(localStorage.getItem("user")==null)
+      {
+        this.router.navigate(['/home/login']);
+      }
+    this.dataService.currentnavbar.subscribe(data=>{
+      this.navbarshow = data;
+    })
     this.getallaccounts();
       this.localemail = this.auth.getSavedEmail();
   }

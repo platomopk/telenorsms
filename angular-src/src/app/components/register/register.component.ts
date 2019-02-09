@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
+  sent:boolean = false;
   fullname:String;
   phone:String;
   email:String;
@@ -32,6 +33,8 @@ export class RegisterComponent implements OnInit {
     {
       return false;
     }
+
+    
     
     let user = {
       fullname: this.fullname,
@@ -55,9 +58,12 @@ export class RegisterComponent implements OnInit {
       console.log("Please use a valid email.");
       return false;
     }
+
+    this.sent = true;
     
     this.authService.registerUser(user)
     .subscribe(data=>{
+      this.sent = false;
       if(data.success){
         //this.flashMessagesService.show('You are now registered. You can now login.', { cssClass: 'alert-success', timeout: 2000 });
         alert("You are now registered. You can now login.");

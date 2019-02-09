@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -32,33 +34,110 @@ export class NavbarComponent implements OnInit {
   settingsclicked:boolean=false;
   masterclicked:boolean=false;
 
+  navbarshowed:boolean = true;
 
-  constructor(private authService:AuthService) { 
+  user:any;
+
+
+  constructor(private authService:AuthService, private router:Router ) { 
     //this.loggedIn = false;
-    if(localStorage.getItem("masterclicked")){
-      this.masterclicked = 'true' == localStorage.getItem("masterclicked").toString().trim();
-    }
-    if(localStorage.getItem("messagingclicked")){
-      this.messagingclicked = 'true' == localStorage.getItem("messagingclicked").toString().trim();
-    }
+    // if(localStorage.getItem("masterclicked")){
+    //   this.masterclicked = 'true' == localStorage.getItem("masterclicked").toString().trim();
+    // }
+    // if(localStorage.getItem("messagingclicked")){
+    //   this.messagingclicked = 'true' == localStorage.getItem("messagingclicked").toString().trim();
+    //   if(this.messagingclicked){
+    //     this.notificationclicked = false;
+    //     this.hybridclicked = false;
+    //     this.addressbookclicked = false;
+    //     this.trackerclicked = false;
+    //     this.settingsclicked = false;
+    //   }
+    // }
     if(localStorage.getItem("composeclicked")){
       this.composeclicked = 'true' == localStorage.getItem("composeclicked").toString().trim();
     }
-    if(localStorage.getItem("notificationclicked")){
-      this.notificationclicked = 'true' == localStorage.getItem("notificationclicked").toString().trim();
+    // if(localStorage.getItem("notificationclicked")){
+    //   this.notificationclicked = 'true' == localStorage.getItem("notificationclicked").toString().trim();
+    //   if(this.notificationclicked){
+    //     this.messagingclicked = false;
+    //     this.hybridclicked = false;
+    //     this.addressbookclicked = false;
+    //     this.trackerclicked = false;
+    //     this.settingsclicked = false;
+    //   }
+    // }
+    // if(localStorage.getItem("hybridclicked")){
+    //   this.hybridclicked = 'true' == localStorage.getItem("hybridclicked").toString().trim();
+    //   if(this.hybridclicked){
+    //     this.notificationclicked = false;
+    //     this.messagingclicked = false;
+    //     this.addressbookclicked = false;
+    //     this.trackerclicked = false;
+    //     this.settingsclicked = false;
+    //   }
+    // }
+    // if(localStorage.getItem("addressbookclicked")){
+    //   this.addressbookclicked = 'true' == localStorage.getItem("addressbookclicked").toString().trim();
+    //   if(this.addressbookclicked){
+    //     this.notificationclicked = false;
+    //     this.messagingclicked = false;
+    //     this.hybridclicked = false;
+    //     this.trackerclicked = false;
+    //     this.settingsclicked = false;
+    //   }
+    // }
+    // if(localStorage.getItem("trackerclicked")){
+    //   this.trackerclicked = 'true' == localStorage.getItem("trackerclicked").toString().trim();
+    //   if(this.trackerclicked){
+    //     this.notificationclicked = false;
+    //     this.messagingclicked = false;
+    //     this.hybridclicked = false;
+    //     this.addressbookclicked = false;
+    //     this.settingsclicked = false;
+    //   }
+    // }
+    // if(localStorage.getItem("settingsclicked")){
+    //   this.settingsclicked = 'true' == localStorage.getItem("settingsclicked").toString().trim();
+    //   if(this.settingsclicked){
+    //     this.notificationclicked = false;
+    //     this.messagingclicked = false;
+    //     this.hybridclicked = false;
+    //     this.addressbookclicked = false;
+    //     this.trackerclicked = false;
+    //   }
+    // }
+
+
+    if(this.router.url.includes("/messaging")){
+      this.messagingclicked = true;
     }
-    if(localStorage.getItem("hybridclicked")){
-      this.hybridclicked = 'true' == localStorage.getItem("hybridclicked").toString().trim();
+
+    if(this.router.url.includes("/notification")){
+      this.notificationclicked = true;
     }
-    if(localStorage.getItem("addressbookclicked")){
-      this.addressbookclicked = 'true' == localStorage.getItem("addressbookclicked").toString().trim();
+
+    if(this.router.url.includes("/hybrid")){
+      this.hybridclicked = true;
     }
-    if(localStorage.getItem("trackerclicked")){
-      this.trackerclicked = 'true' == localStorage.getItem("trackerclicked").toString().trim();
+
+    if(this.router.url.includes("/addressbook")){
+      this.addressbookclicked = true;
     }
-    if(localStorage.getItem("settingsclicked")){
-      this.settingsclicked = 'true' == localStorage.getItem("settingsclicked").toString().trim();
+
+    if(this.router.url.includes("/issuestracker")){
+      this.trackerclicked = true;
     }
+
+    if(this.router.url.includes("/settings")){
+      this.settingsclicked = true;
+    }
+
+    if(this.router.url.includes("/master")){
+      this.masterclicked = true;
+    }
+
+    
   }
 
   onmessagingclicked(){
@@ -152,8 +231,13 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+
   ngOnInit() {
     this.setRights();
+
+    this.user = JSON.parse(localStorage.getItem("user"));
+  
+    
 
     // this.authService.getRights().subscribe(data =>{
     //   console.log(data);
@@ -164,6 +248,9 @@ export class NavbarComponent implements OnInit {
       this.loggedIn=true;
     }else{
       this.loggedIn=false;
+      this.authService.onLogout();
+      //localStorage.clear();
+      this.router.navigate(['/home']);
     }
   }
 

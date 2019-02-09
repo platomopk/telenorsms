@@ -238,8 +238,11 @@ router.post('/authenticate', (req, res, next)=>{
         }
 
         User.comparePassword(password, user.password, (err, isMatch)=>{
+            
             if(err) throw err;
             if(isMatch){
+
+                
 
                 //create token
                 const token = jwt.sign(user.toJSON(),config.secret,{
@@ -328,7 +331,13 @@ router.put('/profile', (req, res, next)=>{
         email:req.body.email,
         phone:req.body.phone,
         password:req.body.password,
-        id:req.body.id
+        id:req.body.id,
+        ufone:req.body.ufone,
+        telenor:req.body.telenor,
+        zong:req.body.zong,
+        jazz:req.body.jazz,
+        warid:req.body.warid
+        
     };
 
     let query = {_id:user.id};
@@ -340,6 +349,12 @@ router.put('/profile', (req, res, next)=>{
             //console.log(doc);
             doc.fullname = user.fullname;
             doc.phone = user.phone;
+
+            doc.ufone = user.ufone;
+            doc.telenor = user.telenor;
+            doc.zong = user.zong;
+            doc.jazz = user.jazz;
+            doc.warid =  user.warid;
 
             if(user.password == undefined){
                 //retain the older one

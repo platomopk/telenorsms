@@ -589,11 +589,6 @@ router.get('/campaigns/download/:path', (req, res, next) => {
 });
 
 
-
-
-
-
-
 // zongquicksmsAPI queue for QuickSms
 var ZongQuickSMSApiHandlerQueueSize = 2;
 var ZongQuickSmsApiHandler = async.queue(function (request, done) {
@@ -1538,9 +1533,6 @@ router.get('/quick/:query', (req, resp) => {
 
     var obj = JSON.parse(req.params.query);
 
-    console.log('start', moment.utc(obj.datefrom).startOf('day').toDate());
-    console.log('end', moment.utc(obj.dateto).endOf('day').toDate());
-
     Quick.find({
         createdby: obj.email,
         created: {
@@ -1560,28 +1552,168 @@ router.get('/quick/:query', (req, resp) => {
             });
         });
 
+});
 
+router.get('/quick/counttelco/:query', (req, resp) => {
 
+    var obj = JSON.parse(req.params.query);
 
-    // let query = 
-    // {
-    //     $and:[
-    //         {createdby:req.params.email},
-    //         {type:'dynamic'}
-    //     ]
-
-    // };
-    // Campaignm.find(query,(err,doc)=>{
-    //     if(err){
-    //         throw err;
-    //     }else{
-    //         //console.log(doc);
-    //         resp.json({
-    //             success:true,
-    //             data:doc
-    //         });
+    // Quick.find({
+    //     createdby: obj.email,
+    //     created: {
+    //         $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+    //         $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+    //     },
+    //     telco: obj.telco
+    // },
+    // (err, docs) => {
+    //     if (err) {
+    //         console.log(err);
     //     }
+    //     //console.log(quick);
+
+    //     resp.json({
+    //         success: true,
+    //         data: docs
+    //     });
     // });
+
+    Quick.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            telco: obj.telco
+        },
+        (err, count) => {
+            if (err) {
+                console.log(err);
+            }
+            resp.json({
+                success: true,
+                data: count
+            });
+        }
+    )
+
+});
+
+
+
+router.get('/monthcountoutbox/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+    Quick.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: "0"
+        },
+        (err, qcount) => {
+            if (err) {
+                console.log(err);
+            }
+            Bulk.count(
+                {
+                    createdby: obj.email,
+                    created: {
+                        $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                        $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+                    },
+                    sentid: "0"
+                },
+                (err, bcount) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    Dripbulk.count(
+                        {
+                            createdby: obj.email,
+                            created: {
+                                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+                            },
+                            sentid: "0"
+                        },
+                        (err, dcount) => {
+                            if (err) {
+                                console.log(err);
+                            }
+
+                            resp.json({
+                                success: true,
+                                quick: qcount,
+                                bulk: bcount,
+                                drip: dcount
+                            });
+                        }
+                    );
+                }
+            );
+        }
+    );
+});
+
+router.get('/monthcountsent/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+    Quick.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: { $ne: "0" }
+        },
+        (err, qcount) => {
+            if (err) {
+                console.log(err);
+            }
+            Bulk.count(
+                {
+                    createdby: obj.email,
+                    created: {
+                        $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                        $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+                    },
+                    sentid: { $ne: "0" }
+                },
+                (err, bcount) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    Dripbulk.count(
+                        {
+                            createdby: obj.email,
+                            created: {
+                                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+                            },
+                            sentid: { $ne: "0" }
+                        },
+                        (err, dcount) => {
+                            if (err) {
+                                console.log(err);
+                            }
+
+                            resp.json({
+                                success: true,
+                                quick: qcount,
+                                bulk: bcount,
+                                drip: dcount
+                            });
+                        }
+                    );
+                }
+            );
+        }
+    );
 });
 
 router.get('/quick/dump/:query', (req, resp) => {
@@ -1611,7 +1743,7 @@ router.delete('/quick/:name', (req, resp) => {
     let query = {
         name: req.params.name
     };
-    
+
     Quick.remove(query, (err) => {
         if (err) {
             resp.json({
@@ -2061,6 +2193,414 @@ router.post('/bulk/dynamic/register', (req, res) => {
 
 });
 
+router.post('/bulk/registertest', (req, res) => {
+
+    var numberscsv = [];
+    let bulk = {
+        name: req.body.name,
+        language: req.body.language,
+        type: req.body.type,
+        campaign: req.body.campaign,
+        path: req.body.path,
+        masking: req.body.masking,
+        msg: req.body.msg.trim(),
+        createdby: req.body.createdby,
+        created: moment.utc().add(5, 'hours').toDate()
+    }
+
+    User.findOne(
+        {
+            email: req.body.createdby,
+            expirybundle: {
+                $gte: moment.utc().add(5, 'hours').toDate()
+            }
+        },
+        (err, docx) => {
+            if (err) {
+                res.json({ success: false, error: err });
+            }
+            if (docx) {
+
+                if (docx.ufone != "") {
+                    numberscsv.push(docx.ufone);
+                }
+                if (docx.telenor != "") {
+                    numberscsv.push(docx.telenor);
+                }
+                if (docx.zong != "") {
+                    numberscsv.push(docx.zong);
+                }
+                if (docx.jazz != "") {
+                    numberscsv.push(docx.jazz);
+                }
+                if (docx.warid != "") {
+                    numberscsv.push(docx.warid);
+                }
+
+
+
+                if (docx.smstp > 0) {
+                    if (numberscsv.length <= docx.creditsms) {
+                        // can send sms
+
+                        Mask.findOne(
+                            {
+                                createdby: docx.email,
+                                mask: bulk.masking,
+                                status: 'activated'
+                            },
+                            (err, mask) => {
+                                if (err) {
+                                    res.json({ success: false, error: err })
+                                }
+                                if (!mask) {
+                                    res.json({ success: false, error: 'Invalid Mask' + mask })
+                                } else {
+                                    console.time("insertbulk")
+                                    var a = now();
+
+                                    var apiarr = [];
+                                    var obj = {};
+
+                                    var bulkb = Bulk.collection.initializeOrderedBulkOp();
+                                    for (var i = 0; i < numberscsv.length; i++) {
+                                        var _intended = '';
+                                        //jsonArr.push({ id: i, name: name });
+
+                                        if (numberscsv[i].substring(0, 4) === '9230') {
+                                            _intended = 'jazz'
+                                        } else if (numberscsv[i].substring(0, 4) === '9231') {
+                                            _intended = 'zong'
+                                        } else if (numberscsv[i].substring(0, 4) === '9232') {
+                                            _intended = 'warid'
+                                        } else if (numberscsv[i].substring(0, 4) === '9233') {
+                                            _intended = 'ufone'
+                                        } else if (numberscsv[i].substring(0, 4) === '9234') {
+                                            _intended = 'telenor'
+                                        } else if (numberscsv[i].substring(0, 4) === '9235') {
+                                            _intended = 'sco'
+                                        } else if (numberscsv[i].substring(0, 4) === '9236') {
+                                            _intended = 'pri'
+                                        }
+
+                                        if (mask.type === _intended) {
+                                            obj = {
+                                                name: bulk.name,
+                                                language: bulk.language,
+                                                type: bulk.type,
+                                                campaign: bulk.campaign,
+                                                path: bulk.path,
+                                                masking: bulk.masking,
+                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                createdby: bulk.createdby,
+                                                created: bulk.created,
+                                                mnp: "0",
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                mobileno: numberscsv[i],
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false
+                                            };
+                                            apiarr.push(obj);
+                                        } else {
+                                            obj = {
+                                                name: bulk.name,
+                                                language: bulk.language,
+                                                type: bulk.type,
+                                                campaign: bulk.campaign,
+                                                path: bulk.path,
+                                                masking: bulk.masking,
+                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                createdby: bulk.createdby,
+                                                created: bulk.created,
+                                                mnp: "0",
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                mobileno: numberscsv[i],
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false,
+                                                error: 'wrong masking used'
+                                            };
+                                        }
+
+                                        bulkb.insert(obj);
+                                        if (i % 500 == 0) {
+                                            console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                            bulkb.execute();
+                                            bulkb = Bulk.collection.initializeOrderedBulkOp();
+                                        }
+                                        //jsonArr.push(obj);
+                                    }
+                                    var lim = bulkb.length;
+                                    console.log("inserting remaining values ", lim, " values");
+                                    bulkb.execute().catch(reason => {
+                                        console.log("empty ops in bulksmsdynamic exec");
+                                    });
+                                    console.log("inserted ", lim, " values");
+                                    console.timeEnd("insertbulk");
+                                    var b = now();
+                                    console.log("insertend");
+
+                                    for (let index = 0; index < apiarr.length; index++) {
+                                        var obj = {
+                                            name: req.body.name,
+                                            masking: req.body.masking,
+                                            mobileno: apiarr[index].mobileno,
+                                            msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                        }
+                                        //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                    }
+
+                                    docx.creditsms = docx.creditsms - apiarr.length;
+                                    docx.save(function (err) {
+                                        if (err) {
+                                            res.json({ success: false, error: err });
+                                        }
+                                        res.json({
+                                            success: true,
+                                            timetaken: (b - a).toFixed(4),
+                                            records: numberscsv.length + ' found and ' + apiarr.length + ' submitted to the system.'
+                                        });
+                                    })
+                                }
+                            }
+                        )
+
+                    } else {
+                        res.json({
+                            success: false,
+                            error: 'Not enough balance'
+                        });
+                    }
+                } else {
+                    res.json({
+                        success: false,
+                        error: 'Not enough throughput.'
+                    });
+                }
+
+
+            } else {
+                res.json({ success: false, error: 'Configuration Expired!' });
+            }
+        }
+    );
+
+
+
+
+
+
+});
+
+router.post('/bulk/dynamic/registertest', (req, res) => {
+
+    var numberscsv = [];
+    let bulk = {
+        name: req.body.name,
+        language: req.body.language,
+        type: req.body.type,
+        campaign: req.body.campaign,
+        path: req.body.path,
+        masking: req.body.masking,
+        msg: req.body.msg.trim(),
+        createdby: req.body.createdby,
+        created: moment.utc().add(5, 'hours').toDate()
+    }
+
+    User.findOne(
+        {
+            email: req.body.createdby,
+            expirybundle: {
+                $gte: moment.utc().add(5, 'hours').toDate()
+            }
+        },
+        (err, docx) => {
+            if (err) {
+                res.json({ success: false, error: err });
+            }
+            if (docx) {
+
+                if (docx.ufone != "") {
+                    numberscsv.push(docx.ufone);
+                }
+                if (docx.telenor != "") {
+                    numberscsv.push(docx.telenor);
+                }
+                if (docx.zong != "") {
+                    numberscsv.push(docx.zong);
+                }
+                if (docx.jazz != "") {
+                    numberscsv.push(docx.jazz);
+                }
+                if (docx.warid != "") {
+                    numberscsv.push(docx.warid);
+                }
+
+
+
+                if (docx.smstp > 0) {
+                    if (numberscsv.length <= docx.creditsms) {
+                        // can send sms
+
+                        Mask.findOne(
+                            {
+                                createdby: docx.email,
+                                mask: bulk.masking,
+                                status: 'activated'
+                            },
+                            (err, mask) => {
+                                if (err) {
+                                    res.json({ success: false, error: err })
+                                }
+                                if (!mask) {
+                                    res.json({ success: false, error: 'Invalid Mask' + mask })
+                                } else {
+                                    console.time("insertbulk")
+                                    var a = now();
+
+                                    var apiarr = [];
+                                    var obj = {};
+
+                                    var bulkb = Bulk.collection.initializeOrderedBulkOp();
+                                    for (var i = 0; i < numberscsv.length; i++) {
+                                        var _intended = '';
+                                        //jsonArr.push({ id: i, name: name });
+
+                                        if (numberscsv[i].substring(0, 4) === '9230') {
+                                            _intended = 'jazz'
+                                        } else if (numberscsv[i].substring(0, 4) === '9231') {
+                                            _intended = 'zong'
+                                        } else if (numberscsv[i].substring(0, 4) === '9232') {
+                                            _intended = 'warid'
+                                        } else if (numberscsv[i].substring(0, 4) === '9233') {
+                                            _intended = 'ufone'
+                                        } else if (numberscsv[i].substring(0, 4) === '9234') {
+                                            _intended = 'telenor'
+                                        } else if (numberscsv[i].substring(0, 4) === '9235') {
+                                            _intended = 'sco'
+                                        } else if (numberscsv[i].substring(0, 4) === '9236') {
+                                            _intended = 'pri'
+                                        }
+
+                                        if (mask.type === _intended) {
+                                            obj = {
+                                                name: bulk.name,
+                                                language: bulk.language,
+                                                type: bulk.type,
+                                                campaign: bulk.campaign,
+                                                path: bulk.path,
+                                                masking: bulk.masking,
+                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                createdby: bulk.createdby,
+                                                created: bulk.created,
+                                                mnp: "0",
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                mobileno: numberscsv[i],
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false
+                                            };
+                                            apiarr.push(obj);
+                                        } else {
+                                            obj = {
+                                                name: bulk.name,
+                                                language: bulk.language,
+                                                type: bulk.type,
+                                                campaign: bulk.campaign,
+                                                path: bulk.path,
+                                                masking: bulk.masking,
+                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                createdby: bulk.createdby,
+                                                created: bulk.created,
+                                                mnp: "0",
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                mobileno: numberscsv[i],
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false,
+                                                error: 'wrong masking used'
+                                            };
+                                        }
+
+                                        bulkb.insert(obj);
+                                        if (i % 500 == 0) {
+                                            console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                            bulkb.execute();
+                                            bulkb = Bulk.collection.initializeOrderedBulkOp();
+                                        }
+                                        //jsonArr.push(obj);
+                                    }
+                                    var lim = bulkb.length;
+                                    console.log("inserting remaining values ", lim, " values");
+                                    bulkb.execute().catch(reason => {
+                                        console.log("empty ops in bulksmsdynamic exec");
+                                    });
+                                    console.log("inserted ", lim, " values");
+                                    console.timeEnd("insertbulk");
+                                    var b = now();
+                                    console.log("insertend");
+
+                                    for (let index = 0; index < apiarr.length; index++) {
+                                        var obj = {
+                                            name: req.body.name,
+                                            masking: req.body.masking,
+                                            mobileno: apiarr[index].mobileno,
+                                            msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                        }
+                                        //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                    }
+
+                                    docx.creditsms = docx.creditsms - apiarr.length;
+                                    docx.save(function (err) {
+                                        if (err) {
+                                            res.json({ success: false, error: err });
+                                        }
+                                        res.json({
+                                            success: true,
+                                            timetaken: (b - a).toFixed(4),
+                                            records: numberscsv.length + ' found and ' + apiarr.length + ' submitted to the system.'
+                                        });
+                                    })
+                                }
+                            }
+                        )
+
+                    } else {
+                        res.json({
+                            success: false,
+                            error: 'Not enough balance'
+                        });
+                    }
+                } else {
+                    res.json({
+                        success: false,
+                        error: 'Not enough throughput.'
+                    });
+                }
+
+
+            } else {
+                res.json({ success: false, error: 'Configuration Expired!' });
+            }
+        }
+    );
+
+
+
+
+
+
+});
+
 router.get('/bulk/:query', (req, resp) => {
     var obj = JSON.parse(req.params.query);
 
@@ -2080,6 +2620,30 @@ router.get('/bulk/:query', (req, resp) => {
             resp.json({
                 success: true,
                 data: docs
+            });
+        });
+});
+
+router.get('/bulk/counttelco/:query', (req, resp) => {
+    var obj = JSON.parse(req.params.query);
+
+    Bulk.count({
+        createdby: obj.email,
+        created: {
+            $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+            $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+        },
+        telco: obj.telco
+    },
+        (err, count) => {
+            if (err) {
+                console.log(err);
+            }
+            //console.log(quick);
+
+            resp.json({
+                success: true,
+                data: count
             });
         });
 });
@@ -2181,6 +2745,30 @@ router.post('/drip/register', (req, res) => {
 
 
 
+});
+
+router.get('/drip/counttelco/:query', (req, resp) => {
+    var obj = JSON.parse(req.params.query);
+
+    Dripbulk.count({
+        createdby: obj.email,
+        created: {
+            $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+            $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+        },
+        telco: obj.telco
+    },
+        (err, count) => {
+            if (err) {
+                console.log(err);
+            }
+            //console.log(quick);
+
+            resp.json({
+                success: true,
+                data: count
+            });
+        });
 });
 
 router.get('/drip/:email', (req, resp) => {

@@ -4,6 +4,7 @@
       <p class="lead">
         <u>Registered Accounts</u>
       </p>
+      <br>
       <div style="height:150px; overflow-y:auto">
         <table class="table table-sm table-bordered table-striped table-condensed">
           <thead>
@@ -32,16 +33,18 @@
 
 
   <hr>
-
+  <br>
   <div class="row">
     <div class="col-md-4">
       <p class="lead">
         <u>Search Account (via email)</u>
       </p>
+      <br>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" [(ngModel)]="email" [readonly]="enable">
       </div>
+      <br>
       <div class="form-group">
         <input type="button" value="Search" class="btn btn-primary" (click)="search()">
         <input type="button" value="Clear" class="btn btn-primary" (click)="clear()">

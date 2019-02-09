@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-topbar',
@@ -14,15 +15,29 @@ export class TopbarComponent implements OnInit {
   sidebarShow:boolean;
   instanceid:String="null";
 
-  constructor(private router:Router, private authService:AuthService) { 
+  nbclick:boolean=true;
+
+  navbarshow:boolean=true;
+
+  constructor(private router:Router, private authService:AuthService, private data:DataService ) { 
     //this.loggedIn=false;
     this.sidebarShow=false;
 
   }
 
+
+  navbarclicked(){
+    this.nbclick = !this.nbclick;
+    this.data.changenavbar(this.nbclick);
+  }
+
   ngOnInit() {
     if( localStorage.getItem('id_loggedIn') != null && localStorage.getItem('id_loggedIn')=='true'){
       this.loggedIn=true;
+
+      this.data.currentnavbar.subscribe(data=>{
+          this.navbarshow = data;
+      })
 
       // this.authService.getProfile().subscribe(
       //   data=>{
@@ -37,13 +52,14 @@ export class TopbarComponent implements OnInit {
 
     }else{
       this.loggedIn=false;
+      this.onLogout();
     }
   }
 
   onLogout(){
     this.authService.onLogout();
     //localStorage.clear();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home/login']);
   }
 
   onNewMessage(){

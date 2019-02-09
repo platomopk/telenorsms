@@ -22,14 +22,14 @@ export class BulkmessageComponent implements OnInit {
   sent:boolean=false;
 
 
-  name:String;
-  language:String;
-  masking:String;
+  name:String="";
+  language:String="";
+  masking:String="";
   msg:String="";
   msgchars:number;
   msgcount:number;
-  campaignname:String;
-  campaignpath:String;
+  campaignname:String="";
+  campaignpath:String="";
   op:String="";
   account:String="";
   password:String="";
@@ -71,6 +71,19 @@ export class BulkmessageComponent implements OnInit {
   }
 
   registerbulk(){
+    if(
+      this.name.length == 0 ||
+      this.language.length == 0 ||
+      this.op.length == 0 ||
+      this.campaignname.length == 0 ||
+      this.campaignpath.length == 0 ||
+      this.masking.length == 0 ||
+      this.msg.length == 0
+    ){
+      alert("Incomplete fields.");
+      return false;
+    }
+
     this.sent = true;
 
     if(this.op == ""){
@@ -92,7 +105,7 @@ export class BulkmessageComponent implements OnInit {
       this.messagingService.registerbulk(bulk).subscribe(data=>{
         if(data.success){
           alert("Bulk Sent!");
-          location.reload(true);
+          location.reload();
   
         }else{
           alert(data.error);
@@ -103,7 +116,7 @@ export class BulkmessageComponent implements OnInit {
       this.messagingService.registerbulkdynamic(bulk).subscribe(data=>{
         if(data.success){
           alert("Bulk of "+data.records+" sent in "+data.timetaken+"ms!");
-          location.reload(true);
+          location.reload();
   
         }else{
           alert(data.error);
@@ -114,6 +127,61 @@ export class BulkmessageComponent implements OnInit {
 
 
     
+  }
+
+  registertestbulk(){
+
+    if(
+      this.name.length == 0 ||
+      this.language.length == 0 ||
+      this.op.length == 0 ||
+      this.campaignname.length == 0 ||
+      this.campaignpath.length == 0 ||
+      this.masking.length == 0 ||
+      this.msg.length == 0
+    ){
+      alert("Incomplete fields.");
+      return false;
+    }
+
+
+    this.sent = true;
+
+    if(this.op == ""){
+      this.op = "static";
+    }
+
+    let bulk = {
+      name:this.name,
+      language:this.language,
+      type:this.op,
+      campaign:this.campaignname,
+      path:this.campaignpath,
+      masking:this.masking,
+      msg:this.msg,
+      createdby:this.authService.getSavedEmail()
+    }
+
+    if(this.op == "static"){
+      this.messagingService.registerbulktest(bulk).subscribe(data=>{
+        if(data.success){
+          alert("Test Bulk Sent!");
+  
+        }else{
+          alert(data.error);
+        }
+        this.sent =false;
+      });
+    }else if(this.op == "dynamic"){
+      this.messagingService.registerbulkdynamictest(bulk).subscribe(data=>{
+        if(data.success){
+          alert("Test Bulk Sent!");
+        }else{
+          alert(data.error);
+        }
+        this.sent = false;
+      });
+    }    
   }
 
   templatechange(ev){

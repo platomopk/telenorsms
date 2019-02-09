@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { RouterModule, Routes } from  '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -73,6 +74,7 @@ import { ContactService } from './services/contact.service';
 import { MessagingService } from './services/messaging.service';
 import { NotificationService } from './services/notification.service';
 import { HybridService } from './services/hybrid.service';
+import { DataService } from './services/data.service';
 
 // pipe
 import { MasksfilterPipe } from './pipes/masksfilter.pipe';
@@ -136,7 +138,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/master/newaccount',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'home',
@@ -159,15 +162,18 @@ const appRoutes:Routes = [
   },
   {
     path:'default',
-    component:DefaultComponent
+    component:DefaultComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'dashboard',
-    component:DashboardComponent
+    component:DashboardComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'profile',
-    component:ProfileComponent
+    component:ProfileComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'hybrid',
@@ -203,7 +209,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/hybrid/compose',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'messaging',
@@ -291,7 +298,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/messaging/messagingdashboard',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'notification',
@@ -322,15 +330,18 @@ const appRoutes:Routes = [
       //   redirectTo:'/notification/composen',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'reporting',
-    component:ReportingComponent
+    component:ReportingComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'leareporting',
-    component:LeareportingComponent
+    component:LeareportingComponent,
+    canActivate:[AuthGuard]
   },
   {
     path:'addressbook',
@@ -353,7 +364,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/addressbook/contacts',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'issuestracker',
@@ -376,7 +388,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/issuestracker/dashboard',
       //   pathMatch:'full'
       // },
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'pricing',
@@ -395,7 +408,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/pricing/buy',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'settings',
@@ -414,7 +428,8 @@ const appRoutes:Routes = [
       //   redirectTo:'/settings/uac',
       //   pathMatch:'full'
       // }
-    ]
+    ],
+    canActivate:[AuthGuard]
   },
   {
     path:'',
@@ -505,7 +520,7 @@ const appRoutes:Routes = [
     AngularDateTimePickerModule,
     ChartsModule
   ],
-  providers: [ValidateService, AuthService, MaskService,PricingService,IssueService,ContactService,MessagingService,NotificationService,HybridService],
+  providers: [AuthGuard,DataService,ValidateService, AuthService, MaskService,PricingService,IssueService,ContactService,MessagingService,NotificationService,HybridService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

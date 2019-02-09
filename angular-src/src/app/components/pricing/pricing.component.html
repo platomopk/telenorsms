@@ -1,42 +1,17 @@
-<app-topbar></app-topbar>
 
-
-<br>
-<section id="pricingsection">
-  <div class="row">
-    <div class="col-md-2">
+<section>
+  <div class="row no-gutters">
+      <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow"  style=" background-color: #2a3f54;">
         <app-navbar></app-navbar>
-      <div class="menuitemscontainer" style="display:none">
-          <!-- compose -->
-          <!-- <div class="menuitemwrapper" [routerLink]="['./details']"  routerLinkActive="hoverselected" >
-            <div class="menuitem">
-                <div>
-                  <span><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div>
-                  Details
-                </div>
-            </div>
-          </div> -->
 
-          <!-- inbox -->
-          <div class="menuitemwrapper" [routerLink]="['./buy']" routerLinkActive="hoverselected">
-            <div class="menuitem">
-                <div>
-                  <span><i class="fa fa-money"></i></span>
-                </div>
-                <div>
-                  Configuration
-                </div>
-            </div>
-          </div>
-
-      </div>
     </div>
-    <div class="col-md-10" style="border-left:1px solid rgba(0,0,0,.1)">
-      <div class="menuitemsviewscontainer">
+    <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+        <app-topbar></app-topbar>
+        
+        
+        <br>
           <router-outlet></router-outlet>
-      </div>
+
       
     </div>
   </div>

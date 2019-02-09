@@ -1,8 +1,9 @@
 <section>
     <form (submit)="registercontact()">
         <p class="lead"><u>Create New Contact</u></p>
+        <br>
   <div class="row">
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 ">
       <div class="form-group">
           <label>Full Name</label>
           <input type="text" [(ngModel)]="fullname" name="fullname" class="form-control"  id="" placeholder="Enter Full Name" required>
@@ -23,12 +24,7 @@
           <label>Email</label>
           <input type="email" class="form-control" [(ngModel)]="email" name="email" id="" placeholder="Enter Email" required>
       </div>
-
-
-      
-    </div>
-    <div class="col-md-6 form-group">
-        <div class="form-group">
+      <div class="form-group">
             <div><label>Gender</label></div>
             <label class="radio-inline">
                 <input type="radio" name="gender" [(ngModel)]="gender" value="male" required> Male
@@ -42,6 +38,8 @@
             <input type="submit" value="Create New" class="btn btn-primary">
             <hr>
         </div>
+
+      
     </div>
   </div>
 

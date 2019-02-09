@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { Router } from  '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
 
 
@@ -10,21 +11,28 @@ export class AuthService {
   authToken:any;
   user:any;
 
-  constructor(private http:Http) {
+
+  // ip:String="http://localhost:3000/";
+  ip:String="";
+
+  constructor(private http:Http,private router:Router,) {
 
   }
+
+
+  
 
   getallactivatedusers(){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/",{headers})
+    return this.http.get(this.ip+"users/",{headers})
     .map(res => res.json());
   }
 
   getusersdump(dump){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/dump/"+dump,{headers})
+    return this.http.get(this.ip+"users/dump/"+dump,{headers})
     .map(res => res.json());
   }
 
@@ -32,7 +40,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("users/register",user,{headers})
+    return this.http.post(this.ip+"users/register",user,{headers})
     .map(res => res.json());
   }
 
@@ -40,21 +48,21 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("users/balance",obj,{headers})
+    return this.http.post(this.ip+"users/balance",obj,{headers})
     .map(res => res.json());
   }
 
   loginUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.post("users/authenticate",user,{headers})
+    return this.http.post(this.ip+"users/authenticate",user,{headers})
     .map(res => res.json());
   }
 
   getBalance(email){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/balance/"+email,{headers})
+    return this.http.get(this.ip+"users/balance/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -62,14 +70,14 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.put("users/resetpassword",email,{headers})
+    return this.http.put(this.ip+"users/resetpassword",email,{headers})
     .map(res => res.json());
   }
 
   getpending(){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/pending/",{headers})
+    return this.http.get(this.ip+"users/pending/",{headers})
     .map(res => res.json());
   }
 
@@ -77,7 +85,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.put("users/activate",email,{headers})
+    return this.http.put(this.ip+"users/activate",email,{headers})
     .map(res => res.json());
   }
 
@@ -85,7 +93,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.put("users/manipulate",user,{headers})
+    return this.http.put(this.ip+"users/manipulate",user,{headers})
     .map(res => res.json());
   }
 
@@ -94,7 +102,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization',this.authToken);
     headers.append('Content-Type','application/json');
-    return this.http.get("users/profile",{headers})
+    return this.http.get(this.ip+"users/profile",{headers})
     .map(res => res.json());
   }
 
@@ -102,7 +110,7 @@ export class AuthService {
   getChildAccess(val){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/childs/new/"+val,{headers})
+    return this.http.get(this.ip+"users/childs/new/"+val,{headers})
     .map(res => res.json());
   }
 
@@ -110,14 +118,14 @@ export class AuthService {
     let headers = new Headers();
     console.log(""+ email);
     headers.append('Content-Type','application/json');
-    return this.http.get("users/rights/"+email,{headers})
+    return this.http.get(this.ip+"users/rights/"+email,{headers})
     .map(res => res.json());
   }
 
   updateRights(rights){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.put("users/rights",rights,{headers})
+    return this.http.put(this.ip+"users/rights",rights,{headers})
     .map(res => res.json());
   }
 
@@ -125,7 +133,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.put("users/profile",user,{headers})
+    return this.http.put(this.ip+"users/profile",user,{headers})
     .map(res => res.json());
   }
 
@@ -151,14 +159,17 @@ export class AuthService {
   }
 
   loggedIn(){
-    return tokenNotExpired();
+    if(localStorage.getItem("id_token")!=null){
+      return tokenNotExpired('id_token');
+    }
+    
   }
 
 
   getallchilds(email){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/rights/"+email,{headers})
+    return this.http.get(this.ip+"users/rights/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -166,7 +177,7 @@ export class AuthService {
   getallaccounts(email){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
-    return this.http.get("users/all/"+email,{headers})
+    return this.http.get(this.ip+"users/all/"+email,{headers})
     .map(res => res.json());
   }
   
@@ -184,19 +195,27 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("users/"+id,{headers})
+    return this.http.delete(this.ip+"users/"+id,{headers})
     .map(res => res.json());
   }
 
   getSavedEmail(){
-    let userstr = localStorage.getItem('user');
-    let userobj = JSON.parse(userstr);
-    var email = '';
-    if(userobj.delegate){
-      email = userobj.parent;
-    }else{
-      email = userobj.email;
+    // if(localStorage.getItem("user")==null){
+    //   this.router.navigate(['/home/login'],{replaceUrl:true});
+    //   return false;
+    // }
+
+    if(localStorage.getItem('user')!=null){
+      let userstr = localStorage.getItem('user');
+      let userobj = JSON.parse(userstr);
+      var email = '';
+      if(userobj.delegate){
+        email = userobj.parent;
+      }else{
+        email = userobj.email;
+      }
+      return email;
     }
-    return email;
+
   }
 }

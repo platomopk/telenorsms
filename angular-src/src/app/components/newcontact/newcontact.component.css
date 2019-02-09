@@ -1,5 +1,8 @@
 section{
+    margin-left: 25px;
+    margin-right: 25px;
     font-size: small;
+    box-sizing: border-box;
 }
 
 .form-control{

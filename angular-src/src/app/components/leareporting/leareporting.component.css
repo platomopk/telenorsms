@@ -1,13 +1,16 @@
-#reportingSection{
-    padding-left: 10px;
-    padding-right: 10px;
+#sectionss{
+    margin: 0px 25px 0px 25px;
     font-size: small;
-
+    box-sizing: border-box; 
 }
 
 .form-control{
     font-size: small;
     border-radius: 0px;
+}
+
+label{
+    font-size: small;
 }
 
 .btn{

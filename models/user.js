@@ -71,6 +71,26 @@ const UserSchema = mongoose.Schema({
     },
     created:{
         type:Date
+    },
+    ufone:{
+        type:String,
+        default:""
+    },
+    telenor:{
+        type:String,
+        default:""
+    },
+    zong:{
+        type:String,
+        default:""
+    },
+    jazz:{
+        type:String,
+        default:""
+    },
+    warid:{
+        type:String,
+        default:""
     }
 });
 

@@ -70,7 +70,7 @@ export class OutboxComponent implements OnInit {
   public lineChartColors: Array<any> = [
     {
       // red
-      backgroundColor: "rgba(210,48,48,0.00)",
+      backgroundColor: "rgba(231, 76, 60,0.10)",
       borderColor: "rgba(255,0,0,0.8)",
       pointBackgroundColor: "rgba(210,48,48,1)",
       pointBorderColor: "#fff",
@@ -79,7 +79,7 @@ export class OutboxComponent implements OnInit {
     },
     {
       // green
-      backgroundColor: "rgba(77,83,96,0.00)",
+      backgroundColor: "rgba(26, 187, 156, 0.10)",
       borderColor: "rgba(41,242,41,0.8)",
       pointBackgroundColor: "rgba(41,242,41,1)",
       pointBorderColor: "#fff",
@@ -88,7 +88,7 @@ export class OutboxComponent implements OnInit {
     },
     {
       // navy
-      backgroundColor: "rgba(148,159,177,0.00)",
+      backgroundColor: "rgba(148,159,177,0.10)",
       borderColor: "rgba(0,0,128,1)",
       pointBackgroundColor: "rgba(0,0,128,1)",
       pointBorderColor: "#fff",
@@ -97,7 +97,7 @@ export class OutboxComponent implements OnInit {
     },
     {
       // orange
-      backgroundColor: "rgba(148,159,177,0.00)",
+      backgroundColor: "rgba(148,159,177,0.10)",
       borderColor: "rgba(255,165,0,1)",
       pointBackgroundColor: "rgba(255,165,0,1)",
       pointBorderColor: "#fff",
@@ -106,7 +106,7 @@ export class OutboxComponent implements OnInit {
     },
     {
       // orange
-      backgroundColor: "rgba(148,159,177,0.00)",
+      backgroundColor: "rgba(52, 152, 219,0.10)",
       borderColor: "rgba(46,197,255,1)",
       pointBackgroundColor: "rgba(46,197,255,1)",
       pointBorderColor: "#fff",

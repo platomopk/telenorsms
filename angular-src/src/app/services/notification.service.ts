@@ -5,6 +5,9 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class NotificationService {
 
+  // ip:String="http://localhost:3000/";
+  ip:String="";
+
   constructor(private http:Http) {
    }
 
@@ -12,7 +15,7 @@ export class NotificationService {
      let headers = new Headers();
      headers.append('Content-Type','application/json');
      //since it is an obsservable so we have to map its response
-     return this.http.post("notifications/templates/register",template,{headers})
+     return this.http.post(this.ip+"notifications/templates/register",template,{headers})
      .map(res => res.json());
    }
 
@@ -20,7 +23,7 @@ export class NotificationService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("notifications/templates/"+email,{headers})
+    return this.http.get(this.ip+"notifications/templates/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -28,7 +31,7 @@ export class NotificationService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("notifications/templates/"+id,{headers})
+    return this.http.delete(this.ip+"notifications/templates/"+id,{headers})
     .map(res => res.json());
   }
 
@@ -39,7 +42,7 @@ export class NotificationService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("notifications/campaigns/register",notificationcampaign,{headers})
+    return this.http.post(this.ip+"notifications/campaigns/register",notificationcampaign,{headers})
     .map(res => res.json());
   }
 
@@ -47,7 +50,7 @@ export class NotificationService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("notifications/"+email,{headers})
+    return this.http.get(this.ip+"notifications/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -55,7 +58,7 @@ export class NotificationService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("notifications/reported/"+id,{headers})
+    return this.http.get(this.ip+"notifications/reported/"+id,{headers})
     .map(res => res.json());
   }
 

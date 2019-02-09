@@ -5,13 +5,17 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class IssueService {
 
+  // ip:String="http://localhost:3000/";
+  ip:String="";
+  
+
   constructor(private http:Http) { }
 
   registerissue(issue){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.post("issue/register",issue,{headers})
+    return this.http.post(this.ip+"issue/register",issue,{headers})
     .map(res => res.json());
   }
 
@@ -19,7 +23,7 @@ export class IssueService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.put("issue/resolve",issue,{headers})
+    return this.http.put(this.ip+"issue/resolve",issue,{headers})
     .map(res => res.json());
   }
 
@@ -27,7 +31,7 @@ export class IssueService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("issue/",{headers})
+    return this.http.get(this.ip+"issue/",{headers})
     .map(res => res.json());
   }
 
@@ -35,7 +39,7 @@ export class IssueService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.get("issue/"+email,{headers})
+    return this.http.get(this.ip+"issue/"+email,{headers})
     .map(res => res.json());
   }
 
@@ -43,7 +47,7 @@ export class IssueService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
-    return this.http.delete("issue/"+id,{headers})
+    return this.http.delete(this.ip+"issue/"+id,{headers})
     .map(res => res.json());
   }
 

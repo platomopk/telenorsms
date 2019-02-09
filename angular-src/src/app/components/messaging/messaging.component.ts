@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { RouterModule, Routes, Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { MessagingService } from "../../services/messaging.service";
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: "app-messaging",
@@ -16,39 +17,58 @@ export class MessagingComponent implements OnInit {
   outboxdigital: number = 0;
   intervalid: any;
   spinner: boolean = true;
-
+  navbarshow:boolean = true;
   telco: boolean;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private messagingService: MessagingService
+    private messagingService: MessagingService, 
+    private dataService:DataService
+    
   ) {}
 
   ngOnInit() {
+
+    if(localStorage.getItem("user")==null)
+    {
+      this.router.navigate(['/home/login']);
+    }
+
+
     let local = localStorage.getItem("user");
     let type = JSON.parse(local).type;
 
-    if (type == "telco") {
-      this.telco = true;
-      this.gettotaloutbox();
-      this.intervalid = setInterval(() => {
-        this.gettotaloutbox();
-      }, 1000 * 4);
-    } else {
-      this.telco = false;
-      this.getjustoutbox();
-      this.intervalid = setInterval(() => {
-        this.getjustoutbox();
-      }, 1000 * 4);
-    }
+    this.dataService.currentnavbar.subscribe(data=>{
+      this.navbarshow = data;
+    })
+
+    // if (type == "telco") {
+    //   this.telco = true;
+    //   this.gettotaloutbox();
+    //   this.intervalid = setInterval(() => {
+    //     this.gettotaloutbox();
+    //   }, 1000 * 4);
+    // } else {
+    //   this.telco = false;
+    //   this.getjustoutbox();
+    //   this.intervalid = setInterval(() => {
+    //     this.getjustoutbox();
+    //   }, 1000 * 4);
+    // }
 
     // this.router.navigate(["/messaging/messagingdashboard"]);
   }
 
   ngOnDestroy() {
     console.log("msging desroyyed");
-    clearInterval(this.intervalid);
+    try {
+      clearInterval(this.intervalid);
+    } catch (error) {
+      console.log(error);
+      
+    }
+    
   }
 
   getjustoutbox() {

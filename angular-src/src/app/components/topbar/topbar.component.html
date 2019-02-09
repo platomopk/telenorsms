@@ -2,7 +2,8 @@
   <div class="" id="tpcontainerwrapper">
     <div >
       <div id="container">
-        <span [routerLink]="['/default']" ><label id="logotext"><strong>Mango</strong>Tree</label>&nbsp;&nbsp;</span>
+          <span (click)="navbarclicked()"><i class="fa fa-bars topbars"></i></span>&nbsp;<span *ngIf="navbarshow == false" [routerLink]="['/default']" ><label id="logotext">Mango Tree</label>&nbsp;&nbsp;</span>
+        <!-- <span (click)="navbarclicked()"><i class="fa fa-bars topbars"></i></span> -->
         <!-- <label id="api">(Instance ID: {{instanceid}})</label> -->
         <span id="tpdockright" *ngIf="loggedIn">
 
@@ -14,12 +15,12 @@
 
           <!-- name -->
           <span class="dockitems">
-              <span (click)="onProfile()" ><i class="fas fa-user-circle"></i>&nbsp;<span>Profile</span></span>
+              <span (click)="onProfile()" ><i style="font-weight:100" class="fa fa-user-circle-o"></i>&nbsp;<span>Profile</span></span>
           </span>
 
           <!-- logout -->
           <span class="dockitems">
-              <span (click)="onLogout()" ><i class="fa fa-arrow-right"></i>&nbsp;<span>Logout</span></span>
+              <span (click)="onLogout()" ><i class="fa fa-sign-out"></i>&nbsp;<span>Logout</span></span>
           </span>
           
         </span>
@@ -55,7 +56,7 @@
   </div>
 </section>
 
-<section>
+<section *ngIf="1==2">
   <div class="row">
     <div class="col-md-12">
       <div class="marqueecontainer">

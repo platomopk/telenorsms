@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-pricing',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pricing.component.css']
 })
 export class PricingComponent implements OnInit {
-
-  constructor() { }
+  navbarshow:boolean = true;
+  constructor(private dataService:DataService) { }
 
   ngOnInit() {
+    this.dataService.currentnavbar.subscribe(data=>{
+      this.navbarshow = data;
+    })
   }
 
 }
