@@ -198,11 +198,55 @@ export class MessagingService {
     .map(res => res.json());
   }
 
+  getmonthoutboxquickcount(queryobj){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json;charset=UTF-8');
+    //since it is an obsservable so we have to map its response
+    return this.http.get(this.ip+"messaging/monthcountoutboxquick/"+queryobj,{headers})
+    .map(res => res.json());
+  }
+  getmonthoutboxbulkcount(queryobj){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json;charset=UTF-8');
+    //since it is an obsservable so we have to map its response
+    return this.http.get(this.ip+"messaging/monthcountoutboxbulk/"+queryobj,{headers})
+    .map(res => res.json());
+  }
+  getmonthoutboxdripcount(queryobj){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json;charset=UTF-8');
+    //since it is an obsservable so we have to map its response
+    return this.http.get(this.ip+"messaging/monthcountoutboxdrip/"+queryobj,{headers})
+    .map(res => res.json());
+  }
+
   getmonthsentcount(queryobj){
     let headers = new Headers();
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountsent/"+queryobj,{headers})
+    .map(res => res.json());
+  }
+
+  getmonthsentquickcount(queryobj){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json;charset=UTF-8');
+    //since it is an obsservable so we have to map its response
+    return this.http.get(this.ip+"messaging/monthcountsentquick/"+queryobj,{headers})
+    .map(res => res.json());
+  }
+  getmonthsentbulkcount(queryobj){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json;charset=UTF-8');
+    //since it is an obsservable so we have to map its response
+    return this.http.get(this.ip+"messaging/monthcountsentbulk/"+queryobj,{headers})
+    .map(res => res.json());
+  }
+  getmonthsentdripcount(queryobj){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json;charset=UTF-8');
+    //since it is an obsservable so we have to map its response
+    return this.http.get(this.ip+"messaging/monthcountsentdrip/"+queryobj,{headers})
     .map(res => res.json());
   }
 

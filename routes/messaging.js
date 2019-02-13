@@ -1602,6 +1602,176 @@ router.get('/quick/counttelco/:query', (req, resp) => {
 
 
 
+
+
+
+
+// count outbox monthly
+
+router.get('/monthcountoutboxquick/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+    Quick.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: "0"
+        },
+        (err, qcount) => {
+            if (err) {
+                console.log(err);
+            }
+            resp.json({
+                success: true,
+                quick: qcount
+            });
+        }
+    );
+});
+
+router.get('/monthcountoutboxbulk/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+
+    Bulk.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: "0"
+        },
+        (err, bcount) => {
+            if (err) {
+                console.log(err);
+            }
+            resp.json({
+                success: true,
+                bulk: bcount
+            });
+        }
+    );
+});
+
+router.get('/monthcountoutboxdrip/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+    Dripbulk.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: "0"
+        },
+        (err, dcount) => {
+            if (err) {
+                console.log(err);
+            }
+
+            resp.json({
+                success: true,
+                drip: dcount
+            });
+        }
+    );
+});
+
+
+// count sent monthly
+
+router.get('/monthcountsentquick/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+    Quick.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: { $ne: "0" }
+        },
+        (err, qcount) => {
+            if (err) {
+                console.log(err);
+            }
+            resp.json({
+                success: true,
+                quick: qcount
+            });
+        }
+    );
+});
+
+router.get('/monthcountsentbulk/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+
+    Bulk.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: { $ne: "0" }
+        },
+        (err, bcount) => {
+            if (err) {
+                console.log(err);
+            }
+            resp.json({
+                success: true,
+                bulk: bcount
+            });
+        }
+    );
+});
+
+router.get('/monthcountsentdrip/:query', (req, resp) => {
+
+    var obj = JSON.parse(req.params.query);
+    Dripbulk.count(
+        {
+            createdby: obj.email,
+            created: {
+                $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+            },
+            sentid: { $ne: "0" }
+        },
+        (err, dcount) => {
+            if (err) {
+                console.log(err);
+            }
+
+            resp.json({
+                success: true,
+                drip: dcount
+            });
+        }
+    );
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.get('/monthcountoutbox/:query', (req, resp) => {
 
     var obj = JSON.parse(req.params.query);

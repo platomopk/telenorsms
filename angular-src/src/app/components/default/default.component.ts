@@ -143,7 +143,7 @@ export class DefaultComponent implements OnInit {
     this.getnetworkusagewarid();
     this.getnetworkusagezong();
 
-    this.getallforlinechart();
+    this.getallforlinechart2();
   }
 
   getuserinfo() {
@@ -559,7 +559,42 @@ export class DefaultComponent implements OnInit {
 
   }
 
+  getallforlinechart2() {
+    
+        // current month [previous to this one]
+    this.datefrom = this._1month.getFullYear() +  "-" +    ("0" + (this._1month.getMonth() + 1)).slice(-2) + "-" + ("0" + this._1month.getDate()).slice(-2);
+    this.dateto = this.d.getFullYear() +  "-" +    ("0" + (this.d.getMonth() + 1)).slice(-2) + "-" + ("0" + this.d.getDate()).slice(-2);
+    
+    let queryobj = {
+      email: this.auth.getSavedEmail(),
+      datefrom: this.datefrom,
+      dateto: this.dateto
+    };
 
+    this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe(odata => {
+        let queryobjs = {
+          email: this.auth.getSavedEmail(),
+          datefrom: this.datefrom,
+          dateto: this.dateto
+        };
+        // odata is last month's output data
+        this.msgService.getmonthsentcount(JSON.stringify(queryobjs)).subscribe(sdata => {
+          // sdata is last month's sent data
+          this.outbox = odata.quick + odata.bulk + odata.drip;
+          this.sent = sdata.quick + sdata.bulk + sdata.drip;
+          this.lineChartLabels.push(this.monthNames[this._1month.getMonth()]);
+          this.lineChartLabels.push(this.monthNames[this.d.getMonth()]);
 
+          if (this.outbox < this.sent) {
+            this.lineChartData.push({ data: [0,odata.quick + odata.bulk + odata.drip], label: 'Outbox' });
+            this.lineChartData.push({ data: [0,sdata.quick + sdata.bulk + sdata.drip], label: 'Sent' });
+          } else {
+            this.lineChartData.push({ data: [0,sdata.quick + sdata.bulk + sdata.drip], label: 'Sent' });
+            this.lineChartData.push({ data: [0,odata.quick + odata.bulk + odata.drip], label: 'Outbox' });
+          }
 
+          this.bandwidthusage = false;
+        })
+    });
+  }
 }
