@@ -1,7 +1,7 @@
 {
   "name": "mangotree",
   "version": "1.0.0",
-  "description": "One Stop Shop For Every Communication Needs!",
+  "description": "One Stop Shop For All Your Communication Needs!",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -32,6 +32,9 @@
     "passport": "*",
     "passport-jwt": "*",
     "soap": "^0.24.0"
+  },
+  "engines": {
+    "node": "6.9.5"
   },
   "author": "Khyzar Kapoor",
   "license": "ISC"
