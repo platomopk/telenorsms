@@ -86,8 +86,9 @@ app.use(function(req, res, next) {
   });
 
 //static folder
-app.use(express.static(path.join(__dirname,'public')));
-app.use(express.static(path.join(__dirname,'public/assets'),{maxAge:'1d'}));
+// app.use(express.static(path.join(__dirname,'public')));
+// app.use(express.static(path.join(__dirname,'public/assets'),{maxAge:'1d'}));
+app.use(express.static(path.join(__dirname,'public'),{maxAge:'1d'}));
 
 //get form data incoming request
 app.use(bodyParser.json());
