@@ -93,8 +93,14 @@ export class DefaultComponent implements OnInit {
 
   navbarshow: boolean = true;
   quick: any; digital: any; bulk: any; drip: any;
+  screenwidth:Number=0;
 
   constructor(private auth: AuthService, private msgService: MessagingService, private dataService: DataService, private router: Router) {
+    
+    this.screenwidth = screen.width;
+    
+    
+    
     this.lineChartData = []
     this.lineChartLabels = []
     this.outbox = 0;

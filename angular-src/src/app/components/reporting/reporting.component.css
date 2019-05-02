@@ -3,6 +3,7 @@
     margin-right: 25px;
     font-size: small;
     box-sizing: border-box;
+    min-height:700px;
 }
 
 .form-control{
