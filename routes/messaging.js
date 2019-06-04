@@ -269,6 +269,7 @@ cron.schedule("* * * * *", function () {
                                                                                 masking: element.masking,
                                                                                 number: apiarr[index].mobileno,
                                                                                 msg:apiarr[index].msg,
+                                                                                action:"drip",
                                                                                 // msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby.trim()).toString() : element.msg,
                                                                                 language: apiarr[index].language
                                                                             }
@@ -1059,6 +1060,7 @@ var TelenorQuickSmsApiHandler = async.queue(function (request_, done) {
             name: request_.name,
             masking: request_.masking,
             language: request_.language,
+            action:request_.action,
             type: 'quick'
         });
     
@@ -1101,75 +1103,171 @@ var TelenorQuickSmsApiHandler = async.queue(function (request_, done) {
                                             parser.parseString(body, function (err, qmsg) {
                                                 if (qmsg.corpsms.response[0] == 'OK') {
                                                     // update the respective message in db
-                                                    Quick.update({
-                                                        name: request_.name,
-                                                        mobileno: request_.number
-                                                    }, {
-                                                            $set: {
-                                                                "sentid": qmsg.corpsms.data[0],
-                                                                "sentlength": request_.msg.length
-                                                            }
+
+
+                                                    if(request_.action == "drip"){
+                                                        Dripbulk.update({
+                                                            name: request_.name,
+                                                            mobileno: request_.number
                                                         }, {
-                                                            multi: true
-                                                        },
-                                                        (err, raw) => {
-                                                            if (err) {
-                                                                console.log(err, '->', telenorAPIUrl);
-                                                                done();
-                                                            } else {
-                                                                Activelogs.findOneAndRemove(
-                                                                    {
-                                                                        _id: log._id
-                                                                    },
-                                                                    (err, res) => {
-                                                                        if (err) {
-                                                                            console.log(err);
-                                                                            done();
-                                                                        } else {
-                                                                            console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
-                                                                            console.log("removed ", log._id);
-                                                                            done();
+                                                                $set: {
+                                                                    "sentid": qmsg.corpsms.data[0],
+                                                                    "sentlength": request_.msg.length
+                                                                }
+                                                            }, {
+                                                                multi: true
+                                                            },
+                                                            (err, raw) => {
+                                                                if (err) {
+                                                                    console.log(err, '->', telenorAPIUrl);
+                                                                    done();
+                                                                } else {
+                                                                    Activelogs.findOneAndRemove(
+                                                                        {
+                                                                            _id: log._id
+                                                                        },
+                                                                        (err, res) => {
+                                                                            if (err) {
+                                                                                console.log(err);
+                                                                                done();
+                                                                            } else {
+                                                                                console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                                console.log("removed ", log._id);
+                                                                                done();
+                                                                            }
                                                                         }
-                                                                    }
-                                                                );
+                                                                    );
+                                                                }
                                                             }
-                                                        }
-                                                    )
+                                                        )
+                                                    }else{
+                                                        Quick.update({
+                                                            name: request_.name,
+                                                            mobileno: request_.number
+                                                        }, {
+                                                                $set: {
+                                                                    "sentid": qmsg.corpsms.data[0],
+                                                                    "sentlength": request_.msg.length
+                                                                }
+                                                            }, {
+                                                                multi: true
+                                                            },
+                                                            (err, raw) => {
+                                                                if (err) {
+                                                                    console.log(err, '->', telenorAPIUrl);
+                                                                    done();
+                                                                } else {
+                                                                    Activelogs.findOneAndRemove(
+                                                                        {
+                                                                            _id: log._id
+                                                                        },
+                                                                        (err, res) => {
+                                                                            if (err) {
+                                                                                console.log(err);
+                                                                                done();
+                                                                            } else {
+                                                                                console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                                console.log("removed ", log._id);
+                                                                                done();
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                }
+                                                            }
+                                                        )
+                                                    }
+
+
+
+                                                    
+
+
+
+
+
+
+
+
+
+
+
+
                                                 } else {
-    
-                                                    Quick.update({
-                                                        name: request_.name,
-                                                        mobileno: request_.number
-                                                    }, {
-                                                            $set: {
-                                                                "error": qmsg.corpsms.data[0]
-                                                            }
+
+                                                    if(request_.action == "drip"){
+                                                        Dripbulk.update({
+                                                            name: request_.name,
+                                                            mobileno: request_.number
                                                         }, {
-                                                            multi: true
-                                                        },
-                                                        (err, raw) => {
-                                                            if (err) {
-                                                                console.log(err, '->', telenorAPIUrl);
-                                                                done();
-                                                            } else {
-                                                                Activelogs.findOneAndRemove(
-                                                                    {
-                                                                        _id: log._id
-                                                                    },
-                                                                    (err, res) => {
-                                                                        if (err) {
-                                                                            console.log(err);
-                                                                            done();
-                                                                        } else {
-                                                                            console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
-                                                                            console.log("removed ", log._id);
-                                                                            done();
+                                                                $set: {
+                                                                    "error": qmsg.corpsms.data[0]
+                                                                }
+                                                            }, {
+                                                                multi: true
+                                                            },
+                                                            (err, raw) => {
+                                                                if (err) {
+                                                                    console.log(err, '->', telenorAPIUrl);
+                                                                    done();
+                                                                } else {
+                                                                    Activelogs.findOneAndRemove(
+                                                                        {
+                                                                            _id: log._id
+                                                                        },
+                                                                        (err, res) => {
+                                                                            if (err) {
+                                                                                console.log(err);
+                                                                                done();
+                                                                            } else {
+                                                                                console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                                console.log("removed ", log._id);
+                                                                                done();
+                                                                            }
                                                                         }
-                                                                    }
-                                                                );
+                                                                    );
+                                                                }
                                                             }
-                                                        }
-                                                    );
+                                                        );
+                                                    }else{
+                                                        Quick.update({
+                                                            name: request_.name,
+                                                            mobileno: request_.number
+                                                        }, {
+                                                                $set: {
+                                                                    "error": qmsg.corpsms.data[0]
+                                                                }
+                                                            }, {
+                                                                multi: true
+                                                            },
+                                                            (err, raw) => {
+                                                                if (err) {
+                                                                    console.log(err, '->', telenorAPIUrl);
+                                                                    done();
+                                                                } else {
+                                                                    Activelogs.findOneAndRemove(
+                                                                        {
+                                                                            _id: log._id
+                                                                        },
+                                                                        (err, res) => {
+                                                                            if (err) {
+                                                                                console.log(err);
+                                                                                done();
+                                                                            } else {
+                                                                                console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                                console.log("removed ", log._id);
+                                                                                done();
+                                                                            }
+                                                                        }
+                                                                    );
+                                                                }
+                                                            }
+                                                        );
+                                                    }
+    
+                                                    
+
+
+
                                                 }
                                             })
                                         }

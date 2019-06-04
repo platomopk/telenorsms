@@ -14,6 +14,10 @@ const ActivelogsSchema = mongoose.Schema({
     preference:{
         type:String
     },
+    action:{
+        type:String,
+        default:""
+    },
     type:{
         type:String
     },
