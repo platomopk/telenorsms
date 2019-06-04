@@ -2042,6 +2042,7 @@ router.get('/resurrectactivelogs', (req, res) => {
                             msg: element.message,
                             language: element.language,
                             resurrect:true,
+                            action:element.action,
                             logid:element._id
                         }
                         TelenorQuickSmsApiHandler.push(obj);
