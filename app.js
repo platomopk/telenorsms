@@ -101,6 +101,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.locals.isServerOpen = false;
+
 require('./config/passport')(passport);
 
 //user routes file
