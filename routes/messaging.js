@@ -29,28 +29,27 @@ var CryptoJS = require("crypto-js");
 
 const cron = require('node-cron');
 var cloudinary = require('cloudinary');
+var xml2js = require('xml2js');
+var parser = new xml2js.Parser();
+const Activelogs = require('../models/activelogs');
+
+var telenor_api_token = '';
+
+var isServerOpen = false;
 
 // ---------------------------
 var DIR = './uploads/';
 var upload = multer({
     dest: DIR
 }).single('photo');
-// var store = multer.diskStorage({
-//     destination:function(req,file,cb){
-//         cb(null, './uploads/');
-//     },
-//     filename:function(req,file,cb){
-//         cb(null, Date.now()+'.'+file.originalname);
-//     }
-// });
-// var upload = multer({storage:store}).single('file');
-// .single('file'); 
-
-
 
 // -----------------------------------------------------
 // cron job for drip messages
 cron.schedule("* * * * *", function () {
+
+    // console.log(telenor_api_token , ' TelenorAPI')
+
+
     // console.log("Running every minute", moment().format("hh:mm:ss a"));
     var query = {
         'timespayload.status': '',
@@ -147,7 +146,7 @@ cron.schedule("* * * * *", function () {
 
                                                                         var bulkb = Dripbulk.collection.initializeOrderedBulkOp();
                                                                         for (var i = 0; i < numberscsv.length; i++) {
-                                                                            var _intended = '';
+                                                                            var _intended = ''; var _message = "";
                                                                             //jsonArr.push({ id: i, name: name });
 
                                                                             if (numberscsv[i].substring(0, 4) === '9230') {
@@ -166,14 +165,49 @@ cron.schedule("* * * * *", function () {
                                                                                 _intended = 'pri'
                                                                             }
 
-                                                                            if (mask.type === _intended) {
+                                                                            if(user.encryption == 'enable'){
+                                                                                if(user.type == 'omo'){
+                                                                                    _message = CryptoJS.AES.encrypt(element.msg, user.enckey.trim()).toString();
+                                                                                }else{
+                                                                                    _message = CryptoJS.AES.encrypt(element.msg, element.createdby).toString();
+                                                                                }
+                                                                            }else{
+                                                                                _message = element.msg;
+                                                                            }
+
+
+                                                                            
+
+
+                                                                            if (mask.type === 'whitelisted') {
                                                                                 obj = {
                                                                                     name: element.name,
                                                                                     language: element.language,
                                                                                     campaign: element.campaign,
                                                                                     path: element.path,
                                                                                     masking: element.masking,
-                                                                                    msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby).toString() : element.msg,
+                                                                                    msg: _message,
+                                                                                    createdby: element.createdby,
+                                                                                    created: moment.utc().add(5, 'hours').toDate(),
+                                                                                    mnp: "0",
+                                                                                    time: payload.time,
+                                                                                    intended: _intended,
+                                                                                    telco: _intended,
+                                                                                    priority: "0",
+                                                                                    mobileno: numberscsv[i],
+                                                                                    sentid: "0",
+                                                                                    sentlength: "0",
+                                                                                    encrypted: user.encryption == 'enable' ? true : false
+                                                                                };
+                                                                                apiarr.push(obj);
+                                                                            } else if (mask.type === _intended) {
+                                                                                obj = {
+                                                                                    name: element.name,
+                                                                                    language: element.language,
+                                                                                    campaign: element.campaign,
+                                                                                    path: element.path,
+                                                                                    masking: element.masking,
+                                                                                    msg: _message,
                                                                                     createdby: element.createdby,
                                                                                     created: moment.utc().add(5, 'hours').toDate(),
                                                                                     mnp: "0",
@@ -194,7 +228,7 @@ cron.schedule("* * * * *", function () {
                                                                                     campaign: element.campaign,
                                                                                     path: element.path,
                                                                                     masking: element.masking,
-                                                                                    msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby).toString() : element.msg,
+                                                                                    msg: _message,
                                                                                     createdby: element.createdby,
                                                                                     created: moment.utc().add(5, 'hours').toDate(),
                                                                                     mnp: "0",
@@ -229,13 +263,41 @@ cron.schedule("* * * * *", function () {
                                                                         // console.log("insertend");
 
                                                                         for (let index = 0; index < apiarr.length; index++) {
+
                                                                             var obj = {
                                                                                 name: element.name,
                                                                                 masking: element.masking,
-                                                                                mobileno: apiarr[index].mobileno,
-                                                                                msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby.trim()).toString() : element.msg,
+                                                                                number: apiarr[index].mobileno,
+                                                                                msg:apiarr[index].msg,
+                                                                                // msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby.trim()).toString() : element.msg,
+                                                                                language: apiarr[index].language
                                                                             }
-                                                                            //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                                                            TelenorQuickSmsApiHandler.push(obj);
+
+
+                                                                            // if (apiarr[index].telco == 'telenor') {
+                                                                            //     var obj = {
+                                                                            //         name: element.name,
+                                                                            //         masking: element.masking,
+                                                                            //         number: apiarr[index].mobileno,
+                                                                            //         msg:apiarr[index].msg,
+                                                                            //         // msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby.trim()).toString() : element.msg,
+                                                                            //         language: apiarr[index].language
+                                                                            //     }
+                                                                            //     // TelenorQuickSmsApiHandler.push(obj);
+                                                                            // } else if (apiarr[index].telco == 'zong') {
+                                                                            //     var obj = {
+                                                                            //         name: element.name,
+                                                                            //         masking: element.masking,
+                                                                            //         number: apiarr[index].mobileno,
+                                                                            //         msg:apiarr[index].msg,
+                                                                            //         // msg: user.encryption == 'enable' ? CryptoJS.AES.encrypt(element.msg, element.createdby.trim()).toString() : element.msg,
+                                                                            //         language: apiarr[index].language
+                                                                            //     }
+                                                                            //     ZongQuickSmsApiHandler.push(obj);
+                                                                            // }
+
+
                                                                         }
 
                                                                         user.creditsms = user.creditsms - apiarr.length;
@@ -282,6 +344,9 @@ cron.schedule("* * * * *", function () {
     });
 
     // console.log("Running every minute", moment().format("hh:mm:ss a"));
+    // console.log('Telenor Queue Size', TelenorQuickSmsApiHandler.workersList());
+
+
 });
 // --------------------------------------------------------------------------------
 
@@ -592,167 +657,1193 @@ router.get('/campaigns/download/:path', (req, res, next) => {
 // zongquicksmsAPI queue for QuickSms
 var ZongQuickSMSApiHandlerQueueSize = 2;
 var ZongQuickSmsApiHandler = async.queue(function (request, done) {
-    // console.log('Picked ', request);
-    // setTimeout(() => {
-    //     console.log('Processing ',request);
-    //     done();    
-    // }, 1500);
-    var url = 'http://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
-    var quicksmsargs = {
-        'obj_QuickSMS': {
-            'loginId': request.account,
-            'loginPassword': request.password,
-            'Destination': request.number,
-            'Mask': request.masking,
-            'Message': request.msg,
-            'UniCode': '0',
-            'ShortCodePrefered': 'n'
-        }
-    }
-    soap.createClient(url, function (err, client) {
-        if (err) {
-            console.log(err, ' QUICKSMS CANT CONNECT TO ZONGAPICLIENT');
-            done();
-        } else {
-            client.QuickSMS(quicksmsargs, function (err, result) {
-                console.log("in client", request.number)
+
+    if(request.resurrect == true){
+        setTimeout(function () {
+            var url = 'https://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
+            var quicksmsargs = {
+                'obj_QuickSMS': {
+                    'loginId': '923170000424',
+                    'loginPassword': '123',
+                    'Destination': request.number,
+                    'Mask': request.masking,
+                    'Message': request.msg,
+                    'UniCode': '0',
+                    'ShortCodePrefered': 'n'
+                }
+            }
+            soap.createClient(url, function (err, client) {
                 if (err) {
-                    console.log(err);
+                    console.log(err, ' QUICKSMS CANT CONNECT TO ZONGAPICLIENT');
                     done();
-                    //callback(err);
                 } else {
-                    var str = result.QuickSMSResult;
-                    console.log(str);
+                    client.QuickSMS(quicksmsargs, function (err, result) {
+                        console.log("in client", request.number)
+                        if (err) {
+                            console.log(err);
+                            done();
+                            //callback(err);
+                        } else {
+                            var str = result.QuickSMSResult;
+                            // console.log(str);
 
-                    if (str.indexOf("Successfully") > 0) {
-                        str = str.replace(/\s+/g, '');
-                        var colon = str.indexOf(':') + 1;
-                        var dot = str.indexOf(".");
-                        var msgid = str.substring(colon, dot);
+                            if (str.indexOf("Successfully") > 0) {
+                                str = str.replace(/\s+/g, '');
+                                var colon = str.indexOf(':') + 1;
+                                var dot = str.indexOf(".");
+                                var msgid = str.substring(colon, dot);
 
-                        var msglenstr = str.indexOf('MessageLength:') + 14;
-                        var msglenstrdot = str.length - 1;
-                        var msglen = str.substring(msglenstr, msglenstrdot);
+                                var msglenstr = str.indexOf('MessageLength:') + 14;
+                                var msglenstrdot = str.length - 1;
+                                var msglen = str.substring(msglenstr, msglenstrdot);
 
-                        Quick.update({
-                            name: request.name,
-                            mobileno: request.number
-                        }, {
-                                $set: {
-                                    "sentid": msgid,
-                                    "sentlength": msglen
-                                }
-                            }, {
-                                multi: true
-                            },
-                            (err, raw) => {
+                                Quick.update({
+                                    name: request.name,
+                                    mobileno: request.number
+                                }, {
+                                        $set: {
+                                            "sentid": msgid,
+                                            "sentlength": msglen
+                                        }
+                                    }, {
+                                        multi: true
+                                    },
+                                    (err, raw) => {
+                                        if (err) {
+                                            console.log(err);
+                                            done();
+                                        } else {
+                                            Activelogs.findOneAndRemove(
+                                                {
+                                                    _id: request.logid
+                                                },
+                                                (err, res) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        done();
+                                                    } else {
+                                                        console.log("Zong API ", request.number, "->", str);
+                                                        console.log("removed ", request.logid);
+                                                        done();
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    }
+                                )
+                            } else {
+                                Quick.update({
+                                    name: request.name,
+                                    mobileno: request.number
+                                }, {
+                                        $set: {
+                                            "error": str
+                                        }
+                                    }, {
+                                        multi: true
+                                    },
+                                    (err, raw) => {
+                                        if (err) {
+                                            console.log(err);
+                                            done();
+                                        } else {
+                                            Activelogs.findOneAndRemove(
+                                                {
+                                                    _id: log._id
+                                                },
+                                                (err, res) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        done();
+                                                    } else {
+                                                        console.log("Zong API ", request.number, "->", str);
+                                                        console.log("removed ", log._id);
+                                                        done();
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    });
+                }
+
+            });
+        }, 0);
+
+    }else{
+        var log = new Activelogs({
+            apiname: "zong",
+            message: request.msg,
+            number: request.number,
+            name: request.name,
+            masking: request.masking,
+            language: request.language,
+            type: 'quick'
+        });
+        log.save((err, log) => {
+            if (err) {
+                console.log(err);
+                done();
+            } else {
+                console.log("Inserted", log._id);
+                setTimeout(function () {
+                    var url = 'https://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
+                    var quicksmsargs = {
+                        'obj_QuickSMS': {
+                            'loginId': '923170000424',
+                            'loginPassword': '123',
+                            'Destination': request.number,
+                            'Mask': request.masking,
+                            'Message': request.msg,
+                            'UniCode': '0',
+                            'ShortCodePrefered': 'n'
+                        }
+                    }
+                    soap.createClient(url, function (err, client) {
+                        if (err) {
+                            console.log(err, ' QUICKSMS CANT CONNECT TO ZONGAPICLIENT');
+                            done();
+                        } else {
+                            client.QuickSMS(quicksmsargs, function (err, result) {
+                                console.log("in client", request.number)
                                 if (err) {
                                     console.log(err);
                                     done();
+                                    //callback(err);
                                 } else {
-                                    console.log(raw);
-                                    done();
+                                    var str = result.QuickSMSResult;
+                                    // console.log(str);
+    
+                                    if (str.indexOf("Successfully") > 0) {
+                                        str = str.replace(/\s+/g, '');
+                                        var colon = str.indexOf(':') + 1;
+                                        var dot = str.indexOf(".");
+                                        var msgid = str.substring(colon, dot);
+    
+                                        var msglenstr = str.indexOf('MessageLength:') + 14;
+                                        var msglenstrdot = str.length - 1;
+                                        var msglen = str.substring(msglenstr, msglenstrdot);
+    
+                                        Quick.update({
+                                            name: request.name,
+                                            mobileno: request.number
+                                        }, {
+                                                $set: {
+                                                    "sentid": msgid,
+                                                    "sentlength": msglen
+                                                }
+                                            }, {
+                                                multi: true
+                                            },
+                                            (err, raw) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    done();
+                                                } else {
+                                                    Activelogs.findOneAndRemove(
+                                                        {
+                                                            _id: log._id
+                                                        },
+                                                        (err, res) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                done();
+                                                            } else {
+                                                                console.log("Zong API ", request.number, "->", str);
+                                                                console.log("removed ", log._id);
+                                                                done();
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            }
+                                        )
+                                    } else {
+                                        Quick.update({
+                                            name: request.name,
+                                            mobileno: request.number
+                                        }, {
+                                                $set: {
+                                                    "error": str
+                                                }
+                                            }, {
+                                                multi: true
+                                            },
+                                            (err, raw) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    done();
+                                                } else {
+                                                    Activelogs.findOneAndRemove(
+                                                        {
+                                                            _id: log._id
+                                                        },
+                                                        (err, res) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                done();
+                                                            } else {
+                                                                console.log("Zong API ", request.number, "->", str);
+                                                                console.log("removed ", log._id);
+                                                                done();
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            }
+                                        )
+                                    }
                                 }
-                            }
-                        )
-                    } else {
-                        console.log("There is some err from zongquickapi");
-                        done();
-                    }
-                }
-            });
-        }
+                            });
+                        }
+    
+                    });
+                }, 0);
+            }
+        });
+    }
 
-    });
+
+
+
+
+
 }, ZongQuickSMSApiHandlerQueueSize);
 
 ZongQuickSmsApiHandler.drain = function () {
     console.log("All the ZONGQuickSMSApiRequests have been completed!");
 }
 
-// ---------------------------------------------------------------------------------------
 
-// zong quicksmsAPI for dynamic bulks
-var ZongQuickSMSApiHandlerForBulkQueueSize = 2;
-var ZongQuickSmsApiHandlerForBulk = async.queue(function (request, done) {
+// --------------------------------------------------------------------------------------
+var TelenorQuickSMSApiHandlerQueueSize = 2;
+var TelenorQuickSmsApiHandler = async.queue(function (request_, done) {
     // console.log('Picked ', request);
     // setTimeout(() => {
     //     console.log('Processing ',request);
     //     done();    
     // }, 1500);
-    var url = 'http://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
-    var quicksmsargs = {
-        'obj_QuickSMS': {
-            'loginId': request.account,
-            'loginPassword': request.password,
-            'Destination': request.mobileno,
-            'Mask': request.masking,
-            'Message': request.msg,
-            'UniCode': '0',
-            'ShortCodePrefered': 'n'
-        }
-    }
-    soap.createClient(url, function (err, client) {
-        if (err) {
-            console.log(err, ' QUICKSMSFORBULK CANT CONNECT TO ZONGAPICLIENT');
-            done();
-        } else {
-            client.QuickSMS(quicksmsargs, function (err, result) {
-                console.log("in client", request.mobileno)
+
+    if(request_.resurrect == true){
+
+        request_.msg = encodeURIComponent(request_.msg);
+        request_.msg = request_.msg.replace("%20", "+");
+        var telenorAPIUrl = "";
+        setTimeout(() => {
+            // request for api token
+            request("https://telenorcsms.com.pk:27677/corporate_sms2/api/auth.jsp?msisdn=923453910292&password=qaz1wertyuiop123", function (err, resp, body) {
                 if (err) {
                     console.log(err);
                     done();
-                    //callback(err);
                 } else {
-                    var str = result.QuickSMSResult;
-                    console.log(str);
+                    parser.parseString(body, function (err, ob) {
+                        if (ob.corpsms.response[0] == 'OK') {
+                            // set the telenor api token
+                            telenor_api_token = ob.corpsms.data[0];
 
-                    if (str.indexOf("Successfully") > 0) {
-                        str = str.replace(/\s+/g, '');
-                        var colon = str.indexOf(':') + 1;
-                        var dot = str.indexOf(".");
-                        var msgid = str.substring(colon, dot);
+                            telenorAPIUrl = "https://telenorcsms.com.pk:27677/corporate_sms2/api/sendsms.jsp?session_id=" + telenor_api_token + "&to=" + request_.number + "&text=" + request_.msg;
+                            if (request_.language != "english") {
+                                telenorAPIUrl = telenorAPIUrl + "&unicode=true"
+                            }
 
-                        var msglenstr = str.indexOf('MessageLength:') + 14;
-                        var msglenstrdot = str.length - 1;
-                        var msglen = str.substring(msglenstr, msglenstrdot);
+                            if (request_.masking != "default") {
+                                telenorAPIUrl = telenorAPIUrl + "&mask=" + request_.masking;
+                            }
 
-                        Bulk.update({
-                            name: request.name,
-                            mobileno: request.mobileno,
-                            msg: request.msg
-                        }, {
-                                $set: {
-                                    "sentid": msgid,
-                                    "sentlength": msglen
-                                }
-                            }, {
-                                multi: true
-                            },
-                            (err, raw) => {
+                            // request the telenor msging api
+                            request(telenorAPIUrl, function (err, resp, body) {
                                 if (err) {
                                     console.log(err);
                                     done();
                                 } else {
-                                    console.log(raw);
-                                    done()
-                                }
-                            }
-                        )
-                    } else {
-                        console.log("There is some err from zongquickapiforbulk");
-                        done();
-                    }
-                }
-            });
-        }
+                                    parser.parseString(body, function (err, qmsg) {
+                                        if (qmsg.corpsms.response[0] == 'OK') {
+                                            // update the respective message in db
+                                            Quick.update({
+                                                name: request_.name,
+                                                mobileno: request_.number
+                                            }, {
+                                                    $set: {
+                                                        "sentid": qmsg.corpsms.data[0],
+                                                        "sentlength": request_.msg.length
+                                                    }
+                                                }, {
+                                                    multi: true
+                                                },
+                                                (err, raw) => {
+                                                    if (err) {
+                                                        console.log(err, '->', telenorAPIUrl);
+                                                        done();
+                                                    } else {
+                                                        Activelogs.findOneAndRemove(
+                                                            {
+                                                                _id: request_.logid
+                                                            },
+                                                            (err, res) => {
+                                                                if (err) {
+                                                                    console.log(err);
+                                                                    done();
+                                                                } else {
+                                                                    console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                    console.log("removed ", request_.logid);
+                                                                    done();
+                                                                }
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            )
+                                        } else {
 
-    });
+                                            Quick.update({
+                                                name: request_.name,
+                                                mobileno: request_.number
+                                            }, {
+                                                    $set: {
+                                                        "error": qmsg.corpsms.data[0]
+                                                    }
+                                                }, {
+                                                    multi: true
+                                                },
+                                                (err, raw) => {
+                                                    if (err) {
+                                                        console.log(err, '->', telenorAPIUrl);
+                                                        done();
+                                                    } else {
+                                                        Activelogs.findOneAndRemove(
+                                                            {
+                                                                _id: log._id
+                                                            },
+                                                            (err, res) => {
+                                                                if (err) {
+                                                                    console.log(err);
+                                                                    done();
+                                                                } else {
+                                                                    console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                    console.log("removed ", log._id);
+                                                                    done();
+                                                                }
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    })
+                                }
+                            });
+
+                        } else {
+
+                            console.log(ob.corpsms.data[0], ' in telenorAPI ', new Date());
+                            done();
+                        }
+                    })
+
+                }
+
+            });
+
+        }, 0);
+
+
+
+    }else{
+        var log = new Activelogs({
+            apiname: "telenor",
+            message: request_.msg,
+            number: request_.number,
+            name: request_.name,
+            masking: request_.masking,
+            language: request_.language,
+            type: 'quick'
+        });
+    
+        log.save((err, log) => {
+            if (err) {
+                console.log(err);
+                done();
+            } else {
+                console.log("Inserted", log._id);
+                request_.msg = encodeURIComponent(request_.msg);
+                request_.msg = request_.msg.replace("%20", "+");
+                var telenorAPIUrl = "";
+                setTimeout(() => {
+                    // request for api token
+                    request("https://telenorcsms.com.pk:27677/corporate_sms2/api/auth.jsp?msisdn=923453910292&password=qaz1wertyuiop123", function (err, resp, body) {
+                        if (err) {
+                            console.log(err);
+                            done();
+                        } else {
+                            parser.parseString(body, function (err, ob) {
+                                if (ob.corpsms.response[0] == 'OK') {
+                                    // set the telenor api token
+                                    telenor_api_token = ob.corpsms.data[0];
+    
+                                    telenorAPIUrl = "https://telenorcsms.com.pk:27677/corporate_sms2/api/sendsms.jsp?session_id=" + telenor_api_token + "&to=" + request_.number + "&text=" + request_.msg;
+                                    if (request_.language != "english") {
+                                        telenorAPIUrl = telenorAPIUrl + "&unicode=true"
+                                    }
+    
+                                    if (request_.masking != "default") {
+                                        telenorAPIUrl = telenorAPIUrl + "&mask=" + request_.masking;
+                                    }
+    
+                                    // request the telenor msging api
+                                    request(telenorAPIUrl, function (err, resp, body) {
+                                        if (err) {
+                                            console.log(err);
+                                            done();
+                                        } else {
+                                            parser.parseString(body, function (err, qmsg) {
+                                                if (qmsg.corpsms.response[0] == 'OK') {
+                                                    // update the respective message in db
+                                                    Quick.update({
+                                                        name: request_.name,
+                                                        mobileno: request_.number
+                                                    }, {
+                                                            $set: {
+                                                                "sentid": qmsg.corpsms.data[0],
+                                                                "sentlength": request_.msg.length
+                                                            }
+                                                        }, {
+                                                            multi: true
+                                                        },
+                                                        (err, raw) => {
+                                                            if (err) {
+                                                                console.log(err, '->', telenorAPIUrl);
+                                                                done();
+                                                            } else {
+                                                                Activelogs.findOneAndRemove(
+                                                                    {
+                                                                        _id: log._id
+                                                                    },
+                                                                    (err, res) => {
+                                                                        if (err) {
+                                                                            console.log(err);
+                                                                            done();
+                                                                        } else {
+                                                                            console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                            console.log("removed ", log._id);
+                                                                            done();
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
+                                                        }
+                                                    )
+                                                } else {
+    
+                                                    Quick.update({
+                                                        name: request_.name,
+                                                        mobileno: request_.number
+                                                    }, {
+                                                            $set: {
+                                                                "error": qmsg.corpsms.data[0]
+                                                            }
+                                                        }, {
+                                                            multi: true
+                                                        },
+                                                        (err, raw) => {
+                                                            if (err) {
+                                                                console.log(err, '->', telenorAPIUrl);
+                                                                done();
+                                                            } else {
+                                                                Activelogs.findOneAndRemove(
+                                                                    {
+                                                                        _id: log._id
+                                                                    },
+                                                                    (err, res) => {
+                                                                        if (err) {
+                                                                            console.log(err);
+                                                                            done();
+                                                                        } else {
+                                                                            console.log("Telenor API ", request_.number, "->", qmsg.corpsms.data[0]);
+                                                                            console.log("removed ", log._id);
+                                                                            done();
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            })
+                                        }
+                                    });
+    
+                                } else {
+    
+                                    console.log(ob.corpsms.data[0], ' in telenorAPI ', new Date());
+                                    done();
+                                }
+                            })
+    
+                        }
+    
+                    });
+    
+                }, 0);
+            }
+        });
+    
+    }
+
+
+
+
+
+}, TelenorQuickSMSApiHandlerQueueSize);
+
+TelenorQuickSmsApiHandler.drain = function () {
+    console.log("All the TelenorQuickSMSApiRequests have been completed!");
+}
+
+
+
+// ---------------------------------------------------------------------------------------
+
+// zong quicksmsAPI for dynamic bulks
+var ZongQuickSMSApiHandlerForBulkQueueSize = 2;
+var ZongQuickSmsApiHandlerForBulk = async.queue(function (request, done) {
+    // setTimeout(function () {
+    //     console.log('picked', request_);
+    //     setTimeout(() => {
+    //         console.log('done', request_);
+    //         done();
+    //     }, 1500);
+    // }, Math.random());
+
+    if(request.resurrect == true){
+        setTimeout(function () {
+            var url = 'https://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
+            var quicksmsargs = {
+                'obj_QuickSMS': {
+                    'loginId': '923170000424',
+                    'loginPassword': '123',
+                    'Destination': request.mobileno,
+                    'Mask': request.masking,
+                    'Message': request.msg,
+                    'UniCode': '0',
+                    'ShortCodePrefered': 'n'
+                }
+            }
+            soap.createClient(url, function (err, client) {
+                if (err) {
+                    console.log(err, ' QUICKSMSFORBULK CANT CONNECT TO ZONGAPICLIENT');
+                    done();
+                } else {
+                    client.QuickSMS(quicksmsargs, function (err, result) {
+                        console.log("in client", request.mobileno)
+                        if (err) {
+                            console.log(err);
+                            done();
+                            //callback(err);
+                        } else {
+                            var str = result.QuickSMSResult;
+                            // console.log(str);
+
+                            if (str.indexOf("Successfully") > 0) {
+                                str = str.replace(/\s+/g, '');
+                                var colon = str.indexOf(':') + 1;
+                                var dot = str.indexOf(".");
+                                var msgid = str.substring(colon, dot);
+
+                                var msglenstr = str.indexOf('MessageLength:') + 14;
+                                var msglenstrdot = str.length - 1;
+                                var msglen = str.substring(msglenstr, msglenstrdot);
+
+                                Bulk.update({
+                                    name: request.name,
+                                    mobileno: request.mobileno,
+                                    msg: request.msg
+                                }, {
+                                        $set: {
+                                            "sentid": msgid,
+                                            "sentlength": msglen
+                                        }
+                                    }, {
+                                        multi: true
+                                    },
+                                    (err, raw) => {
+                                        if (err) {
+                                            console.log(err);
+                                            done();
+                                        } else {
+                                            Activelogs.findOneAndRemove(
+                                                {
+                                                    _id: request.logid
+                                                },
+                                                (err, res) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        done();
+                                                    } else {
+                                                        console.log("Zong API ", request.mobileno, "->", str);
+                                                        console.log("removed ", request.logid);
+                                                        done();
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    }
+                                )
+                            } else {
+                                Bulk.update({
+                                    name: request.name,
+                                    mobileno: request.mobileno,
+                                    msg: request.msg
+                                }, {
+                                        $set: {
+                                            "error": str
+                                        }
+                                    }, {
+                                        multi: true
+                                    },
+                                    (err, raw) => {
+                                        if (err) {
+                                            console.log(err);
+                                            done();
+                                        } else {
+                                            Activelogs.findOneAndRemove(
+                                                {
+                                                    _id: log._id
+                                                },
+                                                (err, res) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        done();
+                                                    } else {
+                                                        console.log("Zong API ", request.mobileno, "->", str);
+                                                        console.log("removed ", log._id);
+                                                        done();
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    });
+                }
+
+            });
+        }, 0);
+    }else{
+        var log = new Activelogs({
+            apiname: "zong",
+            message: request.msg,
+            number: request.mobileno,
+            name: request.name,
+            masking: request.masking,
+            language: request.language,
+            type: 'bulk'
+        });
+        log.save((err, log) => {
+            if (err) {
+                console.log(err);
+                done();
+            } else {
+                console.log("Inserted", log._id);
+                setTimeout(function () {
+                    var url = 'https://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
+                    var quicksmsargs = {
+                        'obj_QuickSMS': {
+                            'loginId': '923170000424',
+                            'loginPassword': '123',
+                            'Destination': request.mobileno,
+                            'Mask': request.masking,
+                            'Message': request.msg,
+                            'UniCode': '0',
+                            'ShortCodePrefered': 'n'
+                        }
+                    }
+                    soap.createClient(url, function (err, client) {
+                        if (err) {
+                            console.log(err, ' QUICKSMSFORBULK CANT CONNECT TO ZONGAPICLIENT');
+                            done();
+                        } else {
+                            client.QuickSMS(quicksmsargs, function (err, result) {
+                                console.log("in client", request.mobileno)
+                                if (err) {
+                                    console.log(err);
+                                    done();
+                                    //callback(err);
+                                } else {
+                                    var str = result.QuickSMSResult;
+                                    // console.log(str);
+    
+                                    if (str.indexOf("Successfully") > 0) {
+                                        str = str.replace(/\s+/g, '');
+                                        var colon = str.indexOf(':') + 1;
+                                        var dot = str.indexOf(".");
+                                        var msgid = str.substring(colon, dot);
+    
+                                        var msglenstr = str.indexOf('MessageLength:') + 14;
+                                        var msglenstrdot = str.length - 1;
+                                        var msglen = str.substring(msglenstr, msglenstrdot);
+    
+                                        Bulk.update({
+                                            name: request.name,
+                                            mobileno: request.mobileno,
+                                            msg: request.msg
+                                        }, {
+                                                $set: {
+                                                    "sentid": msgid,
+                                                    "sentlength": msglen
+                                                }
+                                            }, {
+                                                multi: true
+                                            },
+                                            (err, raw) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    done();
+                                                } else {
+                                                    Activelogs.findOneAndRemove(
+                                                        {
+                                                            _id: log._id
+                                                        },
+                                                        (err, res) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                done();
+                                                            } else {
+                                                                console.log("Zong API ", request.mobileno, "->", str);
+                                                                console.log("removed ", log._id);
+                                                                done();
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            }
+                                        )
+                                    } else {
+                                        Bulk.update({
+                                            name: request.name,
+                                            mobileno: request.mobileno,
+                                            msg: request.msg
+                                        }, {
+                                                $set: {
+                                                    "error": str
+                                                }
+                                            }, {
+                                                multi: true
+                                            },
+                                            (err, raw) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    done();
+                                                } else {
+                                                    Activelogs.findOneAndRemove(
+                                                        {
+                                                            _id: log._id
+                                                        },
+                                                        (err, res) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                done();
+                                                            } else {
+                                                                console.log("Zong API ", request.mobileno, "->", str);
+                                                                console.log("removed ", log._id);
+                                                                done();
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            }
+                                        );
+                                    }
+                                }
+                            });
+                        }
+    
+                    });
+                }, 0);
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }, ZongQuickSMSApiHandlerForBulkQueueSize);
 
 ZongQuickSmsApiHandlerForBulk.drain = function () {
     console.log("All the ZONGQuickSMSApiRequestsForDynamicBulk have been completed!");
 }
+
+
+
+// --------------------------------------------------------------------------------------
+var TelenorQuickSMSApiHandlerForBulkQueueSize = 2;
+var TelenorQuickSmsApiHandlerForBulk = async.queue(function (request_, done) {
+    // console.log('Picked ', request);
+    // setTimeout(() => {
+    //     console.log('Processing ',request);
+    //     done();    
+    // }, 1500);
+    // console.log(request_);
+
+    if(request_.resurrect == true){
+        request_.msg = encodeURIComponent(request_.msg);
+        request_.msg = request_.msg.replace("%20", "+");
+        var telenorAPIUrl = "";
+        setTimeout(() => {
+            // request for api token
+            request("https://telenorcsms.com.pk:27677/corporate_sms2/api/auth.jsp?msisdn=923453910292&password=qaz1wertyuiop123", function (err, resp, body) {
+                if (err) {
+                    console.log(err);
+                    done();
+                } else {
+                    parser.parseString(body, function (err, ob) {
+                        if (ob.corpsms.response[0] == 'OK') {
+                            // set the telenor api token
+                            telenor_api_token = ob.corpsms.data[0];
+
+                            telenorAPIUrl = "https://telenorcsms.com.pk:27677/corporate_sms2/api/sendsms.jsp?session_id=" + telenor_api_token + "&to=" + request_.mobileno + "&text=" + request_.msg;
+                            if (request_.language != "english") {
+                                telenorAPIUrl = telenorAPIUrl + "&unicode=true"
+                            }
+
+                            if (request_.masking != "default") {
+                                telenorAPIUrl = telenorAPIUrl + "&mask=" + request_.masking;
+                            }
+
+                            // request the telenor msging api
+                            request(telenorAPIUrl, function (err, resp, body) {
+                                if (err) {
+                                    console.log(err);
+                                    done();
+                                } else {
+                                    parser.parseString(body, function (err, qmsg) {
+                                        if (qmsg.corpsms.response[0] == 'OK') {
+                                            // update the respective message in db
+                                            Bulk.update(
+                                                {
+                                                    name: request_.name,
+                                                    mobileno: request_.mobileno
+                                                },
+                                                {
+                                                    sentid: qmsg.corpsms.data[0],
+                                                    sentlength: request_.msg.length
+                                                },
+                                                {
+                                                    multi: true
+                                                },
+                                                (err, raws) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        done();
+                                                    } else {
+                                                        console.log(raws)
+                                                        Activelogs.findOneAndRemove(
+                                                            {
+                                                                _id: request_.logid
+                                                            },
+                                                            (err, res) => {
+                                                                if (err) {
+                                                                    console.log(err);
+                                                                    done();
+                                                                } else {
+                                                                    console.log("Telenor API ", request_.mobileno, "->", qmsg.corpsms.data[0]);
+                                                                    console.log("removed ", request_.logid);
+                                                                    done();
+                                                                }
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            )
+
+                                            // Bulk.update({
+                                            //     name: request_.name,
+                                            //     mobileno: request_.mobileno,
+                                            //     msg: request_.msg
+                                            // }, 
+                                            // {
+                                            //     sentid: qmsg.corpsms.data[0],
+                                            //     sentlength: request_.msg.length
+                                            // }, {
+                                            //         multi: true
+                                            //     },
+                                            //     (err, raw) => {
+                                            //         if (err) {
+                                            //             console.log(err);
+                                            //             done();
+                                            //         } else {
+                                            //             console.log(raw)
+                                            //             Activelogs.findOneAndRemove(
+                                            //                 {
+                                            //                     _id:log._id
+                                            //                 },
+                                            //                 (err,res)=>{
+                                            //                     if(err){
+                                            //                         console.log(err);
+                                            //                         done();
+                                            //                     }else{
+                                            //                         console.log("Telenor API ",request_.mobileno,"->",qmsg.corpsms.data[0]);
+                                            //                         console.log("removed ",log._id);
+                                            //                         done();
+                                            //                     }
+                                            //                 }
+                                            //             );
+                                            //         }
+                                            //     }
+                                            // );
+                                        } else {
+                                            Bulk.update({
+                                                name: request_.name,
+                                                mobileno: request_.mobileno
+                                            },
+                                                {
+                                                    error: qmsg.corpsms.data[0]
+                                                }, {
+                                                    multi: true
+                                                },
+                                                (err, raw) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        done();
+                                                    } else {
+                                                        Activelogs.findOneAndRemove(
+                                                            {
+                                                                _id: log._id
+                                                            },
+                                                            (err, res) => {
+                                                                if (err) {
+                                                                    console.log(err);
+                                                                    done();
+                                                                } else {
+                                                                    console.log("Telenor API ", request_.mobileno, "->", qmsg.corpsms.data[0]);
+                                                                    console.log("removed ", log._id);
+                                                                    done();
+                                                                }
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    })
+                                }
+                            });
+
+                        } else {
+
+                            console.log(ob.corpsms.data[0], ' in telenorAPI ', new Date());
+                            done();
+                        }
+                    })
+
+                }
+
+            });
+
+        }, 0);
+    }else{
+        var log = new Activelogs({
+            apiname: "telenor",
+            message: request_.msg,
+            number: request_.mobileno,
+            name: request_.name,
+            masking: request_.masking,
+            language: request_.language,
+            type: 'bulk'
+        });
+    
+        log.save((err, log) => {
+            if (err) {
+                console.log(err);
+                done();
+            } else {
+                console.log("Inserted", log._id);
+                request_.msg = encodeURIComponent(request_.msg);
+                request_.msg = request_.msg.replace("%20", "+");
+                var telenorAPIUrl = "";
+                setTimeout(() => {
+                    // request for api token
+                    request("https://telenorcsms.com.pk:27677/corporate_sms2/api/auth.jsp?msisdn=923453910292&password=qaz1wertyuiop123", function (err, resp, body) {
+                        if (err) {
+                            console.log(err);
+                            done();
+                        } else {
+                            parser.parseString(body, function (err, ob) {
+                                if (ob.corpsms.response[0] == 'OK') {
+                                    // set the telenor api token
+                                    telenor_api_token = ob.corpsms.data[0];
+    
+                                    telenorAPIUrl = "https://telenorcsms.com.pk:27677/corporate_sms2/api/sendsms.jsp?session_id=" + telenor_api_token + "&to=" + request_.mobileno + "&text=" + request_.msg;
+                                    if (request_.language != "english") {
+                                        telenorAPIUrl = telenorAPIUrl + "&unicode=true"
+                                    }
+    
+                                    if (request_.masking != "default") {
+                                        telenorAPIUrl = telenorAPIUrl + "&mask=" + request_.masking;
+                                    }
+    
+                                    // request the telenor msging api
+                                    request(telenorAPIUrl, function (err, resp, body) {
+                                        if (err) {
+                                            console.log(err);
+                                            done();
+                                        } else {
+                                            parser.parseString(body, function (err, qmsg) {
+                                                if (qmsg.corpsms.response[0] == 'OK') {
+                                                    // update the respective message in db
+                                                    Bulk.update(
+                                                        {
+                                                            name: request_.name,
+                                                            mobileno: request_.mobileno
+                                                        },
+                                                        {
+                                                            sentid: qmsg.corpsms.data[0],
+                                                            sentlength: request_.msg.length
+                                                        },
+                                                        {
+                                                            multi: true
+                                                        },
+                                                        (err, raws) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                done();
+                                                            } else {
+                                                                console.log(raws)
+                                                                Activelogs.findOneAndRemove(
+                                                                    {
+                                                                        _id: log._id
+                                                                    },
+                                                                    (err, res) => {
+                                                                        if (err) {
+                                                                            console.log(err);
+                                                                            done();
+                                                                        } else {
+                                                                            console.log("Telenor API ", request_.mobileno, "->", qmsg.corpsms.data[0]);
+                                                                            console.log("removed ", log._id);
+                                                                            done();
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
+                                                        }
+                                                    )
+    
+                                                    // Bulk.update({
+                                                    //     name: request_.name,
+                                                    //     mobileno: request_.mobileno,
+                                                    //     msg: request_.msg
+                                                    // }, 
+                                                    // {
+                                                    //     sentid: qmsg.corpsms.data[0],
+                                                    //     sentlength: request_.msg.length
+                                                    // }, {
+                                                    //         multi: true
+                                                    //     },
+                                                    //     (err, raw) => {
+                                                    //         if (err) {
+                                                    //             console.log(err);
+                                                    //             done();
+                                                    //         } else {
+                                                    //             console.log(raw)
+                                                    //             Activelogs.findOneAndRemove(
+                                                    //                 {
+                                                    //                     _id:log._id
+                                                    //                 },
+                                                    //                 (err,res)=>{
+                                                    //                     if(err){
+                                                    //                         console.log(err);
+                                                    //                         done();
+                                                    //                     }else{
+                                                    //                         console.log("Telenor API ",request_.mobileno,"->",qmsg.corpsms.data[0]);
+                                                    //                         console.log("removed ",log._id);
+                                                    //                         done();
+                                                    //                     }
+                                                    //                 }
+                                                    //             );
+                                                    //         }
+                                                    //     }
+                                                    // );
+                                                } else {
+                                                    Bulk.update({
+                                                        name: request_.name,
+                                                        mobileno: request_.mobileno
+                                                    },
+                                                        {
+                                                            error: qmsg.corpsms.data[0]
+                                                        }, {
+                                                            multi: true
+                                                        },
+                                                        (err, raw) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                done();
+                                                            } else {
+                                                                Activelogs.findOneAndRemove(
+                                                                    {
+                                                                        _id: log._id
+                                                                    },
+                                                                    (err, res) => {
+                                                                        if (err) {
+                                                                            console.log(err);
+                                                                            done();
+                                                                        } else {
+                                                                            console.log("Telenor API ", request_.mobileno, "->", qmsg.corpsms.data[0]);
+                                                                            console.log("removed ", log._id);
+                                                                            done();
+                                                                        }
+                                                                    }
+                                                                );
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            })
+                                        }
+                                    });
+    
+                                } else {
+    
+                                    console.log(ob.corpsms.data[0], ' in telenorAPI ', new Date());
+                                    done();
+                                }
+                            })
+    
+                        }
+    
+                    });
+    
+                }, 0);
+            }
+        });
+    
+    }
+
+
+
+
+
+
+}, TelenorQuickSMSApiHandlerForBulkQueueSize);
+
+TelenorQuickSmsApiHandlerForBulk.drain = function () {
+    console.log("All the TelenorQuickSMSApiForBulk Requests have been completed!");
+}
+
 
 // --------------------------------------------------------------------------
 // drain the outbox
@@ -836,6 +1927,144 @@ function shuffle(array) {
 
     return array;
 }
+
+router.get('/resurrectactivelogs', (req, res) => {
+
+    Activelogs.find({}, (err, docs) => {
+        if (err) {
+            res.send(err);
+        } else {
+            docs.forEach(function (element) {
+                if (element.apiname == 'telenor') {
+                    if (element.type == 'quick') {
+                        var obj = {
+                            name: element.name,
+                            masking: element.masking,
+                            number: element.number,
+                            msg: element.message,
+                            language: element.language,
+                            resurrect:true,
+                            logid:element._id
+                        }
+                        TelenorQuickSmsApiHandler.push(obj);
+                    } else {
+                        var obj = {
+                            name: element.name,
+                            masking: element.masking,
+                            number: element.number,
+                            msg: element.message,
+                            language: element.language,
+                            resurrect:true,
+                            logid:element._id
+                        }
+                        TelenorQuickSmsApiHandlerForBulk.push(obj);
+                    }
+
+                } else if (element.apiname == 'zong') {
+                    if (element.type == 'quick') {
+                        var obj = {
+                            name: element.name,
+                            masking: element.masking,
+                            number: element.number,
+                            msg: element.message,
+                            language: element.language,
+                            resurrect:true,
+                            logid:element._id
+                        }
+                        ZongQuickSmsApiHandler.push(obj);
+                    } else {
+                        var obj = {
+                            name: element.name,
+                            masking: element.masking,
+                            number: element.number,
+                            msg: element.message,
+                            language: element.language,
+                            resurrect:true,
+                            logid:element._id
+                        }
+                        ZongQuickSmsApiHandlerForBulk.push(obj);
+                    }
+                }
+            }, this);
+            isServerOpen = true;
+            return res.json({
+                success: true,
+                resurrectedcount: docs.length
+            })
+        }
+    })
+});
+
+router.get('/servermaintain/:value', (req, res) => {
+    if (req.params.value == 1) {
+        isServerOpen = true
+    } else {
+        isServerOpen = false
+    }
+    res.json({
+        ServerOpen: isServerOpen
+    });
+});
+
+router.get('/apiinfo', (req, res) => {
+    res.json({
+        telenorAPIQL: TelenorQuickSmsApiHandler.length(),
+        telenorAPIBL: TelenorQuickSmsApiHandlerForBulk.length(),
+        zongAPIQL: ZongQuickSmsApiHandler.length(),
+        zongAPIBL: ZongQuickSmsApiHandlerForBulk.length(),
+    });
+});
+
+router.get('/apipause', (req, res) => {
+    TelenorQuickSmsApiHandler.pause();
+    TelenorQuickSmsApiHandlerForBulk.pause();
+    ZongQuickSmsApiHandler.pause();
+    ZongQuickSmsApiHandlerForBulk.pause();
+
+    if (TelenorQuickSmsApiHandler.paused && ZongQuickSmsApiHandler.paused && TelenorQuickSmsApiHandlerForBulk.paused && ZongQuickSmsApiHandlerForBulk.paused) {
+        res.json({
+            telenorAPI: 'Paused',
+            telenorAPIQL: TelenorQuickSmsApiHandler.length(),
+            zongAPIQL: ZongQuickSmsApiHandler.length(),
+            telenorAPIBL: TelenorQuickSmsApiHandlerForBulk.length(),
+            zongAPIBL: ZongQuickSmsApiHandlerForBulk.length()
+        });
+    } else {
+        res.json({
+            telenorAPI: 'Not Paused',
+            telenorAPIQL: TelenorQuickSmsApiHandler.length(),
+            zongAPIQL: ZongQuickSmsApiHandler.length(),
+            telenorAPIBL: TelenorQuickSmsApiHandlerForBulk.length(),
+            zongAPIBL: ZongQuickSmsApiHandlerForBulk.length()
+        });
+    }
+
+});
+
+router.get('/apiresume', (req, res) => {
+    TelenorQuickSmsApiHandler.resume();
+    TelenorQuickSmsApiHandlerForBulk.resume();
+    ZongQuickSmsApiHandler.resume();
+    ZongQuickSmsApiHandlerForBulk.resume();
+
+    if (!TelenorQuickSmsApiHandler.paused && !ZongQuickSmsApiHandler.paused && !TelenorQuickSmsApiHandlerForBulk.paused && !ZongQuickSmsApiHandlerForBulk.paused) {
+        res.json({
+            telenorAPI: 'Resumed',
+            telenorAPIQL: TelenorQuickSmsApiHandler.length(),
+            zongAPIQL: ZongQuickSmsApiHandler.length(),
+            telenorAPIBL: TelenorQuickSmsApiHandlerForBulk.length(),
+            zongAPIBL: ZongQuickSmsApiHandlerForBulk.length()
+        });
+    } else {
+        res.json({
+            telenorAPI: 'Not Resumed',
+            telenorAPIQL: TelenorQuickSmsApiHandler.length(),
+            zongAPIQL: ZongQuickSmsApiHandler.length(),
+            telenorAPIBL: TelenorQuickSmsApiHandlerForBulk.length(),
+            zongAPIBL: ZongQuickSmsApiHandlerForBulk.length()
+        });
+    }
+});
 
 router.get('/drain', (req, res) => {
 
@@ -1322,8 +2551,14 @@ router.delete('/digital/:name', (req, resp) => {
 // send a quick message maslad
 router.post('/quick/register', (req, res) => {
 
-    var email = req.body.createdby;
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
 
+    var email = req.body.createdby;
     var name = req.body.name;
     var language = req.body.language;
     var masking = req.body.masking;
@@ -1359,7 +2594,6 @@ router.post('/quick/register', (req, res) => {
                 if (docx.smstp > 0) {
                     if (mobilenos.length <= docx.creditsms) {
 
-
                         Mask.findOne(
                             {
                                 createdby: docx.email,
@@ -1383,11 +2617,12 @@ router.post('/quick/register', (req, res) => {
                                     var jsonArr = []
                                     var apiarr = [];
 
-                                    console.time("insertbulk")
+                                    // console.time("insertbulk")
 
                                     var bulk = Quick.collection.initializeOrderedBulkOp();
                                     for (var i = 0; i < mobilenos.length; i++) {
                                         var _intended = '';
+                                        var _message = "";
                                         jsonArr.push({
                                             id: i,
                                             name: name
@@ -1409,14 +2644,24 @@ router.post('/quick/register', (req, res) => {
                                             _intended = 'pri'
                                         }
 
+                                        if(docx.encryption == 'enable'){
+                                            if(docx.type == 'omo'){
+                                                _message = CryptoJS.AES.encrypt(msg.trim(), docx.enckey.trim()).toString();
+                                            }else{
+                                                _message = CryptoJS.AES.encrypt(msg.trim(), req.body.createdby.trim()).toString();
+                                            }
+                                        }else{
+                                            _message = msg;
+                                        }
+
                                         //msg = CryptoJS.AES.encrypt(msg.trim(),req.body.createdby.trim()).toString();
-                                        if (mask.type === _intended) {
+                                        if (mask.type === 'whitelisted') {
                                             var obj = {
                                                 name: name,
                                                 language: language,
                                                 masking: masking,
-                                                mobileno: mobilenos[i],
-                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), req.body.createdby.trim()).toString() : msg,
+                                                mobileno: mobilenos[i],                                                                                                
+                                                msg: _message,
                                                 msgchars: msgchars,
                                                 noofmsgs: noofmsgs,
                                                 preference: preference,
@@ -1430,7 +2675,28 @@ router.post('/quick/register', (req, res) => {
                                                 sentlength: "0",
                                                 encrypted: docx.encryption == 'enable' ? true : false
                                             };
-
+                                            apiarr.push(obj);
+                                        }
+                                        else if (mask.type === _intended) {
+                                            var obj = {
+                                                name: name,
+                                                language: language,
+                                                masking: masking,
+                                                mobileno: mobilenos[i],
+                                                msg: _message,
+                                                msgchars: msgchars,
+                                                noofmsgs: noofmsgs,
+                                                preference: preference,
+                                                createdby: createdby,
+                                                created: created,
+                                                mnp: '0',
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false
+                                            };
                                             apiarr.push(obj);
                                         } else {
                                             var obj = {
@@ -1438,7 +2704,7 @@ router.post('/quick/register', (req, res) => {
                                                 language: language,
                                                 masking: masking,
                                                 mobileno: mobilenos[i],
-                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), req.body.createdby.trim()).toString() : msg,
+                                                msg: _message,
                                                 msgchars: msgchars,
                                                 noofmsgs: noofmsgs,
                                                 preference: preference,
@@ -1457,7 +2723,7 @@ router.post('/quick/register', (req, res) => {
 
                                         bulk.insert(obj);
                                         if (i % 500 == 0) {
-                                            console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                            // console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
                                             bulk.execute();
                                             bulk = Quick.collection.initializeOrderedBulkOp();
                                         }
@@ -1465,25 +2731,57 @@ router.post('/quick/register', (req, res) => {
                                     }
 
                                     var lim = bulk.length;
-                                    console.log("inserting remaining values ", lim, " values");
+                                    // console.log("inserting remaining values ", lim, " values");
 
                                     bulk.execute().catch(any => {
-                                        console.log('empty ops in quick remaining bucket');
+                                        // console.log('empty ops in quick remaining bucket');
 
                                     });
 
-                                    console.log("inserted ", lim, " values");
-                                    console.timeEnd("insertbulk");
-                                    console.log("insertend");
+                                    // console.log("inserted ", lim, " values");
+                                    // console.timeEnd("insertbulk");
+                                    // console.log("insertend");
 
                                     for (let index = 0; index < apiarr.length; index++) {
+
                                         var obj = {
-                                            name: req.body.name,
-                                            masking: req.body.masking,
+                                            name: apiarr[index].name,
+                                            masking: apiarr[index].masking,
                                             number: apiarr[index].mobileno,
-                                            msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), req.body.createdby.trim()).toString() : msg,
+                                            msg:apiarr[index].msg,
+                                            // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), apiarr[index].createdby.trim()).toString() : msg,
+                                            language: apiarr[index].language
                                         }
-                                        //ZongQuickSmsApiHandler.push(obj);
+                                        TelenorQuickSmsApiHandler.push(obj);
+
+
+
+
+
+
+                                        // if (apiarr[index].telco == 'telenor') {
+                                        //     var obj = {
+                                        //         name: apiarr[index].name,
+                                        //         masking: apiarr[index].masking,
+                                        //         number: apiarr[index].mobileno,
+                                        //         msg:apiarr[index].msg,
+                                        //         // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), apiarr[index].createdby.trim()).toString() : msg,
+                                        //         language: apiarr[index].language
+                                        //     }
+                                        //     // TelenorQuickSmsApiHandler.push(obj);
+                                        // }
+                                        // else if (apiarr[index].telco == 'zong') {
+                                        //     var obj = {
+                                        //         name: apiarr[index].name,
+                                        //         masking: apiarr[index].masking,
+                                        //         number: apiarr[index].mobileno,
+                                        //         msg:apiarr[index].msg,
+                                        //         // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), apiarr[index].createdby.trim()).toString() : msg,
+                                        //         language: apiarr[index].language
+                                        //     }
+                                        //     // ZongQuickSmsApiHandler.push(obj);
+                                        // }
+
                                     }
 
                                     // subtract the original balance
@@ -1929,8 +3227,28 @@ router.delete('/quick/:name', (req, resp) => {
     });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post('/bulk/register', (req, res) => {
 
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
 
     var numberscsv = [];
     let bulk = {
@@ -1996,7 +3314,7 @@ router.post('/bulk/register', (req, res) => {
                                         if (!mask) {
                                             res.json({ success: false, error: 'Invalid Mask' + mask })
                                         } else {
-                                            console.time("insertbulk")
+                                            // console.time("insertbulk")
                                             var a = now();
 
                                             var apiarr = [];
@@ -2004,7 +3322,7 @@ router.post('/bulk/register', (req, res) => {
 
                                             var bulkb = Bulk.collection.initializeOrderedBulkOp();
                                             for (var i = 0; i < numberscsv.length; i++) {
-                                                var _intended = '';
+                                                var _intended = ''; var _message = "";
                                                 //jsonArr.push({ id: i, name: name });
 
                                                 if (numberscsv[i].substring(0, 4) === '9230') {
@@ -2023,7 +3341,17 @@ router.post('/bulk/register', (req, res) => {
                                                     _intended = 'pri'
                                                 }
 
-                                                if (mask.type === _intended) {
+                                                if(docx.encryption == 'enable'){
+                                                    if(docx.type == 'omo'){
+                                                        _message = CryptoJS.AES.encrypt(req.body.msg.trim(), docx.enckey.trim()).toString();
+                                                    }else{
+                                                        _message = CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString();
+                                                    }
+                                                }else{
+                                                    _message = req.body.msg.trim();
+                                                }
+
+                                                if (mask.type === 'whitelisted') {
                                                     obj = {
                                                         name: bulk.name,
                                                         language: bulk.language,
@@ -2031,7 +3359,28 @@ router.post('/bulk/register', (req, res) => {
                                                         campaign: bulk.campaign,
                                                         path: bulk.path,
                                                         masking: bulk.masking,
-                                                        msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                        msg: _message,
+                                                        createdby: bulk.createdby,
+                                                        created: bulk.created,
+                                                        mnp: "0",
+                                                        intended: _intended,
+                                                        telco: _intended,
+                                                        priority: "0",
+                                                        mobileno: numberscsv[i],
+                                                        sentid: "0",
+                                                        sentlength: "0",
+                                                        encrypted: docx.encryption == 'enable' ? true : false
+                                                    };
+                                                    apiarr.push(obj);
+                                                } else if (mask.type === _intended) {
+                                                    obj = {
+                                                        name: bulk.name,
+                                                        language: bulk.language,
+                                                        type: bulk.type,
+                                                        campaign: bulk.campaign,
+                                                        path: bulk.path,
+                                                        masking: bulk.masking,
+                                                        msg: _message,
                                                         createdby: bulk.createdby,
                                                         created: bulk.created,
                                                         mnp: "0",
@@ -2052,7 +3401,7 @@ router.post('/bulk/register', (req, res) => {
                                                         campaign: bulk.campaign,
                                                         path: bulk.path,
                                                         masking: bulk.masking,
-                                                        msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                        msg: _message,
                                                         createdby: bulk.createdby,
                                                         created: bulk.created,
                                                         mnp: "0",
@@ -2069,30 +3418,63 @@ router.post('/bulk/register', (req, res) => {
 
                                                 bulkb.insert(obj);
                                                 if (i % 500 == 0) {
-                                                    console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                                    // console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
                                                     bulkb.execute();
                                                     bulkb = Bulk.collection.initializeOrderedBulkOp();
                                                 }
                                                 //jsonArr.push(obj);
                                             }
                                             var lim = bulkb.length;
-                                            console.log("inserting remaining values ", lim, " values");
+                                            // console.log("inserting remaining values ", lim, " values");
                                             bulkb.execute().catch(reason => {
-                                                console.log("empty ops in bulksmsdynamic exec");
+                                                // console.log("empty ops in bulksmsdynamic exec");
                                             });
-                                            console.log("inserted ", lim, " values");
-                                            console.timeEnd("insertbulk");
+                                            // console.log("inserted ", lim, " values");
+                                            // console.timeEnd("insertbulk");
                                             var b = now();
-                                            console.log("insertend");
+                                            // console.log("insertend");
 
                                             for (let index = 0; index < apiarr.length; index++) {
                                                 var obj = {
                                                     name: req.body.name,
                                                     masking: req.body.masking,
                                                     mobileno: apiarr[index].mobileno,
-                                                    msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                    msg:apiarr[index].msg,
+                                                    // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                    language: apiarr[index].language
                                                 }
-                                                //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                                TelenorQuickSmsApiHandlerForBulk.push(obj);
+
+
+
+
+
+
+                                                // if (apiarr[index].telco == 'telenor') {
+                                                //     var obj = {
+                                                //         name: req.body.name,
+                                                //         masking: req.body.masking,
+                                                //         mobileno: apiarr[index].mobileno,
+                                                //         msg:apiarr[index].msg,
+                                                //         // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                //         language: apiarr[index].language
+                                                //     }
+                                                //     // TelenorQuickSmsApiHandlerForBulk.push(obj);
+                                                // } else if (apiarr[index].telco == 'zong') {
+                                                //     var obj = {
+                                                //         name: req.body.name,
+                                                //         masking: req.body.masking,
+                                                //         mobileno: apiarr[index].mobileno,
+                                                //         msg:apiarr[index].msg,
+                                                //         // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                //         language: apiarr[index].language
+                                                //     }
+                                                //     // ZongQuickSmsApiHandlerForBulk.push(obj);
+                                                // }
+
+
+
+
                                             }
 
                                             docx.creditsms = docx.creditsms - apiarr.length;
@@ -2143,6 +3525,13 @@ router.post('/bulk/register', (req, res) => {
 
 router.post('/bulk/dynamic/register', (req, res) => {
 
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
+
     var bulk = {
         name: req.body.name,
         language: req.body.language,
@@ -2182,6 +3571,8 @@ router.post('/bulk/dynamic/register', (req, res) => {
                 })
                     .on('data', function (data) {
                         var sometxt = bulk.msg;
+                        var _message = "";
+
                         sometxt =
                             sometxt
                                 .replace("[var1]", data.var1)
@@ -2189,9 +3580,23 @@ router.post('/bulk/dynamic/register', (req, res) => {
                                 .replace("[var3]", data.var3)
                                 .replace("[var4]", data.var4)
                                 .replace("[var5]", data.var5);
+
+                                
+                        if(docx.encryption == 'enable'){
+                            if(docx.type == 'omo'){
+                                _message = CryptoJS.AES.encrypt(sometxt, docx.enckey.trim()).toString();
+                            }else{
+                                _message = CryptoJS.AES.encrypt(sometxt, req.body.createdby.trim()).toString();
+                            }
+                        }else{
+                            _message = sometxt;
+                        }        
+
+
+
                         let obj = {
                             mobileno: data.mobileno,
-                            msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(sometxt, req.body.createdby.trim()).toString() : sometxt
+                            msg: _message
                         };
                         objarr.push(obj);
 
@@ -2217,14 +3622,14 @@ router.post('/bulk/dynamic/register', (req, res) => {
                                             res.json({ success: false, error: 'invalid mask' })
                                         } else {
 
-                                            console.time("insertbulk")
+                                            // console.time("insertbulk")
                                             var a = now();
                                             var apiarr = [];
 
                                             var bulkb = Bulk.collection.initializeOrderedBulkOp();
                                             for (var i = 0; i < objarr.length; i++) {
                                                 //jsonArr.push({ id: i, name: name });
-                                                var _intended = '';
+                                                var _intended = ''; 
                                                 var obj = {};
 
 
@@ -2244,7 +3649,30 @@ router.post('/bulk/dynamic/register', (req, res) => {
                                                     _intended = 'pri'
                                                 }
 
-                                                if (mask.type === _intended) {
+                                                
+
+                                                if (mask.type === 'whitelisted') {
+                                                    obj = {
+                                                        name: bulk.name,
+                                                        language: bulk.language,
+                                                        type: bulk.type,
+                                                        campaign: bulk.campaign,
+                                                        path: bulk.path,
+                                                        masking: bulk.masking,
+                                                        msg: objarr[i].msg,
+                                                        createdby: bulk.createdby,
+                                                        created: bulk.created,
+                                                        mnp: "0",
+                                                        intended: _intended,
+                                                        telco: _intended,
+                                                        priority: "0",
+                                                        mobileno: objarr[i].mobileno,
+                                                        sentid: "0",
+                                                        sentlength: "0",
+                                                        encrypted: docx.encryption == 'enable' ? true : false
+                                                    };
+                                                    apiarr.push(obj);
+                                                } else if (mask.type === _intended) {
                                                     obj = {
                                                         name: bulk.name,
                                                         language: bulk.language,
@@ -2292,30 +3720,61 @@ router.post('/bulk/dynamic/register', (req, res) => {
 
                                                 bulkb.insert(obj);
                                                 if (i % 500 == 0) {
-                                                    console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                                    // console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
                                                     bulkb.execute();
                                                     bulkb = Bulk.collection.initializeOrderedBulkOp();
                                                 }
                                                 //jsonArr.push(obj);
                                             }
                                             var lim = bulkb.length;
-                                            console.log("inserting remaining values ", lim, " values");
+                                            // console.log("inserting remaining values ", lim, " values");
                                             bulkb.execute().catch(reason => {
-                                                console.log("empty ops in bulksmsdynamic exec");
+                                                // console.log("empty ops in bulksmsdynamic exec");
                                             });
-                                            console.log("inserted ", lim, " values");
-                                            console.timeEnd("insertbulk");
+                                            // console.log("inserted ", lim, " values");
+                                            // console.timeEnd("insertbulk");
                                             var b = now();
-                                            console.log("insertend");
+                                            // console.log("insertend");
 
                                             for (let index = 0; index < apiarr.length; index++) {
+
                                                 var obj = {
                                                     name: req.body.name,
                                                     masking: req.body.masking,
                                                     mobileno: apiarr[index].mobileno,
                                                     msg: apiarr[index].msg,
+                                                    language: apiarr[index].language
                                                 }
-                                                //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                                
+                                                TelenorQuickSmsApiHandlerForBulk.push(obj);
+
+
+
+                                                // if (apiarr[index].telco == 'telenor') {
+                                                //     var obj = {
+                                                //         name: req.body.name,
+                                                //         masking: req.body.masking,
+                                                //         mobileno: apiarr[index].mobileno,
+                                                //         msg: apiarr[index].msg,
+                                                //         language: apiarr[index].language
+                                                //     }
+                                                    
+                                                //     // TelenorQuickSmsApiHandlerForBulk.push(obj);
+                                                // } else if (apiarr[index].telco == 'zong') {
+                                                //     var obj = {
+                                                //         name: req.body.name,
+                                                //         masking: req.body.masking,
+                                                //         mobileno: apiarr[index].mobileno,
+                                                //         msg: apiarr[index].msg,
+                                                //         language: apiarr[index].language
+                                                //     }
+                                                    
+                                                //     // ZongQuickSmsApiHandlerForBulk.push(obj);
+                                                // }
+
+
+
+
                                             }
 
                                             docx.creditsms = docx.creditsms - apiarr.length;
@@ -2364,6 +3823,12 @@ router.post('/bulk/dynamic/register', (req, res) => {
 });
 
 router.post('/bulk/registertest', (req, res) => {
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
 
     var numberscsv = [];
     let bulk = {
@@ -2426,7 +3891,7 @@ router.post('/bulk/registertest', (req, res) => {
                                 if (!mask) {
                                     res.json({ success: false, error: 'Invalid Mask' + mask })
                                 } else {
-                                    console.time("insertbulk")
+                                    // console.time("insertbulk")
                                     var a = now();
 
                                     var apiarr = [];
@@ -2434,7 +3899,7 @@ router.post('/bulk/registertest', (req, res) => {
 
                                     var bulkb = Bulk.collection.initializeOrderedBulkOp();
                                     for (var i = 0; i < numberscsv.length; i++) {
-                                        var _intended = '';
+                                        var _intended = ''; var _message = "";
                                         //jsonArr.push({ id: i, name: name });
 
                                         if (numberscsv[i].substring(0, 4) === '9230') {
@@ -2453,7 +3918,17 @@ router.post('/bulk/registertest', (req, res) => {
                                             _intended = 'pri'
                                         }
 
-                                        if (mask.type === _intended) {
+                                        if(docx.encryption == 'enable'){
+                                            if(docx.type == 'omo'){
+                                                _message = CryptoJS.AES.encrypt(req.body.msg.trim(), docx.enckey.trim()).toString();
+                                            }else{
+                                                _message = CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString();
+                                            }
+                                        }else{
+                                            _message = req.body.msg.trim();
+                                        }   
+
+                                        if (mask.type === 'whitelisted') {
                                             obj = {
                                                 name: bulk.name,
                                                 language: bulk.language,
@@ -2461,7 +3936,28 @@ router.post('/bulk/registertest', (req, res) => {
                                                 campaign: bulk.campaign,
                                                 path: bulk.path,
                                                 masking: bulk.masking,
-                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                msg: _message,
+                                                createdby: bulk.createdby,
+                                                created: bulk.created,
+                                                mnp: "0",
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                mobileno: numberscsv[i],
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false
+                                            };
+                                            apiarr.push(obj);
+                                        } else if (mask.type === _intended) {
+                                            obj = {
+                                                name: bulk.name,
+                                                language: bulk.language,
+                                                type: bulk.type,
+                                                campaign: bulk.campaign,
+                                                path: bulk.path,
+                                                masking: bulk.masking,
+                                                msg: _message,
                                                 createdby: bulk.createdby,
                                                 created: bulk.created,
                                                 mnp: "0",
@@ -2482,7 +3978,7 @@ router.post('/bulk/registertest', (req, res) => {
                                                 campaign: bulk.campaign,
                                                 path: bulk.path,
                                                 masking: bulk.masking,
-                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                msg: _message,
                                                 createdby: bulk.createdby,
                                                 created: bulk.created,
                                                 mnp: "0",
@@ -2499,30 +3995,59 @@ router.post('/bulk/registertest', (req, res) => {
 
                                         bulkb.insert(obj);
                                         if (i % 500 == 0) {
-                                            console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                            // console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
                                             bulkb.execute();
                                             bulkb = Bulk.collection.initializeOrderedBulkOp();
                                         }
                                         //jsonArr.push(obj);
                                     }
                                     var lim = bulkb.length;
-                                    console.log("inserting remaining values ", lim, " values");
+                                    // console.log("inserting remaining values ", lim, " values");
                                     bulkb.execute().catch(reason => {
-                                        console.log("empty ops in bulksmsdynamic exec");
+                                        // console.log("empty ops in bulksmsdynamic exec");
                                     });
-                                    console.log("inserted ", lim, " values");
-                                    console.timeEnd("insertbulk");
+                                    // console.log("inserted ", lim, " values");
+                                    // console.timeEnd("insertbulk");
                                     var b = now();
-                                    console.log("insertend");
+                                    // console.log("insertend");
 
                                     for (let index = 0; index < apiarr.length; index++) {
+
                                         var obj = {
                                             name: req.body.name,
                                             masking: req.body.masking,
                                             mobileno: apiarr[index].mobileno,
-                                            msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                            msg: apiarr[index].msg,
+                                            language: apiarr[index].language
                                         }
-                                        //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                        TelenorQuickSmsApiHandlerForBulk.push(obj);
+
+
+
+                                        // if (apiarr[index].telco == 'telenor') {
+                                        //     var obj = {
+                                        //         name: req.body.name,
+                                        //         masking: req.body.masking,
+                                        //         mobileno: apiarr[index].mobileno,
+                                        //         msg: apiarr[index].msg,
+                                        //         language: apiarr[index].language
+                                        //     }
+                                        //     // TelenorQuickSmsApiHandlerForBulk.push(obj);
+
+                                        // } else if (apiarr[index].telco == 'zong') {
+                                        //     var obj = {
+                                        //         name: req.body.name,
+                                        //         masking: req.body.masking,
+                                        //         mobileno: apiarr[index].mobileno,
+                                        //         msg: apiarr[index].msg,
+                                        //         language: apiarr[index].language
+                                        //     }
+                                        //     // ZongQuickSmsApiHandlerForBulk.push(obj);
+                                            
+                                        // }
+
+
+
                                     }
 
                                     docx.creditsms = docx.creditsms - apiarr.length;
@@ -2568,6 +4093,12 @@ router.post('/bulk/registertest', (req, res) => {
 });
 
 router.post('/bulk/dynamic/registertest', (req, res) => {
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
 
     var numberscsv = [];
     let bulk = {
@@ -2630,7 +4161,7 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
                                 if (!mask) {
                                     res.json({ success: false, error: 'Invalid Mask' + mask })
                                 } else {
-                                    console.time("insertbulk")
+                                    // console.time("insertbulk")
                                     var a = now();
 
                                     var apiarr = [];
@@ -2638,7 +4169,7 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
 
                                     var bulkb = Bulk.collection.initializeOrderedBulkOp();
                                     for (var i = 0; i < numberscsv.length; i++) {
-                                        var _intended = '';
+                                        var _intended = ''; var _message = "";
                                         //jsonArr.push({ id: i, name: name });
 
                                         if (numberscsv[i].substring(0, 4) === '9230') {
@@ -2657,7 +4188,17 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
                                             _intended = 'pri'
                                         }
 
-                                        if (mask.type === _intended) {
+                                        if(docx.encryption == 'enable'){
+                                            if(docx.type == 'omo'){
+                                                _message = CryptoJS.AES.encrypt(req.body.msg.trim(), docx.enckey.trim()).toString();
+                                            }else{
+                                                _message = CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString();
+                                            }
+                                        }else{
+                                            _message = req.body.msg.trim();
+                                        }   
+
+                                        if (mask.type === 'whitelisted') {
                                             obj = {
                                                 name: bulk.name,
                                                 language: bulk.language,
@@ -2665,7 +4206,28 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
                                                 campaign: bulk.campaign,
                                                 path: bulk.path,
                                                 masking: bulk.masking,
-                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                msg: _message,
+                                                createdby: bulk.createdby,
+                                                created: bulk.created,
+                                                mnp: "0",
+                                                intended: _intended,
+                                                telco: _intended,
+                                                priority: "0",
+                                                mobileno: numberscsv[i],
+                                                sentid: "0",
+                                                sentlength: "0",
+                                                encrypted: docx.encryption == 'enable' ? true : false
+                                            };
+                                            apiarr.push(obj);
+                                        } else if (mask.type === _intended) {
+                                            obj = {
+                                                name: bulk.name,
+                                                language: bulk.language,
+                                                type: bulk.type,
+                                                campaign: bulk.campaign,
+                                                path: bulk.path,
+                                                masking: bulk.masking,
+                                                msg: _message,
                                                 createdby: bulk.createdby,
                                                 created: bulk.created,
                                                 mnp: "0",
@@ -2686,7 +4248,7 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
                                                 campaign: bulk.campaign,
                                                 path: bulk.path,
                                                 masking: bulk.masking,
-                                                msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                                msg: _message,
                                                 createdby: bulk.createdby,
                                                 created: bulk.created,
                                                 mnp: "0",
@@ -2703,30 +4265,56 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
 
                                         bulkb.insert(obj);
                                         if (i % 500 == 0) {
-                                            console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                            // console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
                                             bulkb.execute();
                                             bulkb = Bulk.collection.initializeOrderedBulkOp();
                                         }
                                         //jsonArr.push(obj);
                                     }
                                     var lim = bulkb.length;
-                                    console.log("inserting remaining values ", lim, " values");
+                                    // console.log("inserting remaining values ", lim, " values");
                                     bulkb.execute().catch(reason => {
-                                        console.log("empty ops in bulksmsdynamic exec");
+                                        // console.log("empty ops in bulksmsdynamic exec");
                                     });
-                                    console.log("inserted ", lim, " values");
-                                    console.timeEnd("insertbulk");
+                                    // console.log("inserted ", lim, " values");
+                                    // console.timeEnd("insertbulk");
                                     var b = now();
-                                    console.log("insertend");
+                                    // console.log("insertend");
 
                                     for (let index = 0; index < apiarr.length; index++) {
                                         var obj = {
                                             name: req.body.name,
                                             masking: req.body.masking,
                                             mobileno: apiarr[index].mobileno,
-                                            msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString() : bulk.msg,
+                                            msg: apiarr[index].msg,
+                                            language: apiarr[index].language
                                         }
-                                        //ZongQuickSmsApiHandlerForBulk.push(obj);
+                                        TelenorQuickSmsApiHandlerForBulk.push(obj);
+
+
+
+                                        // if (apiarr[index].telco == 'telenor') {
+                                        //     var obj = {
+                                        //         name: req.body.name,
+                                        //         masking: req.body.masking,
+                                        //         mobileno: apiarr[index].mobileno,
+                                        //         msg: apiarr[index].msg,
+                                        //         language: apiarr[index].language
+                                        //     }
+                                        //     // TelenorQuickSmsApiHandlerForBulk.push(obj);
+                                        // } else if (apiarr[index].telco == 'zong') {
+                                        //     var obj = {
+                                        //         name: req.body.name,
+                                        //         masking: req.body.masking,
+                                        //         mobileno: apiarr[index].mobileno,
+                                        //         msg: apiarr[index].msg,
+                                        //         language: apiarr[index].language
+                                        //     }
+                                        //     // ZongQuickSmsApiHandlerForBulk.push(obj);
+                                        // }
+
+
+
                                     }
 
                                     docx.creditsms = docx.creditsms - apiarr.length;
@@ -2861,6 +4449,12 @@ router.delete('/bulk/:name', (req, resp) => {
 
 
 router.post('/drip/register', (req, res) => {
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
 
     User.findOne(
         {
@@ -2942,6 +4536,26 @@ router.get('/drip/counttelco/:query', (req, resp) => {
 });
 
 router.get('/drip/:email', (req, resp) => {
+
+    // var obj = JSON.parse(req.params.query);
+
+    //     Dripbulk.find({
+    //         created: {
+    //             $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+    //             $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+    //         }
+    //     },
+    //         (err, docs) => {
+    //             if (err) {
+    //                 console.log(err);
+    //             }
+    //             //console.log(quick);
+
+    //             resp.json({
+    //                 success: true,
+    //                 data: docs
+    //             });
+    //         });
 
     let query = {
         createdby: req.params.email
@@ -3894,6 +5508,13 @@ router.get('/total/drip/count/:email', (req, resp) => {
 
 router.post('/api/static', (req, res) => {
 
+    if (!isServerOpen) {
+        return res.json({
+            success: false,
+            error: "server under maintenance, please contact support@mangotree.com"
+        })
+    }
+
     if (!req.headers.apikey || !req.headers.email || !req.headers.password) {
         res.json({
             success: false,
@@ -3906,6 +5527,8 @@ router.post('/api/static', (req, res) => {
         User.findOne({
             _id: _id,
             email: email,
+            isactivated:true,
+            issuspended:false,
             expirybundle: {
                 $gte: moment.utc().add(5, 'hours').toDate()
             }
@@ -3944,7 +5567,19 @@ router.post('/api/static', (req, res) => {
 
                                 var msg = req.body.msg;
 
-                                msg = doc.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), email.trim()).toString() : req.body.msg;
+                                var _message = "";
+
+                                if(doc.encryption == 'enable'){
+                                    if(doc.type == 'omo'){
+                                        _message = CryptoJS.AES.encrypt(req.body.msg.trim(), doc.enckey.trim()).toString();
+                                    }else{
+                                        _message = CryptoJS.AES.encrypt(req.body.msg.trim(), req.body.createdby.trim()).toString();
+                                    }
+                                }else{
+                                    _message = req.body.msg.trim();
+                                }   
+
+                                msg = _message;
 
                                 var msgchars = req.body.msgchars;
                                 var noofmsgs = req.body.noofmsgs;
@@ -3973,8 +5608,6 @@ router.post('/api/static', (req, res) => {
 
 
                                                 console.time("insertbulk")
-
-
                                                 var everything = [];
 
                                                 var sendtoapiarr = [];
@@ -4005,8 +5638,29 @@ router.post('/api/static', (req, res) => {
                                                         _intended = 'pri'
                                                     }
 
-
-                                                    if (mask.type === _intended) {
+                                                    if (mask.type === 'whitelisted') {
+                                                        // the mask is correct
+                                                        obj = {
+                                                            name: name,
+                                                            language: language,
+                                                            masking: masking,
+                                                            mobileno: mobilenos[i],
+                                                            msg: msg,
+                                                            msgchars: msgchars,
+                                                            noofmsgs: noofmsgs,
+                                                            preference: preference,
+                                                            createdby: createdby,
+                                                            created: created,
+                                                            mnp: '0',
+                                                            intended: _intended,
+                                                            telco: _intended,
+                                                            priority: priority,
+                                                            sentid: "0",
+                                                            sentlength: "0",
+                                                            encrypted: doc.encryption == 'enable' ? true : false
+                                                        };
+                                                        sendtoapiarr.push(obj);
+                                                    } else if (mask.type === _intended) {
                                                         // the mask is correct
                                                         obj = {
                                                             name: name,
@@ -4058,33 +5712,64 @@ router.post('/api/static', (req, res) => {
                                                     everything.push(obj);
 
                                                     if (i % 500 == 0) {
-                                                        console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
+                                                        // console.log(i + 500 / 500, "#bulk inserted with ", i + 1, " values");
                                                         bulk.execute();
                                                         bulk = Quick.collection.initializeOrderedBulkOp();
                                                     }
                                                 }
                                                 var lim = bulk.length;
-                                                console.log("inserting remaining values ", lim, " values");
+                                                // console.log("inserting remaining values ", lim, " values");
 
                                                 bulk.execute().catch(any => {
-                                                    console.log('empty ops in quick remaining bucket');
+                                                    // console.log('empty ops in quick remaining bucket');
                                                 });
 
-                                                console.log("inserted ", lim, " values");
-                                                console.timeEnd("insertbulk");
-                                                console.log("insertend");
+                                                // console.log("inserted ", lim, " values");
+                                                // console.timeEnd("insertbulk");
+                                                // console.log("insertend");
 
 
                                                 for (let index = 0; index < sendtoapiarr.length; index++) {
+
                                                     var obj = {
                                                         name: req.body.name,
                                                         masking: req.body.masking,
                                                         number: sendtoapiarr[index].mobileno,
                                                         msg: req.body.msg,
-                                                        account: '923170000424',
-                                                        password: '123'
+                                                        language: sendtoapiarr[index].language
                                                     }
-                                                    // ZongQuickSmsApiHandler.push(obj);
+                                                    TelenorQuickSmsApiHandler.push(obj);
+
+
+
+
+                                                    // if (sendtoapiarr[index].telco == 'telenor') {
+                                                    //     var obj = {
+                                                    //         name: req.body.name,
+                                                    //         masking: req.body.masking,
+                                                    //         number: sendtoapiarr[index].mobileno,
+                                                    //         msg: req.body.msg,
+                                                    //         language: sendtoapiarr[index].language,
+                                                    //         account: '923170000424',
+                                                    //         password: '123'
+                                                    //     }
+                                                    //     // TelenorQuickSmsApiHandler.push(obj);
+                                                    // } else if (sendtoapiarr[index].telco == 'zong') {
+                                                    //     var obj = {
+                                                    //         name: req.body.name,
+                                                    //         masking: req.body.masking,
+                                                    //         number: sendtoapiarr[index].mobileno,
+                                                    //         msg: req.body.msg,
+                                                    //         language: sendtoapiarr[index].language,
+                                                    //         account: '923170000424',
+                                                    //         password: '123'
+                                                    //     }
+                                                    //     // ZongQuickSmsApiHandler.push(obj);
+                                                    // }
+
+
+
+
                                                 }
 
 
@@ -4289,17 +5974,16 @@ router.get('/test', (req, res) => {
 });
 
 
-router.post('/account/summary', (req, res) => {
-    var url = 'http://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
-
+router.get('/account/summary', (req, res) => {
+    
+    var url = 'https://cbs.zong.com.pk/reachcwsv2/corporatesms.svc?wsdl';
     var bodyJSON = JSON.parse(JSON.stringify(req.body));
 
+    // var loginId = bodyJSON.loginId;
+    // var loginPassword = bodyJSON.loginPassword;
 
-    var loginId = bodyJSON.loginId;
-    var loginPassword = bodyJSON.loginPassword;
-
-    // var loginId = '923170000424';
-    // var loginPassword = '123';
+    var loginId = '923170000424';
+    var loginPassword = '123';
 
     // Account Summary
     var accountsummaryargs = {
@@ -4313,9 +5997,12 @@ router.post('/account/summary', (req, res) => {
             if (err) {
                 res.json({
                     success: false,
-                    errormessage: err
+                    errormessage: err,
+                    error:err
                 });
             } else {
+
+
                 var data = JSON.parse(JSON.stringify(result.GetAccountSummaryResult.CounterResponse));
 
                 var datas = JSON.stringify(data);
@@ -4328,7 +6015,8 @@ router.post('/account/summary', (req, res) => {
                 } else {
                     res.json({
                         success: false,
-                        data: data.ErrorMessage
+                        data: data.ErrorMessage,
+                        error:data.ErrorMessage
                     });
                 }
                 //console.log(data.indexOf("Invalid"));

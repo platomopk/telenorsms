@@ -5,8 +5,7 @@ const config = require('../config/database');
 //user schema
 const MaskSchema = mongoose.Schema({
     mask:{
-        type: String,
-        unique:true
+        type: String
     },
     description:{
         type:String

@@ -14,13 +14,13 @@ export class BuybundlesComponent implements OnInit {
   email:String;
   bundlearr:any[]=[];
 
-  _expiry:String;_encryption:String;_featureset:String;
-  _smscredit:String="0";_whatsappcredit:String="0";
+  _expiry:String;_encryption:string="enable";_featureset:string="messaging";
+  _smscredit:string="0";_whatsappcredit:string="0";
   _tpsms:String="0";_tpwa:String="0";
   cost:number=0;
   items:String="";
 
-  itemscredit:String="";
+  itemscredit:string="";
   costcredit:number=0;
 
   constructor(private pricingService:PricingService, private auth:AuthService, private router:Router) { }

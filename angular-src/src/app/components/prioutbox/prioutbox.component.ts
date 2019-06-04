@@ -30,6 +30,8 @@ export class PrioutboxComponent implements OnInit {
 
   sent: boolean = false;
 
+  userObj:any = {}
+
   reloadChart() {
     if (this.chart && this.chart.chart && this.chart.chart.config) {
        //this.chart.chart.destroy();
@@ -157,7 +159,7 @@ export class PrioutboxComponent implements OnInit {
 
   ngOnInit() {
     
-
+    this.userObj = JSON.parse(localStorage.getItem("user"))
     // this.lineChartData = [
     //   {data:[0], label:'Quick'},
     //   {data:[0], label:'Bulk'},
@@ -193,9 +195,16 @@ export class PrioutboxComponent implements OnInit {
         if (data.success) {          
           this.quickarr = [];
           data.data.forEach(element => {
-            if(this.localemail != ''){
+
+            if(this.userObj.type == 'omo'){
+              element.msg = element.encrypted == true? AES.decrypt(element.msg, this.userObj.enckey).toString(enc.Utf8):element.msg
+            }else{
               element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
             }
+
+            // if(this.localemail != ''){
+            //   element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
+            // }
           });
           this.quickarr = data.data;
           this.spinner =false;

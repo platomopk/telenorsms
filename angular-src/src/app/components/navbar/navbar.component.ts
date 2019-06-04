@@ -24,6 +24,9 @@ export class NavbarComponent implements OnInit {
   lea:boolean;
   master:boolean;
   digital:boolean;
+  regular:boolean ;
+  omo:boolean ;
+  sales:boolean;
 
   messagingclicked:boolean=false;
   notificationclicked:boolean=false;
@@ -199,6 +202,21 @@ export class NavbarComponent implements OnInit {
       this.lea = false;
     }
 
+    if(userObj.type === "regular"){
+      this.regular = true;
+    }
+
+    if(userObj.type === "omo"){
+      this.regular = true;
+    }
+
+    if(userObj.type === "sales"){
+      this.sales = true;
+    }else{
+      this.sales = false;
+    }
+
+
     if(rights.includes('messaging')){
       this.messaging = true;
     }
@@ -229,6 +247,9 @@ export class NavbarComponent implements OnInit {
     if(rights.includes('settings')){
       this.settings = true;
     }
+
+    console.log(userObj.type);
+    
   }
 
 

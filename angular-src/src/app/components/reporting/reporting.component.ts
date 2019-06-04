@@ -49,6 +49,8 @@ export class ReportingComponent implements OnInit {
 
   d: any = new Date();
 
+  userObj:any={};
+
   constructor(
     private auth: AuthService,
     private msgService: MessagingService,
@@ -77,6 +79,8 @@ export class ReportingComponent implements OnInit {
   localemail: String = "";
 
   ngOnInit() {
+
+    this.userObj = JSON.parse(localStorage.getItem("user"))
 
     if(localStorage.getItem("user")==null)
       {
@@ -270,10 +274,16 @@ export class ReportingComponent implements OnInit {
                 }
               }
 
-              element.msg = element.encrypted?AES.decrypt(
-                element.msg,
-                this.localemail.toString()
-              ).toString(enc.Utf8):element.msg;
+              if(this.userObj.type == 'omo'){
+                element.msg = element.encrypted == true? AES.decrypt(element.msg, this.userObj.enckey).toString(enc.Utf8):element.msg
+              }else{
+                element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
+              }
+
+              // element.msg = element.encrypted?AES.decrypt(
+              //   element.msg,
+              //   this.localemail.toString()
+              // ).toString(enc.Utf8):element.msg;
 
 
 
@@ -418,10 +428,18 @@ export class ReportingComponent implements OnInit {
                   feed.tsuccessful++;
                 }
               }
-              element.msg = element.encrypted?AES.decrypt(
-                element.msg,
-                this.localemail.toString()
-              ).toString(enc.Utf8):element.msg;
+
+              if(this.userObj.type == 'omo'){
+                element.msg = element.encrypted == true? AES.decrypt(element.msg, this.userObj.enckey).toString(enc.Utf8):element.msg
+              }else{
+                element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
+              }
+
+
+              // element.msg = element.encrypted?AES.decrypt(
+              //   element.msg,
+              //   this.localemail.toString()
+              // ).toString(enc.Utf8):element.msg;
             }
           });
 

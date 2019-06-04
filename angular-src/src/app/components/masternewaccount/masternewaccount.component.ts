@@ -15,6 +15,7 @@ export class MasternewaccountComponent implements OnInit {
   email:String;
   password:String;
   type:String="";
+  enckey:String="";
   rights:String[];
 
   constructor(
@@ -22,6 +23,18 @@ export class MasternewaccountComponent implements OnInit {
     private authService:AuthService,
     private router:Router
   ) {  }
+
+  generateKey(){
+    var pass = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    var passLength = 32;
+    
+    for (var i = 0; i < passLength; i++)
+      pass += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    this.enckey = pass;
+  }
 
   ngOnInit() {
   }
@@ -32,9 +45,17 @@ export class MasternewaccountComponent implements OnInit {
     {
       return false;
     }
+
+    if(this.type == "omo"){
+      if(this.enckey == ""){
+        alert("Encryption key is required for this account type.")
+        return false;
+      }
+    }
+
     let user = {};
 
-    if(this.type == 'regular'){
+    if(this.type == 'regular' || this.type == "omo"){
       user = {
         fullname: this.fullname,
         phone: this.phone,
@@ -45,8 +66,10 @@ export class MasternewaccountComponent implements OnInit {
         isdelegate:false,
         parent:null,
         parents:[],
+        enckey:this.enckey,
         type:this.type,
-        isactivated:true
+        isactivated:true,
+        sentby:"admin"
       }
     }else if(this.type == 'telco'){
       user = {
@@ -60,7 +83,8 @@ export class MasternewaccountComponent implements OnInit {
         parent:null,
         parents:[],
         type:this.type,
-        isactivated:true
+        isactivated:true,
+        sentby:"admin"
       }
     }else if(this.type == 'lea'){
       user = {
@@ -74,7 +98,23 @@ export class MasternewaccountComponent implements OnInit {
         parent:null,
         parents:[],
         type:this.type,
-        isactivated:true
+        isactivated:true,
+        sentby:"admin"
+      }
+    }else if(this.type == 'sales'){
+      user = {
+        fullname: this.fullname,
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
+        rights:['settings'],
+        isparent:true,
+        isdelegate:false,
+        parent:null,
+        parents:[],
+        type:this.type,
+        isactivated:true,
+        sentby:"admin"
       }
     }
     

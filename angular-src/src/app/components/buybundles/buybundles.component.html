@@ -30,8 +30,8 @@
           required>
           <option value="" disabled selected>Select</option>
           <option value="messaging">SMS</option>
-          <option value="digital">WhatsApp</option>
-          <option value="messaging,digital">SMS & WhatsApp</option>
+          <!-- <option value="digital">WhatsApp</option> -->
+          <!-- <option value="messaging,digital">SMS & WhatsApp</option> -->
         </select>
       </div>
 
@@ -45,7 +45,7 @@
           <option value="100">100/minute</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="_featureset == 'digital'">
         <label>Throughput WhatsApp</label>
         <select (change)="selectchange($event)" [(ngModel)]="_tpwa" name="_tpwa" class="form-control" required>
           <option value="" disabled selected>Select</option>
@@ -84,7 +84,7 @@
               <th>Encryption</th>
               <th>Features</th>
               <th>SMS TP</th>
-              <th>WA TP</th>
+              <!-- <th>WA TP</th> -->
               <th>Cost</th>
               <th>Payment</th>
               <th>Created</th>
@@ -98,7 +98,7 @@
               <td class="text-muted">{{item.encryption}}</td>
               <td class="text-muted">{{item.featureset}}</td>
               <td class="text-muted">{{item.smstp}}</td>
-              <td class="text-muted">{{item.watp}}</td>
+              <!-- <td class="text-muted">{{item.watp}}</td> -->
               <td class="text-muted">{{item.cost}}</td>
               <td class="text-muted">{{item.payment}}</td>
               <td class="text-muted">{{item.created}}</td>
@@ -130,7 +130,7 @@
           <option value="100000">100000</option>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="'a'=='b'">
         <label>WhatsApp Credit</label>
         <select (change)="selectchangecredit($event)" [(ngModel)]="_whatsappcredit" name="_whatsappcredit" class="form-control"
           required>
@@ -166,7 +166,7 @@
             <tr class="table-info">
               <th>ID</th>
               <th>SMS</th>
-              <th>WhatsApp</th>
+              <!-- <th>WhatsApp</th> -->
               <th>Cost</th>
               <th>Payment</th>
               <th>Created</th>
@@ -176,7 +176,7 @@
             <tr *ngFor="let item of creditarr">
               <td class="text-muted">{{item._id}}</td>
               <td class="text-muted">{{item.smscredit}}</td>
-              <td class="text-muted">{{item.whatsappcredit}}</td>
+              <!-- <td class="text-muted">{{item.whatsappcredit}}</td> -->
               <td class="text-muted">{{item.cost}}</td>
               <td class="text-muted">{{item.payment}}</td>
               <td class="text-muted">{{item.created}}</td>

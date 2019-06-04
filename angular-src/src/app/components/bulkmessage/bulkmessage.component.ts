@@ -22,7 +22,7 @@ export class BulkmessageComponent implements OnInit {
   sent:boolean=false;
 
 
-  name:String="";
+  name:String=new Date().getTime() +  "-";
   language:String="";
   masking:String="";
   msg:String="";
@@ -47,6 +47,11 @@ export class BulkmessageComponent implements OnInit {
 
     //this.gettemplates();
   }
+
+  namechange(name){
+    this.name = this.name.replace(/\s/g, "-");
+  }
+
 
   masksarr:any=[];
   getallmasks(){

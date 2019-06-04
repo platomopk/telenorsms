@@ -20,20 +20,19 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone</label>
-          <input type="number" class="form-control" [(ngModel)]="phone" name="phone" id="phone" aria-describedby="phoneHelp"
-            placeholder="Enter Phone #" required>
+          <input type="number" class="form-control" [(ngModel)]="phone" name="phone" id="phone" aria-describedby="phoneHelp" placeholder="Enter Phone #"
+            required>
           <small id="phonehelp" class="form-text text-muted">We'll never share your personal phone with anyone else.</small>
         </div>
         <div class="form-group">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" [(ngModel)]="email" name="email" id="email" aria-describedby="emailHelp"
-            placeholder="Enter email" required>
+          <input type="email" class="form-control" [(ngModel)]="email" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email"
+            required>
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" placeholder="Password"
-            required>
+          <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" placeholder="Password" required>
           <small id="passwordhelp" class="form-text text-muted">By signing in, you declare to abide by the terms and
             conditions of this platform.</small>
         </div>
@@ -93,8 +92,7 @@
         <div><label><b>Privilages (Allow Access)</b></label></div>
 
         <div class="form-check form-check-inline" *ngFor="let i of derivedrights">
-          <input class="form-check-input" type="checkbox" [id]="i" [checked]="rightsarr.indexOf(i)>=0" [value]="i"
-            (change)="checkChange($event, i);">
+          <input class="form-check-input" type="checkbox" [id]="i" [checked]="rightsarr.indexOf(i)>=0" [value]="i" (change)="checkChange($event, i);">
           <label class="form-check-label" [for]="i">{{i}}</label>
         </div>
 
@@ -129,49 +127,11 @@
   <hr>
   <br>
 
-  <div class="row">
-    <div class="col-md-6">
-      <u>
-        <p class="lead">Share Credit</p>
-      </u>
-      <br>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="fullname">Select Child Account</label>
-        <select [(ngModel)]="creditchild" class="form-control">
-          <option value="" selected disabled>Select Account</option>
-          <option [value]="child.value" [attr.data-payload]="child.rights" *ngFor="let child of accessrightchilds">{{child.name}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="smscredit">SMS Credit <small>(This is the maximum you can share)</small> </label>
-        <input type="number" class="form-control" [(ngModel)]="smscredit" name="smscredit" id="smscredit"
-          aria-describedby="emailHelp" placeholder="Enter Credit SMS" required>
-      </div>
-      <div class="form-group">
-        <label for="whatsappcredit">WhatsApp Credit <small>(This is the maximum you can share)</small> </label>
-        <input type="number" class="form-control" [(ngModel)]="whatsappcredit" name="whatsappcredit" id="whatsappcredit"
-          aria-describedby="emailHelp" placeholder="Enter Credit WhatsApp" required>
-      </div>
-      <div class="form-group">
-        <input type="button" value="Share Credit" class="btn btn-primary" (click)="registercredit()">
-      </div>
-    </div>
-  </div>
-
-  <br>
-  <hr>
-  <br>
-
-  <!-- credit history -->
-  <div>
+  <section *ngIf="maintype!='sales'">
     <div class="row">
       <div class="col-md-6">
         <u>
-          <p class="lead">Child Credit Share History</p>
+          <p class="lead">Share Credit</p>
         </u>
         <br>
       </div>
@@ -180,58 +140,108 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="fullname">Select Child Account</label>
-          <select [(ngModel)]="historychild" class="form-control">
-            <option value="" selected disabled>Select Account</option>
-            <option [value]="child.value" [attr.data-payload]="child.rights" *ngFor="let child of accessrightchilds">{{child.name}}</option>
-          </select>
+          <select [(ngModel)]="creditchild" class="form-control">
+                <option value="" selected disabled>Select Account</option>
+                <option [value]="child.value" [attr.data-payload]="child.rights" *ngFor="let child of accessrightchilds">{{child.name}}</option>
+              </select>
         </div>
         <div class="form-group">
-          <input type="button" value="View History" class="btn btn-primary" (click)="historycredit()">
+          <label for="smscredit">SMS Credit <small>(This is the maximum you can share)</small> </label>
+          <input type="number" class="form-control" [(ngModel)]="smscredit" name="smscredit" id="smscredit" aria-describedby="emailHelp"
+            placeholder="Enter Credit SMS" required>
+        </div>
+        <div class="form-group">
+          <label for="whatsappcredit">WhatsApp Credit <small>(This is the maximum you can share)</small> </label>
+          <input type="number" class="form-control" [(ngModel)]="whatsappcredit" name="whatsappcredit" id="whatsappcredit" aria-describedby="emailHelp"
+            placeholder="Enter Credit WhatsApp" required>
+        </div>
+        <div class="form-group">
+          <input type="button" value="Share Credit" class="btn btn-primary" (click)="registercredit()">
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="historyarr.length>0">
-      <div class="col-md-10">
 
-        <div class="form-group">
-          <table class="table table-sm table-condensed table-bordered table-hover">
+    <br>
+    <hr>
+    <br>
+  </section>
 
-            <thead>
-              <tr class="table-info">
-                <th>ID</th>
-                <th>Date</th>
-                <th>SMS</th>
-                <th>WhatsApp</th>
-                <th>Cost(Rs)</th>
-                <th>Payment</th>
-                <th>SharedBy</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of historyarr">
-                <td class="text-muted">{{item._id}}</td>
-                <td class="text-muted">{{item.created}}</td>
-                <td class="text-muted">{{item.smscredit}}</td>
-                <td class="text-muted">{{item.whatsappcredit}}</td>
-                <td class="text-muted">{{item.cost}}</td>
-                <td class="text-muted">{{item.payment}}</td>
-                <td class="text-muted">{{item.from}}</td>
-              </tr>
-            </tbody>
-          </table>
+
+
+
+  <section *ngIf="maintype!='sales'">
+    <!-- credit history -->
+    <div>
+      <div class="row">
+        <div class="col-md-6">
+          <u>
+            <p class="lead">Child Credit Share History</p>
+          </u>
+          <br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="fullname">Select Child Account</label>
+            <select [(ngModel)]="historychild" class="form-control">
+              <option value="" selected disabled>Select Account</option>
+              <option [value]="child.value" [attr.data-payload]="child.rights" *ngFor="let child of accessrightchilds">{{child.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="button" value="View History" class="btn btn-primary" (click)="historycredit()">
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="historyarr.length>0">
+        <div class="col-md-10">
+
+          <div class="form-group">
+            <table class="table table-sm table-condensed table-bordered table-hover">
+
+              <thead>
+                <tr class="table-info">
+                  <th>ID</th>
+                  <th>Date</th>
+                  <th>SMS</th>
+                  <th>WhatsApp</th>
+                  <th>Cost(Rs)</th>
+                  <th>Payment</th>
+                  <th>SharedBy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of historyarr">
+                  <td class="text-muted">{{item._id}}</td>
+                  <td class="text-muted">{{item.created}}</td>
+                  <td class="text-muted">{{item.smscredit}}</td>
+                  <td class="text-muted">{{item.whatsappcredit}}</td>
+                  <td class="text-muted">{{item.cost}}</td>
+                  <td class="text-muted">{{item.payment}}</td>
+                  <td class="text-muted">{{item.from}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <br>
-  <hr>
-  <br>
+    <br>
+    <hr>
+    <br>
+
+  </section>
+
+
 
 
   <div class="row">
     <div class="col-md-10">
-      <p class="lead"><u> Registered Child Accounts </u></p>
+      <p class="lead">
+        <u> Registered Child Accounts </u>
+      </p>
       <br>
       <input type="text" [(ngModel)]="searchString" name="searchString" id="" class="form-control input-sm" placeholder="Search Childs ...">
       <table class="table table-sm table-condensed table-bordered table-hover">
@@ -256,7 +266,7 @@
             <td class="text-muted">{{item.expirybundle}}</td>
             <td class="text-muted">{{item.isdelegate}}</td>
             <td class="text-muted">{{item.issuspended}}</td>
-            
+
           </tr>
         </tbody>
       </table>

@@ -7,6 +7,12 @@ const moment = MomentRange.extendMoment(Moment);
 
 //user schema
 const UserSchema = mongoose.Schema({
+    enckey:{
+        type:String
+    },
+    salesemail:{
+        type:String
+    },
     fullname:{
         type: String
     },

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Mask = require('../models/mask');
 const Useraccess = require('../models/useraccess');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -9,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
 const moment = MomentRange.extendMoment(Moment);
+const nodemailer = require("nodemailer");
 
 var CryptoJS = require("crypto-js");
 
@@ -51,6 +53,26 @@ router.get('/',(req,res)=>{
             data:data
         });
     });
+});
+
+router.get('/salesmen',(req,res)=>{
+    User.find(
+        {
+            type:"sales"
+        },
+        {
+            fullname:1,
+            email:1,
+            type:1
+        },
+        (err,docx)=>{
+            if(err){
+                res.json({success:false,error:err})
+            }else{
+                res.json({success:true,data:docx})
+            }
+        }
+    )
 });
 
 
@@ -154,39 +176,222 @@ router.get('/rights/:email',(req,res)=>{
     });
 });
 
-//register
-router.post('/register', (req, res, next)=>{
-
-    //res.send("Register");
-    let newUser = new User({
-        fullname: req.body.fullname,
-        email:req.body.email,
-        phone:req.body.phone,
-        password:req.body.password,
-        rights:req.body.rights,
-        isparent:req.body.isparent,
-        isdelegate:req.body.isdelegate,
-        parent:req.body.parent,
-        parents:req.body.parents,
-        type:req.body.type,
-        creditsms:req.body.creditsms,
-        creditwhatsapp:req.body.creditwhatsapp,
-        issuspended:req.body.issuspended,
-        expirybundle:req.body.expirybundle,
-        smstp:req.body.smstp,
-        watp:req.body.watp,
-        isactivated:req.body.isactivated,
-        encryption:req.body.encryption,
-        created:moment.utc().add(5,'hours').toDate()
-    });
-
-    User.addUser(newUser, (err,user)=>{
-        if(err){
-            res.json({success:false,msg:"Failed to register user."});
-        }else{
-            res.json({success:true, msg:"User registered"});
+router.delete('/delete/:id',(req,res)=>{
+    User.findOneAndDelete(
+        {
+            _id:req.params.id
+        },
+        (err,resp)=>{
+            if(err){
+                res.json({success:false,error:err})
+            }else{
+                res.json({success:true,data:"User Deleted"});
+            }
         }
-    });
+    )
+})
+
+//register
+router.post('/register', (req, res)=>{
+
+    if(req.body.sentby === "admin"){
+        let newUser = new User({
+            enckey:req.body.enckey,
+            salesemail:req.body.salesemail,
+            fullname: req.body.fullname,
+            email:req.body.email,
+            phone:req.body.phone,
+            password:req.body.password,
+            rights:req.body.rights,
+            isparent:req.body.isparent,
+            isdelegate:req.body.isdelegate,
+            parent:req.body.parent,
+            parents:req.body.parents,
+            type:req.body.type,
+            creditsms:req.body.creditsms,
+            creditwhatsapp:req.body.creditwhatsapp,
+            issuspended:req.body.issuspended,
+            expirybundle:req.body.expirybundle,
+            smstp:req.body.smstp,
+            watp:req.body.watp,
+            isactivated:req.body.isactivated,
+            encryption:req.body.encryption,
+            created:moment.utc().add(5,'hours').toDate()
+        });
+    
+        User.addUser(newUser, (err,user)=>{
+            if(err){
+                res.json({success:false,error:"Failed to register user.\n\n"+err});
+            }else{
+                let newMask = new Mask({
+                    mask: 'default',
+                    description:'This is the default whitelisted mask for all networks.',
+                    type:'whitelisted',
+                    createdby:req.body.email,
+                    created:moment.utc().add(5,'hours').toDate(),
+                    status:'activated'
+                });
+                newMask.save((err,mask)=>{
+                    if(err){
+                        res.json({
+                            success:false,
+                            error:err
+                        });
+                    }else{
+                        res.json({success:true, msg:"User registered"});
+                    }
+                });
+            }
+        });
+    }else{
+        if(req.body.action == "createchild"){
+
+            let newUser = new User({
+                enckey:req.body.enckey,
+                salesemail:req.body.salesemail,
+                fullname: req.body.fullname,
+                email:req.body.email,
+                phone:req.body.phone,
+                password:req.body.password,
+                rights:req.body.rights,
+                isparent:req.body.isparent,
+                isdelegate:req.body.isdelegate,
+                parent:req.body.parent,
+                parents:req.body.parents,
+                type:req.body.type,
+                creditsms:req.body.creditsms,
+                creditwhatsapp:req.body.creditwhatsapp,
+                issuspended:req.body.issuspended,
+                expirybundle:req.body.expirybundle,
+                smstp:req.body.smstp,
+                watp:req.body.watp,
+                isactivated:req.body.isactivated,
+                encryption:req.body.encryption,
+                created:moment.utc().add(5,'hours').toDate()
+            });
+        
+            User.addUser(newUser, (err,user)=>{
+                if(err){
+                    res.json({success:false,error:"Failed to register user.\n\n"+err});
+                }else{
+                    let newMask = new Mask({
+                        mask: 'default',
+                        description:'This is the default whitelisted mask for all networks.',
+                        type:'whitelisted',
+                        createdby:req.body.email,
+                        created:moment.utc().add(5,'hours').toDate(),
+                        status:'activated'
+                    });
+                    newMask.save((err,mask)=>{
+                        if(err){
+                            res.json({
+                                success:false,
+                                error:err
+                            });
+                        }else{
+                            res.json({success:true, msg:"User registered"});
+                        }
+                    });
+                }
+            });
+
+        }else{
+            User.findOne(
+                {
+                    email:req.body.salesemail,
+                    type:'sales'
+                },
+                (err,doc)=>{
+                    if(err){
+                        res.json({success:false,error:err+"\n\nSales Executive not found."})
+                    }
+        
+        
+                    if(doc!=null){
+                        let newUser = new User({
+                            enckey:req.body.enckey,
+                            salesemail:req.body.salesemail,
+                            fullname: req.body.fullname,
+                            email:req.body.email,
+                            phone:req.body.phone,
+                            password:req.body.password,
+                            rights:req.body.rights,
+                            isparent:req.body.isparent,
+                            isdelegate:req.body.isdelegate,
+                            parent:req.body.parent,
+                            parents:req.body.parents,
+                            type:req.body.type,
+                            creditsms:req.body.creditsms,
+                            creditwhatsapp:req.body.creditwhatsapp,
+                            issuspended:req.body.issuspended,
+                            expirybundle:req.body.expirybundle,
+                            smstp:req.body.smstp,
+                            watp:req.body.watp,
+                            isactivated:req.body.isactivated,
+                            encryption:req.body.encryption,
+                            created:moment.utc().add(5,'hours').toDate()
+                        });
+                    
+                        User.addUser(newUser, (err,user)=>{
+                            if(err){
+                                res.json({success:false,error:"Failed to register user.\n\n"+err});
+                            }else{
+                                let newMask = new Mask({
+                                    mask: 'default',
+                                    description:'This is the default whitelisted mask for all networks.',
+                                    type:'whitelisted',
+                                    createdby:req.body.email,
+                                    created:moment.utc().add(5,'hours').toDate(),
+                                    status:'activated'
+                                });
+                                newMask.save((err,mask)=>{
+                                    if(err){
+                                        res.json({
+                                            success:false,
+                                            error:err
+                                        });
+                                    }else{
+                                        let transporter = nodemailer.createTransport({
+                                            host: 'smtp.gmail.com',
+                                            port: 465,
+                                            secure: true,
+                                            auth: {
+                                                // should be replaced with real sender's account
+                                                user: 'mangotreepkpl@gmail.com',
+                                                pass: 'Pakistan@1234'
+                                            }
+                                        });
+
+                                        let mailOptions = {
+                                            // should be replaced with real recipient's account
+                                            to: req.body.email,
+                                            subject: "New Account Creation - MangoTree",
+                                            html: "Dear User,<br><br>You have successfully created a new account. Please wait while we verify your account at our end. It can take up to 2 working days. <br><br>Best Regards,<br>MangoTree Team"
+                                        };
+                                        transporter.sendMail(mailOptions, (error, info) => {
+                                            if (error) {
+                                                return console.log(error);
+                                            }
+                                            
+                                            console.log('Message %s sent: %s', info.messageId, info.response);
+                                        });
+                                        res.json({success:true, msg:"User registered"});
+                                    }
+                                });
+                            }
+                        });
+                    }else{
+                            res.json({success:false,error:"Sales Executive not found."})
+        
+                    }
+                }
+            );
+        }
+    }
+
+
+
+
 });
 
 router.get('/pending',(req,res)=>{
@@ -261,7 +466,9 @@ router.post('/authenticate', (req, res, next)=>{
                         type:user.type,
                         parent:user.parent,
                         delegate:user.isdelegate,
-                        parents:user.parents
+                        parents:user.parents,
+                        salesemail:user.salesemail,
+                        enckey:user.enckey
                     },
                     activated:user.isactivated,
                     suspended:user.issuspended

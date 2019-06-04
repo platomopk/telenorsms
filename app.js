@@ -11,6 +11,8 @@ const cron = require('node-cron');
 
 const Drip = require('./models/drip');
 
+var morgan = require('morgan')
+
 
 var csv = require('fast-csv');
 const Moment = require('moment');
@@ -24,7 +26,7 @@ var compression = require('compression');
 
 //---------------------------- mongoose ---------------------------------
 //mongodb connection
-mongoose.connect(config.database);
+mongoose.connect(config.database,{ keepAlive: true, keepAliveInitialDelay: 300000 });
 
 //check if connected
 mongoose.connection.on('connected',()=>{
@@ -37,7 +39,6 @@ mongoose.connection.on('error',(err)=>{
 });
 //-----------------------------------------------------------------------
 
-
 //start express 
 const app = express();
 
@@ -45,6 +46,7 @@ var upload = require('express-fileupload');
 
 app.use(upload());
 app.use(compression());
+app.use(morgan('combined'));
 
 //the router file for users
 const users = require('./routes/users');
@@ -67,6 +69,8 @@ const notifications = require('./routes/notifications');
 const messaging = require('./routes/messaging');
 const hybrid = require('./routes/hybrid');
 
+const sales = require('./routes/sales');
+
 //port
 const port = process.env.PORT || 3000;
 
@@ -76,7 +80,7 @@ const port = process.env.PORT || 3000;
 //any domain can access our server 
 // app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
 
- app.use(cors({credentials: true, origin: '*'}));
+app.use(cors({credentials: true, origin: '*'}));
 
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -121,6 +125,8 @@ app.use('/messaging', messaging);
 
 app.use('/hybrid', hybrid); 
 
+app.use('/sales', sales); 
+
 
 //index route
 // app.get('/',(req,res) => {
@@ -131,10 +137,13 @@ app.use('/hybrid', hybrid);
 //     res.sendFile(path.join(__dirname, '/public', 'index.html'));
 // });
 
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, '/public', 'index.html'));
-    // res.sendFile(path.join(__dirname + '/dist/index.html'));
-});
+app.get('/',function(req,res){
+    return res.send('MangoTree Official');
+})
+
+// app.get('/*', function(req, res) {
+//     res.sendFile(path.join(__dirname, '/public', 'index.html'));
+// });
 
 //cron jobs for drip
 // cron.schedule("* * * * *", function(){

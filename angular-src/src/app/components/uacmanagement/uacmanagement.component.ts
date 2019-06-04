@@ -16,6 +16,8 @@ export class UacmanagementComponent implements OnInit {
   rights:String[];
   parentemail:String;
 
+  maintype:String;
+
   accessrightchilds:any[]= [];
 
   onchildchangerights:any[] = [];
@@ -64,6 +66,9 @@ export class UacmanagementComponent implements OnInit {
 
   ngOnInit() {
 
+    
+    
+
     this.parentemail = this.authService.getSavedEmail();
 
     this.getChildAccess();
@@ -74,6 +79,7 @@ export class UacmanagementComponent implements OnInit {
     //this.onChildSubmit();
     let user = localStorage.getItem("user");
     let localrights = JSON.parse(user).rights;
+    this.maintype = JSON.parse(user).type;
 
     if(localrights.indexOf('pricing') > -1){
       localrights.splice(localrights.indexOf('pricing'),1);
@@ -162,6 +168,9 @@ export class UacmanagementComponent implements OnInit {
 
     // here call the function to get the values of rights from main email address
     this.authService.getRights(event.target.value).subscribe(data=>{
+
+      console.log(data);
+
       this.onchildchangerights = data.data[0].rights;
       this.delegateu = data.data[0].isdelegate;
 
@@ -246,7 +255,7 @@ export class UacmanagementComponent implements OnInit {
   onChildSubmit(){
 
 
-    if(this.newcheckedarr.length <= 0){
+    if(this.newcheckedarr.length < 0){
       alert("Select rights for this user please.")
       return false;
     }
@@ -255,28 +264,91 @@ export class UacmanagementComponent implements OnInit {
     //console.log('localparents',JSON.parse(local).parents);
     let parents = JSON.parse(local).parents;
     let type = JSON.parse(local).type;
+    this.maintype = type;
+    let salesemail = JSON.parse(local).salesemail;
     parents.push(this.parentemail);
+
+    let enckey = JSON.parse(localStorage.getItem("user")).enckey;
+
     
 
-    let user = {
-      fullname: this.fullname,
-      phone: this.phone,
-      email: this.email,
-      password: this.password,
-      rights:this.newcheckedarr,
-      isparent:false,
-      isdelegate:this.delegate,
-      parent:this.parentemail,
-      parents:parents,
-      type:type,
-      creditsms:0,
-      creditwhatsapp:0,
-      isactivated:true,
-      encryption:this.encryption,
-      expirybundle:this.expirybundle,
-      smstp:this.smstp,
-      watp:this.watp
+    let user = {};
+
+    if(type=="regular"){
+      user = {
+        fullname: this.fullname,
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
+        rights:this.newcheckedarr,
+        isparent:false,
+        isdelegate:this.delegate,
+        parent:this.parentemail,
+        parents:parents,
+        type:type,
+        creditsms:0,
+        creditwhatsapp:0,
+        isactivated:true,
+        encryption:this.encryption,
+        expirybundle:this.expirybundle,
+        smstp:this.smstp,
+        watp:this.watp,
+        salesemail:salesemail,
+        action:"createchild"
+      }
     }
+
+    if(type=="omo"){
+      user = {
+        fullname: this.fullname,
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
+        rights:this.newcheckedarr,
+        isparent:false,
+        isdelegate:this.delegate,
+        parent:this.parentemail,
+        parents:parents,
+        type:type,
+        creditsms:0,
+        creditwhatsapp:0,
+        isactivated:true,
+        encryption:this.encryption,
+        expirybundle:this.expirybundle,
+        smstp:this.smstp,
+        watp:this.watp,
+        salesemail:salesemail,
+        enckey:enckey,
+        action:"createchild"
+      }
+    }
+    
+    if(type == "sales"){
+      user = {
+        fullname: this.fullname,
+        phone: this.phone,
+        email: this.email,
+        password: this.password,
+        rights:this.newcheckedarr,
+        isparent:false,
+        isdelegate:this.delegate,
+        parent:this.parentemail,
+        parents:parents,
+        type:type,
+        creditsms:0,
+        creditwhatsapp:0,
+        isactivated:true,
+        encryption:this.encryption,
+        expirybundle:this.expirybundle,
+        smstp:this.smstp,
+        watp:this.watp,
+        action:"createchild"
+      }
+    }
+    
+
+
+
 
     //  console.log(user);
     

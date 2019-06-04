@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class MessagingService {
 
-  // ip:String="http://localhost:3000/";
-  ip:String="";
+  ip:String="http://localhost:3000/";
+  // ip:String="";
   
 
 
@@ -772,6 +772,16 @@ export class MessagingService {
       headers.append('Content-Type','application/json');
       //since it is an obsservable so we have to map its response
       return this.http.get(this.ip+"messaging/total/drip/count/"+email,{headers})
+      .map(res => res.json());
+    }
+
+
+
+    getzongapicreds(){
+      let headers = new Headers();
+      headers.append('Content-Type','application/json');
+      //since it is an obsservable so we have to map its response
+      return this.http.get(this.ip+"messaging/account/summary",{headers})
       .map(res => res.json());
     }
 

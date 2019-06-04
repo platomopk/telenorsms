@@ -20,7 +20,7 @@ export class DripmessageComponent implements OnInit {
     closeOnSelect: true
   }
   
-  name:String;
+  name:string=new Date().getTime() +  "-";
   language:String;
   masking:String="";
   campaign:String;
@@ -28,8 +28,19 @@ export class DripmessageComponent implements OnInit {
   msg:String="";
   msgchars:number;
   msgcount:number;
-  datefrom:String;
-  dateto:String;
+  d: any = new Date();
+  datefrom: String =
+  this.d.getFullYear() +
+  "-" +
+  ("0" + (this.d.getMonth() + 1)).slice(-2) +
+  "-" +
+  ("0" + this.d.getDate()).slice(-2);
+dateto: String =
+  this.d.getFullYear() +
+  "-" +
+  ("0" + (this.d.getMonth() + 1)).slice(-2) +
+  "-" +
+  ("0" + this.d.getDate()).slice(-2);
   frequency:String;
   timepayload:any[]=[];
   account:String;
@@ -83,6 +94,11 @@ export class DripmessageComponent implements OnInit {
     this.msgchars = this.msg.length;
     this.msgcount = Math.ceil(this.msgchars/160);
     
+  }
+
+
+  namechange(name){
+    this.name = this.name.replace(/\s/g, "-");
   }
 
   masksarr:any=[];

@@ -22,7 +22,7 @@
                   <td>{{item.phone}}</td>
                   <td>{{item.type}}</td>
                   <td>{{item.created}}</td>
-                  <td><input type="button" class="btn btn-xs btn-success " value="Activate" (click)="activate(item.email)"></td>
+                  <td><input type="button" class="btn btn-xs btn-success " value="Activate" (click)="activate(item.email)">&nbsp;<input type="button" class="btn btn-xs btn-danger " value="Delete" (click)="delete(item._id)"></td>
                 </tr>
               </tbody>
             </table>

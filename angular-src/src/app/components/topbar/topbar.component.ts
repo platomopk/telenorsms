@@ -18,10 +18,12 @@ export class TopbarComponent implements OnInit {
   nbclick:boolean=true;
 
   navbarshow:boolean=true;
+  master:boolean = true;
 
   constructor(private router:Router, private authService:AuthService, private data:DataService ) { 
     //this.loggedIn=false;
     this.sidebarShow=false;
+
 
   }
 
@@ -57,9 +59,16 @@ export class TopbarComponent implements OnInit {
   }
 
   onLogout(){
-    this.authService.onLogout();
-    //localStorage.clear();
-    this.router.navigate(['/home/login']);
+    let user = JSON.parse(localStorage.getItem("user"))
+    if(user.type == "omo"){
+      this.authService.onLogout();
+      this.router.navigate(['/omo/login']);
+    }else{
+      this.authService.onLogout();
+      this.router.navigate(['/home/login']);
+    }
+
+    
   }
 
   onNewMessage(){

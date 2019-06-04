@@ -42,4 +42,16 @@ export class MasteraccountmoderationComponent implements OnInit {
     })
   }
 
+  delete(_id){
+    this.auth.deleteaccount(_id).subscribe(data=>{
+      if(data.success){
+        alert('Success')
+        this.getpending();
+      }else{
+        console.log(_id,data.error);
+        alert(data.error)
+      }
+    })
+  }
+
 }

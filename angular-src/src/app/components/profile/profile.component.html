@@ -18,6 +18,9 @@
                                 <span style="color:#1565C0"><i class="fa fa-user-circle-o fa-4x"></i></span>
                             </div>
                             <p class="lead"><u>Personal Information</u></p>
+                            <div class="form-group" *ngIf='enckey !== undefined'>
+                                <label>Encryption Key:&nbsp;&nbsp;<b>{{enckey}}</b></label>
+                            </div>
                             <div class="form-group">
                                 <label for="fullname">Full Name</label>
                                 <input type="fullname" class="form-control" [(ngModel)]="fullname" name="fullname" id="fullname" aria-describedby="fullnameHelp"
@@ -43,7 +46,8 @@
                                 <small id="passwordHelp" class="form-text text-muted">Be sure to choose an alphanumeric password for strength.</small>
                             </div>
                             <br>
-                            <p class="lead">
+                            <div *ngIf="user.type=='regular'">
+                                <p class="lead">
                                     <u>Testing Numbers</u>
                                 </p>
                                 <div class="form-group">
@@ -87,6 +91,8 @@
                                     </div>
                                 </div>
                                 <br>
+                            </div>
+                            
                             <div class="form-group">
                                 <button type="button" (click)="onProfileUpdate()" class="btn btn-primary">Update</button>
                             </div>

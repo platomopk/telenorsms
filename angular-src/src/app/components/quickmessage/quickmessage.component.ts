@@ -11,14 +11,14 @@ import {Router} from '@angular/router';
 })
 export class QuickmessageComponent implements OnInit {
 
-  name:String;
+  name:String = new Date().getTime() +  "-";
   language:String;
   masking:String="";
   mobilenos:String="";
   msg:String="";
   msgchars:number;
   noofmsgs:number;
-  preference:String;
+  preference:string="withmask";
   account:String;
   password:String;
 
@@ -33,6 +33,10 @@ export class QuickmessageComponent implements OnInit {
 
   constructor(private messagingService : MessagingService,private maskService:MaskService, private authService:AuthService, private router:Router ) {
      
+  }
+
+  namechange(name){
+    this.name = this.name.replace(/\s/g, "-");
   }
 
   pc(){
@@ -135,7 +139,7 @@ export class QuickmessageComponent implements OnInit {
             msg:this.msg,
             msgchars:this.msgchars,
             noofmsgs:this.noofmsgs,
-            preference:"withmask",
+            preference:this.preference,
             createdby: this.authService.getSavedEmail(),
             account:this.account,
             password:this.password

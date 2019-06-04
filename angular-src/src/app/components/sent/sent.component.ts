@@ -23,12 +23,15 @@ export class SentComponent implements OnInit {
 
   localemail:String='';
 
+  userObj:any = {};
+
   constructor(
     private messagingService: MessagingService,
     private authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.userObj = JSON.parse(localStorage.getItem("user"))
     this.localemail = this.authService.getSavedEmail();
     //console.log(AES.decrypt('U2FsdGVkX1+22scdPaZqa42X/QEVMK0ChS+9qemeqrdtpo0BRnzMH7+6nRXPsCqCdI3DXOgGf1tpUxWJNNJwRQ==', 'a@a.com').toString(enc.Utf8));
      //console.log(this.lineChartData, this.lineChartLabels);
@@ -58,26 +61,38 @@ export class SentComponent implements OnInit {
     this.messagingService
       .getallsentquicklimit(this.authService.getSavedEmail())
       .subscribe(data => {
+        this.spinner = false;
         if (data.success) {
           this.quickarr = [];
+          // data.data.forEach(element => {
+          //   if(this.localemail != ''){
+          //     element.msg = AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8)
+          //   }
+          // });
+
           data.data.forEach(element => {
-            if(this.localemail != ''){
-              element.msg = AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8)
+            if(this.userObj.type == 'omo'){
+              element.msg = element.encrypted == true? AES.decrypt(element.msg, this.userObj.enckey).toString(enc.Utf8):element.msg
+            }else{
+              element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
             }
           });
+          
+
+
           this.quickarr = data.data;
-          // console.log(this.quickarr);
+          console.log('sent quick',this.quickarr);
 
           this.messagingService
             .getalloutboxbulklimit(this.authService.getSavedEmail())
             .subscribe(data => {
               if (data.success) {
                 this.bulkarr = [];
-                data.data.forEach(element => {
-                  if(this.localemail != ''){
-                    element.msg = AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8)
-                  }
-                });
+                // data.data.forEach(element => {
+                //   if(this.localemail != ''){
+                //     element.msg = AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8)
+                //   }
+                // });
                 this.bulkarr = data.data;
                 // console.log(this.bulkarr);
 
@@ -88,7 +103,7 @@ export class SentComponent implements OnInit {
                       this.digitalarr = [];
                       this.digitalarr = data.data;
                       // console.log(this.digitalarr);
-                      this.spinner = false;
+                      
                     }
                   });
               }

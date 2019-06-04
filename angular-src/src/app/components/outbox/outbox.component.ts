@@ -136,8 +136,12 @@ export class OutboxComponent implements OnInit {
 
 
   deliverinterval:any;
+  userObj:any = {};
 
   ngAfterViewInit(){
+
+    this.userObj = JSON.parse(localStorage.getItem("user"))
+
     this.localemail = this.authService.getSavedEmail();
     //console.log(AES.decrypt('U2FsdGVkX1+22scdPaZqa42X/QEVMK0ChS+9qemeqrdtpo0BRnzMH7+6nRXPsCqCdI3DXOgGf1tpUxWJNNJwRQ==', 'a@a.com').toString(enc.Utf8));
      //console.log(this.lineChartData, this.lineChartLabels);
@@ -193,9 +197,19 @@ export class OutboxComponent implements OnInit {
         if (data.success) {
           this.quickarr = [];
           data.data.forEach(element => {
-            if(this.localemail != ''){
+            
+            if(this.userObj.type == 'omo'){
+              element.msg = element.encrypted == true? AES.decrypt(element.msg, this.userObj.enckey).toString(enc.Utf8):element.msg
+            }else{
               element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
             }
+
+
+
+            // if(this.localemail != ''){
+            //   element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
+            // }
+
           });
           this.quickarr = data.data;
           // console.log(this.quickarr);
@@ -206,9 +220,19 @@ export class OutboxComponent implements OnInit {
               if (data.success) {
                 this.bulkarr = [];
                 data.data.forEach(element => {
-                  if(this.localemail != ''){
+
+                  if(this.userObj.type == 'omo'){
+                    element.msg = element.encrypted == true? AES.decrypt(element.msg, this.userObj.enckey).toString(enc.Utf8):element.msg
+                  }else{
                     element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
                   }
+                  
+                  
+                  // if(this.localemail != ''){
+                  //   element.msg = element.encrypted == true? AES.decrypt(element.msg, this.localemail.toString()).toString(enc.Utf8):element.msg
+                  // }
+
+
                 });
                 this.bulkarr = data.data;
                 

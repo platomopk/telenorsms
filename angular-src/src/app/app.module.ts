@@ -75,6 +75,7 @@ import { MessagingService } from './services/messaging.service';
 import { NotificationService } from './services/notification.service';
 import { HybridService } from './services/hybrid.service';
 import { DataService } from './services/data.service';
+import { SalesService } from './services/sales.service';
 
 // pipe
 import { MasksfilterPipe } from './pipes/masksfilter.pipe';
@@ -95,6 +96,12 @@ import { MastercreditmoderationComponent } from './components/mastercreditmodera
 import { MastermaskmoderationComponent } from './components/mastermaskmoderation/mastermaskmoderation.component';
 import { MasterissuemoderationComponent } from './components/masterissuemoderation/masterissuemoderation.component';
 import { MasterreportsComponent } from './components/masterreports/masterreports.component';
+import { SalesrevenueComponent } from './components/salesrevenue/salesrevenue.component';
+import { MastersalesrevenueComponent } from './components/mastersalesrevenue/mastersalesrevenue.component';
+import { MasterdashboardComponent } from './components/masterdashboard/masterdashboard.component';
+import { OmoComponent } from './components/omo/omo.component';
+import { OmologinComponent } from './components/omologin/omologin.component';
+import { OmoregisterComponent } from './components/omoregister/omoregister.component';
 
 const appRoutes:Routes = [
   {
@@ -132,6 +139,14 @@ const appRoutes:Routes = [
       {
         path:'reports',
         component:MasterreportsComponent
+      },
+      {
+        path:'salesrevenue',
+        component:MastersalesrevenueComponent
+      },
+      {
+        path:'dashboard',
+        component:MasterdashboardComponent
       }
       // {
       //   path:'',
@@ -161,8 +176,32 @@ const appRoutes:Routes = [
     ]
   },
   {
+    path:'omo',
+    component:OmoComponent,
+    children:[
+      {
+        path:'register',
+        component:OmoregisterComponent
+      },
+      {
+        path:'login',
+        component:OmologinComponent
+      },
+      {
+        path:'',
+        redirectTo:'/omo/login',
+        pathMatch:'full'
+      }
+    ]
+  },
+  {
     path:'default',
     component:DefaultComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'salesreport',
+    component:SalesrevenueComponent,
     canActivate:[AuthGuard]
   },
   {
@@ -510,7 +549,13 @@ const appRoutes:Routes = [
     MastercreditmoderationComponent,
     MastermaskmoderationComponent,
     MasterissuemoderationComponent,
-    MasterreportsComponent
+    MasterreportsComponent,
+    SalesrevenueComponent,
+    MastersalesrevenueComponent,
+    MasterdashboardComponent,
+    OmoComponent,
+    OmologinComponent,
+    OmoregisterComponent
   ],
   imports: [
     BrowserModule,
@@ -520,7 +565,7 @@ const appRoutes:Routes = [
     AngularDateTimePickerModule,
     ChartsModule
   ],
-  providers: [AuthGuard,DataService,ValidateService, AuthService, MaskService,PricingService,IssueService,ContactService,MessagingService,NotificationService,HybridService],
+  providers: [SalesService,AuthGuard,DataService,ValidateService, AuthService, MaskService,PricingService,IssueService,ContactService,MessagingService,NotificationService,HybridService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

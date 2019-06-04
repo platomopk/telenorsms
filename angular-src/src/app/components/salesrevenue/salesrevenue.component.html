@@ -1,0 +1,139 @@
+<section >
+  <div class="row no-gutters">
+      <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow"  style=" background-color: #2a3f54;">
+        <app-navbar></app-navbar>
+    </div>
+    <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+
+      <app-topbar></app-topbar>
+      <br>
+
+      <section id="mainsection">
+          <p class="lead"><u>Generate Report</u></p>
+          <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="type">Account</label>
+                  <select class="form-control" (change)="childchange($event)">
+                    <option value="empty" disabled selected>Select Account</option>
+                    <option value={{localemail}} >Master ({{localemail}})</option>
+                    <option *ngFor="let item of childsArr" [value]="item.email">{{item.fullname}} ({{item.email}})</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="type">From </label>
+                    <input type="text" [(ngModel)]="datefrom" class="form-control">
+                    <small>Select from date/time</small>
+                  </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="type">To</label>
+                    <input type="text" [(ngModel)]="dateto" class="form-control">
+                    <small>Select to date/time</small>
+                  </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="type">&nbsp;</label>
+                    <input [disabled]="spinner" type="button" (click)="report()" value="Generate Report" class="btn btn-primary">
+                    <small *ngIf="notfound">No data found.</small>
+                    <small *ngIf="spinner">Please wait .. <span><i class="fa fa-spinner fa-spin fa-1x"></i></span></small>
+                  </div>
+            </div>
+            <div class="col-md-2" *ngIf="downloadable.length>0">
+                <div class="form-group">
+                    <label for="type">Download</label>
+                    <div><small><span (click)="download()" style="color:green;cursor:pointer;"><i class="fa fa-file-excel-o fa-3x"></i></span></small></div>
+    
+                  </div>
+            </div>
+          </div>
+          <br><br>
+          <div class="row" *ngIf = "barChartData.length > 0">
+            <div class="col-md-10">
+              <div class="">
+                <p class="lead"><u>Accounts</u></p>
+                <div class="table table-responsive" >
+                    <table class="table table-bordered table-condensed table-striped">
+                      <thead>
+                        <tr>
+                          <th>Account</th>
+                          <th>From</th>
+                          <th>To</th>
+                          <th>via Quick</th>
+                          <th>via Bulk</th>
+                          <th>via Drip</th>
+                          <th>Total Sent (SMS)</th>
+                          <th>Total Bought (SMS)</th>
+                          <th>Total Cost (PKR)</th>
+                          <th>Base Rate (PKR)</th>
+                          <th>Total Revenue (PKR)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of downloadable">
+                          <td>{{item.fullname}}</td>
+                          <td>{{item.from}}</td>
+                          <td>{{item.to}}</td>
+                          <td>{{item.qcount}}</td>
+                          <td>{{item.bcount}}</td>
+                          <td>{{item.dcount}}</td>
+                          <td>{{item.total}}</td>
+                          <td>{{item.smsbought}}</td>
+                          <td>{{item.smscost}}</td>
+                          <td>{{item.baserate}}</td>
+                          <td>{{item.revenue}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <br><br>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                  <div *ngIf = "barChartData.length > 0" class="col-md-8">
+                    <p class="lead"><u>Graph</u></p>
+                      <div style="display: block">
+                        <canvas baseChart
+                                [datasets]="barChartData"
+                                [labels]="barChartLabels"
+                                [options]="barChartOptions"
+                                [legend]="barChartLegend"
+                                [chartType]="barChartType"
+                                (chartHover)="chartHovered($event)"
+                                (chartClick)="chartClicked($event)"></canvas>
+                      </div>
+                    </div>
+                    <div class="col-md-2" style="display:none" *ngIf="downloadable.length>0">
+                      <small>Download the excel file for this report</small>
+                      <span (click)="download()" style="color:green;cursor:pointer;"><i class="fas fa-file-excel-o"></i></span>
+                    </div>
+              </div>
+            </div>
+    
+          </div>
+      </section>
+
+
+
+
+
+
+
+
+
+        
+
+        
+    </div>
+
+  </div>
+</section>

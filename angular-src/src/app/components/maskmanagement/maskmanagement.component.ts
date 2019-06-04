@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class MaskmanagementComponent implements OnInit {
 
   mask:String;
-  type:String;
+  type:String="whitelisted";
   description:String;
   
 

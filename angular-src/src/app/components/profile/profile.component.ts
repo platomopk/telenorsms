@@ -13,10 +13,12 @@ export class ProfileComponent implements OnInit {
   // user:Object;
 
   fullname:String="";
+  enckey:String="";
   phone:String="";
   email:String="";
   password:String;
   user:any;
+  
 
   ufone:String="";telenor:String="";zong:String="";jazz:String="";warid:String="";
 
@@ -34,9 +36,9 @@ export class ProfileComponent implements OnInit {
     this.authService.getProfile().subscribe(
       data => {
         // this.user = data.user;
-        //console.log(data);
+        // console.log(data);
         
-
+        this.enckey=data.enckey;
         this.fullname = data.fullname;
         this.phone = data.phone;
         this.email = data.email;
@@ -45,6 +47,7 @@ export class ProfileComponent implements OnInit {
         this.zong = data.zong;
         this.jazz = data.jazz;
         this.warid = data.warid;
+      
 
         //console.log(this.user);
       },

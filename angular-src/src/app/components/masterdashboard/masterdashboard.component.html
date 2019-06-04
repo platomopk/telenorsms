@@ -1,0 +1,43 @@
+<section id="mainsection">
+    <div class="row">
+        <div class="col-md-12">
+          <h1>API Details</h1>
+        </div>
+      </div>
+
+      <br><br><br>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <p class="lead"><u>Telenor</u>&nbsp;&nbsp;<span *ngIf="showspinnertelenor"><i class="fa fa-spinner fa-spin"></i></span></p>
+        <hr>
+      </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+          <p class="lead"><u>Zong</u>&nbsp;&nbsp;<span *ngIf="showspinnerzong"><i class="fa fa-spinner fa-spin"></i></span></p>
+          <hr>
+          <table class="table table-bordered table-condensed table-striped" *ngIf="zong">
+            <thead>
+              <tr>
+                <td>Current Balance</td>
+                <td>Total Sent</td>
+                <td>Total Failed</td>
+                <td>Total Successful</td>
+                <td>Registered Masks</td>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{zong.Total_Balance}}</td>
+                    <td>{{zong.Total_Broadcasted}}</td>
+                    <td>{{zong.Total_Successful}}</td>
+                    <td>{{zong.Total_Failed}}</td>
+                    <td>{{zong.User_Masks}}</td>
+                  </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</section>

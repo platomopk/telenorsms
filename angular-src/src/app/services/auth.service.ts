@@ -12,15 +12,20 @@ export class AuthService {
   user:any;
 
 
-  // ip:String="http://localhost:3000/";
-  ip:String="";
+  ip:String="http://localhost:3000/";
+  // ip:String="";
 
   constructor(private http:Http,private router:Router,) {
 
   }
 
 
-  
+  getallsalesmen(){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    return this.http.get(this.ip+"users/salesmen",{headers})
+    .map(res => res.json());
+  }
 
   getallactivatedusers(){
     let headers = new Headers();
@@ -86,6 +91,14 @@ export class AuthService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"users/activate",email,{headers})
+    .map(res => res.json());
+  }
+
+  deleteaccount(id){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    //since it is an obsservable so we have to map its response
+    return this.http.delete(this.ip+"users/delete/"+id,{headers})
     .map(res => res.json());
   }
 
