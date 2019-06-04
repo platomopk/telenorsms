@@ -361,13 +361,23 @@ router.post('/register', (req, res)=>{
                                                 pass: 'Pakistan@1234'
                                             }
                                         });
-
-                                        let mailOptions = {
-                                            // should be replaced with real recipient's account
-                                            to: req.body.email,
-                                            subject: "New Account Creation - MangoTree",
-                                            html: "Dear User,<br><br>You have successfully created a new account. Please wait while we verify your account at our end. It can take up to 2 working days. <br><br>Best Regards,<br>MangoTree Team"
-                                        };
+                                        let mailOptions = {};
+                                        if(req.body.type == "omo"){
+                                            mailOptions = {
+                                                // should be replaced with real recipient's account
+                                                to: req.body.email,
+                                                subject: "New Account Creation - MangoTree",
+                                                html: "Dear User,<br><br>You have successfully created a new account. Please wait while we verify your account at our end. It can take up to 2 working days.<br><br>Your control panel url is https://mangotreepk.herokuapp.com/omo/login <br><br>Best Regards,<br>MangoTree Team"
+                                            };
+                                        }else{
+                                            let mailOptions = {
+                                                // should be replaced with real recipient's account
+                                                to: req.body.email,
+                                                subject: "New Account Creation - MangoTree",
+                                                html: "Dear User,<br><br>You have successfully created a new account. Please wait while we verify your account at our end. It can take up to 2 working days.<br><br>Your control panel url is https://mangotreepk.herokuapp.com/home/login <br><br>Best Regards,<br>MangoTree Team"
+                                            };
+                                        }
+                                        
                                         transporter.sendMail(mailOptions, (error, info) => {
                                             if (error) {
                                                 return console.log(error);
