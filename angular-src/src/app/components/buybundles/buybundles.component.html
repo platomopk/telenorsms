@@ -1,6 +1,9 @@
 <section>
+    <div class="p-3 mb-2 bg-success text-white">Base bundle subscription is FREE for all MangoTree users for the first 06 months.</div>
+    <br>
   <div *ngIf="bundlearr==0" class="row" >
     <!-- <form (submit)="createbundle()"> -->
+        
     <div class="col-md-4 form-group">
       <u>
         <p class="lead">Create configuration</p>
@@ -75,6 +78,7 @@
 
   <div class="row" *ngIf="bundlearr.length>0">
       <div class="col-md-12">
+          
         <u> <p class="lead">Configuration History</p></u>
         <table class="table table-sm table-condensed table-bordered table-hover">
   
@@ -89,7 +93,7 @@
               <th>Payment</th>
               <th>Created</th>
               <th>Expiry</th>
-              <th>CreatedBy</th>
+              <!-- <th>CreatedBy</th> -->
             </tr>
           </thead>
           <tbody>
@@ -103,7 +107,7 @@
               <td class="text-muted">{{item.payment}}</td>
               <td class="text-muted">{{item.created}}</td>
               <td class="text-muted">{{item.expiry}}</td>
-              <td class="text-muted">{{item.createdby}}</td>
+              <!-- <td class="text-muted">{{item.createdby}}</td> -->
               <!-- <td class="text-muted text-danger"><button (click)="ondelete( item._id )" class="btn btn-danger"><span>Delete
                     <i class="fa fa-times"></i></span></button></td> -->
             </tr>
@@ -125,9 +129,40 @@
         <select (change)="selectchangecredit($event)" [(ngModel)]="_smscredit" name="_smscredit" class="form-control"
           required>
           <option value="" disabled selected>Select</option>
-          <option value="1000">1000</option>
-          <option value="10000">10000</option>
-          <option value="100000">100000</option>
+          <option value="631">999</option>
+          <option value="618">1000</option>
+          <option value="765">1250</option>
+          <option value="907">1500</option>
+          <option value="1035">1750</option>
+          <option value="1156">2000</option>
+          <option value="1714">3000</option>
+          <option value="2259">4000</option>
+          <option value="2756">5000</option>
+          <option value="4033">7500</option>
+          <option value="5310">10000</option>
+          <option value="6554">12500</option>
+          <option value="7663">15000</option>
+          <option value="12435">25000</option>
+          <option value="14721">30000</option>
+          <option value="16939">35000</option>
+          <option value="21174">45000</option>
+          <option value="25140">55000</option>
+          <option value="29274">65000</option>
+          <option value="33273">75000</option>
+          <option value="34416">80000</option>
+          <option value="35424">85000</option>
+          <option value="36903">90000</option>
+          <option value="38315">95000</option>
+          <option value="38987">100000</option>
+          <option value="41407">110000</option>
+          <option value="46213">125000</option>
+          <option value="54447">150000</option>
+          <option value="61169">175000</option>
+          <option value="67219">200000</option>
+          <option value="74109">225000</option>
+          <option value="80663">250000</option>
+          <option value="85032">275000</option>
+          
         </select>
       </div>
       <div class="form-group" *ngIf="'a'=='b'">
@@ -135,7 +170,7 @@
         <select (change)="selectchangecredit($event)" [(ngModel)]="_whatsappcredit" name="_whatsappcredit" class="form-control"
           required>
           <option value="" disabled selected>Select</option>
-          <option value="1000">1000</option>
+          <option value="1000">999</option>
           <option value="10000">10000</option>
           <option value="100000">100000</option>
         </select>
@@ -143,7 +178,10 @@
     </div>
     <div class="col-md-4 text-center" style="white-space: pre-line;">
         <!-- <p *ngIf="itemscredit!=''" class="lead" style="border:1px solid grey;">{{itemscredit}}</p> -->
-        <div *ngIf="itemscredit!=''" [innerHTML]="itemscredit" class="lead" style="border:1px solid grey;"></div>
+        <div *ngIf="itemscredit!=''" [innerHTML]="itemscredit" class="lead" style="margin-top: 35px;
+        border: 1px solid green;
+        min-height: 37px;
+        color: green;"></div>
       </div>
       <div class="col-md-4 text-center">
         <h6>Total Cost:</h6>

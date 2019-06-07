@@ -8,13 +8,16 @@ const moment = MomentRange.extendMoment(Moment);
 //user schema
 const UserSchema = mongoose.Schema({
     enckey:{
-        type:String
+        type:String,
+        default:""
     },
     salesemail:{
-        type:String
+        type:String,
+        default:""
     },
     fullname:{
-        type: String
+        type: String,
+        default:""
     },
     email:{
         type:String,
@@ -37,11 +40,13 @@ const UserSchema = mongoose.Schema({
         type:Boolean
     },
     parent:{
-        type:String
+        type:String,
+        default:""
     },
     parents:[String],
     type:{
-        type:String
+        type:String,
+        default:""
     },
     expirybundle:{
         type:Date,

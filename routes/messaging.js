@@ -2855,7 +2855,7 @@ router.post('/quick/register', (req, res) => {
                                             // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), apiarr[index].createdby.trim()).toString() : msg,
                                             language: apiarr[index].language
                                         }
-                                        TelenorQuickSmsApiHandler.push(obj);
+                                        // TelenorQuickSmsApiHandler.push(obj);
 
 
 
