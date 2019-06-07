@@ -371,13 +371,14 @@ router.post('/register', (req, res)=>{
                                             };
                                         }else{
                                             console.log(req.body.email,req.body.fullname,req.body.password)
-                                            let mailOptions = {
+                                            mailOptions = {
                                                 // should be replaced with real recipient's account
                                                 to: req.body.email,
                                                 subject: "New Account Creation - MangoTree",
-                                                html: "Dear ${req.body.fullname},<br><br>You have successfully created a new account. Please wait while we verify your account at our end. It can take up to 2 working days.<br><br>Your control panel url is https://mangotreepk.herokuapp.com/home/login <br>Your login email is: ${req.body.email} <br>Your login password is: ${req.body.password} <br><br>Best Regards,<br>MangoTree Team"
+                                                html: `Dear ${req.body.fullname},<br><br>You have successfully created a new account. Please wait while we verify your account at our end. It can take up to 2 working days.<br><br>Your control panel url is https://mangotreepk.herokuapp.com/home/login <br>Your login email is: ${req.body.email} <br>Your login password is: ${req.body.password} <br><br>Best Regards,<br>MangoTree Team`
                                             };
                                         }
+
                                         
                                         transporter.sendMail(mailOptions, (error, info) => {
                                             if (error) {
