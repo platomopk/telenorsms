@@ -9,8 +9,8 @@ export class HybridService {
   constructor(private http:Http) {
   }
 
-  ip:String="http://localhost:3000/";
-  // ip:String="";
+  // ip:String="http://localhost:3000/";
+  ip:String="";
 
   // -----------------------------------------------------------------------
 
