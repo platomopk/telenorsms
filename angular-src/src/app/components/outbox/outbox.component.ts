@@ -193,7 +193,7 @@ export class OutboxComponent implements OnInit {
     this.spinner = true;
     this.messagingService
       .getalloutboxquicklimit(this.authService.getSavedEmail())
-      .subscribe(data => {
+      .subscribe((data:any)=> {
         if (data.success) {
           this.quickarr = [];
           data.data.forEach(element => {
@@ -216,7 +216,7 @@ export class OutboxComponent implements OnInit {
 
           this.messagingService
             .getalloutboxbulklimit(this.authService.getSavedEmail())
-            .subscribe(data => {
+            .subscribe((data:any)=> {
               if (data.success) {
                 this.bulkarr = [];
                 data.data.forEach(element => {
@@ -240,7 +240,7 @@ export class OutboxComponent implements OnInit {
 
                 this.messagingService
                   .getalloutboxdigitallimit(this.authService.getSavedEmail())
-                  .subscribe(data => {
+                  .subscribe((data:any)=> {
                     if (data.success) {
                       this.digitalarr = [];
                       this.digitalarr = data.data;
@@ -282,7 +282,7 @@ export class OutboxComponent implements OnInit {
 
     this.messagingService
       .getalloutboxquickjazzcount(this.authService.getSavedEmail())
-      .subscribe(data1 => {
+      .subscribe((data1:any)=> {
         if (data1.success) {
           this.outboxquick = data1.count;
           this.q.push(data1.count);
@@ -290,7 +290,7 @@ export class OutboxComponent implements OnInit {
           // console.log('jazz',data1.count);
 
           this.messagingService.getalloutboxbulkjazzcount(this.authService.getSavedEmail())
-          .subscribe(data2 => {
+          .subscribe((data2:any)=> {
 
             this.lineChartData[0].data[this.lineChartData[0].data.length] = data1.count + data2.count;
 
@@ -304,14 +304,14 @@ export class OutboxComponent implements OnInit {
 
         this.messagingService
           .getalloutboxquickzongcount(this.authService.getSavedEmail())
-          .subscribe(data => {
+          .subscribe((data:any)=> {
             if (data.success) {
               this.outboxbulk = data.count;
               this.b.push(data.count);
 
               // console.log('zong',data.count);
               this.messagingService.getalloutboxbulkzongcount(this.authService.getSavedEmail())
-              .subscribe(data2 => {
+              .subscribe((data2:any)=> {
     
                 this.lineChartData[1].data[this.lineChartData[1].data.length] = data.count + data2.count;
     
@@ -322,14 +322,14 @@ export class OutboxComponent implements OnInit {
 
             this.messagingService
               .getalloutboxquickwaridcount(this.authService.getSavedEmail())
-              .subscribe(data => {
+              .subscribe((data:any)=> {
                 if (data.success) {
                   this.outboxdigital = data.count;
                   this.d.push(data.count);
 
                   // console.log('warid',data.count);
                   this.messagingService.getalloutboxbulkwaridcount(this.authService.getSavedEmail())
-                  .subscribe(data2 => {
+                  .subscribe((data2:any)=> {
         
                     this.lineChartData[2].data[this.lineChartData[2].data.length] = data.count + data2.count;
         
@@ -339,11 +339,11 @@ export class OutboxComponent implements OnInit {
 
 
                   this.messagingService.getalloutboxquickufonecount(this.authService.getSavedEmail())
-                  .subscribe(data=>{
+                  .subscribe((data:any)=>{
                     // console.log('ufone',data1.count);
 
                     this.messagingService.getalloutboxbulkufonecount(this.authService.getSavedEmail())
-                    .subscribe(data2 => {
+                    .subscribe((data2:any)=> {
           
                       this.lineChartData[3].data[this.lineChartData[3].data.length] = data.count + data2.count;
           
@@ -354,10 +354,10 @@ export class OutboxComponent implements OnInit {
 
 
                     this.messagingService.getalloutboxquicktelenorcount(this.authService.getSavedEmail())
-                    .subscribe(data=>{
+                    .subscribe((data:any)=>{
                       // console.log('tp',data1.count);
                       this.messagingService.getalloutboxbulktelenorcount(this.authService.getSavedEmail())
-                      .subscribe(data2 => {
+                      .subscribe((data2:any)=> {
             
                         this.lineChartData[4].data[this.lineChartData[4].data.length] = data.count + data2.count;
             

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {take} from 'rxjs/operators'
 
 @Injectable()
 export class MaskService {
@@ -14,7 +15,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"masks/register",mask,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallmask(email){
@@ -22,7 +23,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"masks/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getpendingmasks(){
@@ -30,7 +31,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"masks/pending",{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   activatemask(mask){
@@ -38,7 +39,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"masks/allow",mask,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getmaskbyid(id){
@@ -46,7 +47,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"masks/id/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getactivatedmasks(email){
@@ -54,7 +55,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"masks/activated/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removemask(id){
@@ -62,7 +63,7 @@ export class MaskService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"masks/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 

@@ -17,7 +17,7 @@ export class MastermaskmoderationComponent implements OnInit {
   }
 
   getpendingmasks(){
-    this.maskService.getpendingmasks().subscribe(data=>{
+    this.maskService.getpendingmasks().subscribe((data:any)=>{
       if(data.success){
         this.configarr = data.data;
       }
@@ -25,7 +25,7 @@ export class MastermaskmoderationComponent implements OnInit {
   }
   
   activate(id){
-    this.maskService.activatemask({id:id}).subscribe(data=>{
+    this.maskService.activatemask({id:id}).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully activated.');
         this.getpendingmasks();
@@ -36,7 +36,7 @@ export class MastermaskmoderationComponent implements OnInit {
   }
 
   ondelete(id){
-    this.maskService.removemask(id).subscribe(data=>{
+    this.maskService.removemask(id).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Deleted");
         this.getpendingmasks();

@@ -17,7 +17,7 @@ export class MasterissuemoderationComponent implements OnInit {
   }
 
   getpendingissues(){
-    this.issueService.getpendingissues().subscribe(data=>{
+    this.issueService.getpendingissues().subscribe((data:any)=>{
       if(data.success){
         this.configarr = data.data;
       }
@@ -25,7 +25,7 @@ export class MasterissuemoderationComponent implements OnInit {
   }
   
   resolve(id){
-    this.issueService.resolveissue({id:id}).subscribe(data=>{
+    this.issueService.resolveissue({id:id}).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully resolved.');
         this.getpendingissues();

@@ -17,7 +17,7 @@ export class MasterbundlemoderationComponent implements OnInit {
   }
 
   getpendingconfigs(){
-    this.pricingService.getpendingconfigs().subscribe(data=>{
+    this.pricingService.getpendingconfigs().subscribe((data:any)=>{
       if(data.success){
         this.configarr = data.data;
       }
@@ -25,7 +25,7 @@ export class MasterbundlemoderationComponent implements OnInit {
   }
   
   receive(id,email){
-    this.pricingService.receivebundlepayment({id:id}).subscribe(data=>{
+    this.pricingService.receivebundlepayment({id:id}).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully recieved.');
         this.getpendingconfigs();

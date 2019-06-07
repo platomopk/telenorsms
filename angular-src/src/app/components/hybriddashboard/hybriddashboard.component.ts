@@ -30,7 +30,7 @@ export class HybriddashboardComponent implements OnInit {
 
   hybridArr:any[]=[];
   getallhybrid(){
-    this.hybridService.getallhybrid(this.authService.getSavedEmail()).subscribe(data=>{
+    this.hybridService.getallhybrid(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.hybridArr = data.data;
 
@@ -39,7 +39,7 @@ export class HybriddashboardComponent implements OnInit {
   }
 
   removehybrid(name){
-    this.hybridService.removehybrid(name).subscribe(data=>{
+    this.hybridService.removehybrid(name).subscribe((data:any)=>{
       if(data.success){
         alert("Deleted");
         this.getallhybrid();

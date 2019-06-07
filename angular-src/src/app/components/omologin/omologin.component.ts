@@ -44,7 +44,7 @@ export class OmologinComponent implements OnInit {
     }
 
     this.authService.loginUser(user).subscribe(
-      data => {
+      (data:any)=> {
         this.sent = false;
         if(data.success){
 

@@ -37,7 +37,7 @@ export class TemplatenotificationComponent implements OnInit {
     // console.log(newTemplate);
     
 
-    this.notificationService.registerTemplate(newTemplate).subscribe(data=>{
+    this.notificationService.registerTemplate(newTemplate).subscribe((data:any)=>{
       if(data.success){
         alert("Template Created");
         this.getalltemplates();
@@ -52,7 +52,7 @@ export class TemplatenotificationComponent implements OnInit {
 
   getalltemplates(){
     this.notificationService.getalltemplates(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       if(data.success){
         this.templatesArr = data.data;
       }else{
@@ -62,7 +62,7 @@ export class TemplatenotificationComponent implements OnInit {
   }
 
   removetemplate(id){
-    this.notificationService.removetemplate(id).subscribe(data=>{
+    this.notificationService.removetemplate(id).subscribe((data:any)=>{
       if(data.success){
         alert("Template was successfully removed");
         this.getalltemplates();

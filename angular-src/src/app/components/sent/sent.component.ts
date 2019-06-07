@@ -60,7 +60,7 @@ export class SentComponent implements OnInit {
     this.spinner = true;
     this.messagingService
       .getallsentquicklimit(this.authService.getSavedEmail())
-      .subscribe(data => {
+      .subscribe((data:any)=> {
         this.spinner = false;
         if (data.success) {
           this.quickarr = [];
@@ -85,7 +85,7 @@ export class SentComponent implements OnInit {
 
           this.messagingService
             .getalloutboxbulklimit(this.authService.getSavedEmail())
-            .subscribe(data => {
+            .subscribe((data:any)=> {
               if (data.success) {
                 this.bulkarr = [];
                 // data.data.forEach(element => {
@@ -98,7 +98,7 @@ export class SentComponent implements OnInit {
 
                 this.messagingService
                   .getalloutboxdigitallimit(this.authService.getSavedEmail())
-                  .subscribe(data => {
+                  .subscribe((data:any)=> {
                     if (data.success) {
                       this.digitalarr = [];
                       this.digitalarr = data.data;

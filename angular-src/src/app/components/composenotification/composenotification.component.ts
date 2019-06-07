@@ -39,7 +39,7 @@ export class ComposenotificationComponent implements OnInit {
   }
 
   getallnotificationtemplates(){
-    this.notificationService.getalltemplates(this.authService.getSavedEmail()).subscribe(data=>{
+    this.notificationService.getalltemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
       // console.log(data.data);
       
       this.templatesArr = data.data;
@@ -77,7 +77,7 @@ export class ComposenotificationComponent implements OnInit {
       }
     }
 
-    this.notificationService.registerNotificationCampaign(campaign).subscribe(data=>{
+    this.notificationService.registerNotificationCampaign(campaign).subscribe((data:any)=>{
       if(data.success){
         // console.log(data);
         

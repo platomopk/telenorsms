@@ -30,7 +30,7 @@ export class ContactsComponent implements OnInit {
   }
 
   getallcontacts(){
-    this.constactService.getallcontacts(this.authService.getSavedEmail()).subscribe(data=>{
+    this.constactService.getallcontacts(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.contactsArr = data.data;
       }else{
@@ -43,7 +43,7 @@ export class ContactsComponent implements OnInit {
   deletecontact(id){
     var check = confirm("This action will delete this contact");
     if(check){
-      this.constactService.removecontact(id).subscribe(data=>{
+      this.constactService.removecontact(id).subscribe((data:any)=>{
         if(data.success){
           alert("Contact removed.")
           this.getallcontacts();
@@ -89,7 +89,7 @@ export class ContactsComponent implements OnInit {
         createdby:this.authService.getSavedEmail()
       }
 
-      this.constactService.registergroup(newGroup).subscribe(data=>{
+      this.constactService.registergroup(newGroup).subscribe((data:any)=>{
         if(data.success){
           alert("New Group registered.");
         }else{
@@ -104,7 +104,7 @@ export class ContactsComponent implements OnInit {
 
   getallgroups(){
     this.constactService.getallgroups(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       this.allgroups = data.data;
     });
   }
@@ -119,7 +119,7 @@ export class ContactsComponent implements OnInit {
       // console.log(JSON.stringify(update));
       
 
-      this.constactService.updategroup(update).subscribe(data=>{
+      this.constactService.updategroup(update).subscribe((data:any)=>{
         if(data.success){
           alert("Group updated.");
         }else{

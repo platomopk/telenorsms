@@ -78,13 +78,13 @@ dateto: String =
 
     this.getallmasks();
 
-    this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+    this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.templatesArr=data.data;
       }
     });
 
-    this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+    this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.campaignsArr=data.data;
       }
@@ -103,7 +103,7 @@ dateto: String =
 
   masksarr:any=[];
   getallmasks(){
-    this.maskService.getactivatedmasks(this.authService.getSavedEmail()).subscribe(data=>{
+    this.maskService.getactivatedmasks(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.masksarr = data.data;
       }
@@ -162,7 +162,7 @@ dateto: String =
       createdby:this.authService.getSavedEmail()
     }
 
-    this.messagingService.registerdrip(drip).subscribe(data=>{
+    this.messagingService.registerdrip(drip).subscribe((data:any)=>{
       if(data.success){
         alert("Drip Created.")
         location.reload();
@@ -191,7 +191,7 @@ dateto: String =
       loginId:this.account,
       loginPassword:this.password
     }
-    this.messagingService.getAccountSummary(creds).subscribe(data=>{
+    this.messagingService.getAccountSummary(creds).subscribe((data:any)=>{
       if(data.success){
         this.verified = true;
       }else{

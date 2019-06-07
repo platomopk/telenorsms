@@ -260,7 +260,7 @@ export class NavbarComponent implements OnInit {
   
     
 
-    // this.authService.getRights().subscribe(data =>{
+    // this.authService.getRights().subscribe((data:any)=>{
     //   console.log(data);
     // });
 

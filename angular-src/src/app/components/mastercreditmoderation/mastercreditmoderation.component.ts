@@ -17,7 +17,7 @@ export class MastercreditmoderationComponent implements OnInit {
   }
 
   getpendingcredits(){
-    this.pricingService.getpendingcredits().subscribe(data=>{
+    this.pricingService.getpendingcredits().subscribe((data:any)=>{
       if(data.success){
         this.configarr = data.data;
       }
@@ -25,7 +25,7 @@ export class MastercreditmoderationComponent implements OnInit {
   }
   
   receive(id,email){
-    this.pricingService.receivecreditpayment({id:id}).subscribe(data=>{
+    this.pricingService.receivecreditpayment({id:id}).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully recieved.');
         this.getpendingcredits();

@@ -22,7 +22,7 @@ export class IssuedashboardComponent implements OnInit {
 
   getallissues(){
     this.issueService.getallissues(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       console.log(data);
       if(data.success){
         this.issuesArr = data.data;
@@ -33,7 +33,7 @@ export class IssuedashboardComponent implements OnInit {
   }
 
   remove(id){
-    this.issueService.removeissue(id).subscribe(data=>{
+    this.issueService.removeissue(id).subscribe((data:any)=>{
       if(data.success){
         alert("Removed");
         this.getallissues();

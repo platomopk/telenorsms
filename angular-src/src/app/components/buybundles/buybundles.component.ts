@@ -42,6 +42,8 @@ export class BuybundlesComponent implements OnInit {
     this.bundle=event.target.value;
   }
 
+
+  newamountofsms:number=0;
   selectchangecredit(event){
     this.costcredit = 0;
     this.itemscredit = "" ;
@@ -49,102 +51,135 @@ export class BuybundlesComponent implements OnInit {
 
     if(this._smscredit == "631" ){
       this.costcredit+=631;
+      this.newamountofsms = 999;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;999 SMS for 631 PKR \n";
     }else if(this._smscredit == "618" ){
       this.costcredit+=618;
+      this.newamountofsms = 1000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;1000 SMS for 618 PKR \n";
     }else if(this._smscredit == "765" ){
       this.costcredit+=765;
+      this.newamountofsms = 1250;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;1250 SMS for 765 PKR \n";
     }else if(this._smscredit == "907" ){
       this.costcredit+=907;
+      this.newamountofsms = 1500;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;1500 SMS for 907 PKR \n";
     }else if(this._smscredit == "1035" ){
       this.costcredit+=1035;
+      this.newamountofsms = 1750;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;1750 SMS for 1035 PKR \n";
     }else if(this._smscredit == "1156" ){
       this.costcredit+=1156;
+      this.newamountofsms = 2000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;2000 SMS for 1156 PKR \n";
     }else if(this._smscredit == "1714" ){
       this.costcredit+=1714;
+      this.newamountofsms = 3000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;3000 SMS for 1714 PKR \n";
     }else if(this._smscredit == "2259" ){
       this.costcredit+=2259;
+      this.newamountofsms = 4000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;4000 SMS for 2259 PKR \n";
     }else if(this._smscredit == "2756" ){
       this.costcredit+=2756;
+      this.newamountofsms = 5000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;5000 SMS for 2756 PKR \n";
     }else if(this._smscredit == "4033" ){
       this.costcredit+=4033;
+      this.newamountofsms = 7500;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;7500 SMS for 4033 PKR \n";
     }else if(this._smscredit == "5310" ){
       this.costcredit+=5310;
+      this.newamountofsms = 10000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;10000 SMS for 5310 PKR \n";
     }else if(this._smscredit == "6554" ){
       this.costcredit+=6554;
+      this.newamountofsms = 12500;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;12500 SMS for 6554 PKR \n";
     }else if(this._smscredit == "7663" ){
       this.costcredit+=7663;
+      this.newamountofsms = 15000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;15000 SMS for 7663 PKR \n";
     }else if(this._smscredit == "12435" ){
       this.costcredit+=12435;
+      this.newamountofsms = 25000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;25000 SMS for 12435 PKR \n";
     }else if(this._smscredit == "14721" ){
       this.costcredit+=14721;
+      this.newamountofsms = 30000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;30000 SMS for 14721 PKR \n";
     }else if(this._smscredit == "16939" ){
       this.costcredit+=16939;
+      this.newamountofsms = 35000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;35000 SMS for 16939 PKR \n";
     }else if(this._smscredit == "21174" ){
       this.costcredit+=21174;
+      this.newamountofsms = 45000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;45000 SMS for 21174 PKR \n";
     }else if(this._smscredit == "25140" ){
       this.costcredit+=25140;
+      this.newamountofsms = 55000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;55000 SMS for 25140 PKR \n";
     }else if(this._smscredit == "29274" ){
       this.costcredit+=29274;
+      this.newamountofsms = 65000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;65000 SMS for 29274 PKR \n";
     }else if(this._smscredit == "33273" ){
       this.costcredit+=33273;
+      this.newamountofsms = 75000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;75000 SMS for 33273 PKR \n";
     }else if(this._smscredit == "34416" ){
       this.costcredit+=34416;
+      this.newamountofsms = 80000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;80000 SMS for 34416 PKR \n";
     }else if(this._smscredit == "35424" ){
       this.costcredit+=35424;
+      this.newamountofsms = 85000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;85000 SMS for 35424 PKR \n";
     }else if(this._smscredit == "36903" ){
       this.costcredit+=36903;
+      this.newamountofsms = 90000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;90000 SMS for 36903 PKR \n";
     }else if(this._smscredit == "38315" ){
       this.costcredit+=38315;
+      this.newamountofsms = 95000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;95000 SMS for 38315 PKR \n";
     }else if(this._smscredit == "38987" ){
       this.costcredit+=38987;
+      this.newamountofsms = 100000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;100000 SMS for 38987 PKR \n";
     }else if(this._smscredit == "41407" ){
       this.costcredit+=41407;
+      this.newamountofsms = 110000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;110000 SMS for 41407 PKR \n";
     }else if(this._smscredit == "46213" ){
       this.costcredit+=46213;
+      this.newamountofsms = 125000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;125000 SMS for 46213 PKR \n";
     }else if(this._smscredit == "54447" ){
       this.costcredit+=54447;
+      this.newamountofsms = 150000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;150000 SMS for 54447 PKR \n";
     }else if(this._smscredit == "61169" ){
       this.costcredit+=61169;
+      this.newamountofsms = 175000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;175000 SMS for 61169 PKR \n";
     }else if(this._smscredit == "67219" ){
       this.costcredit+=67219;
+      this.newamountofsms = 200000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;200000 SMS for 67219 PKR \n";
     }else if(this._smscredit == "74109" ){
       this.costcredit+=74109;
+      this.newamountofsms = 225000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;225000 SMS for 74109 PKR \n";
     }else if(this._smscredit == "80663" ){
       this.costcredit+=80663;
+      this.newamountofsms = 250000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;250000 SMS for 80663 PKR \n";
     }else if(this._smscredit == "85032" ){
       this.costcredit+=85032;
+      this.newamountofsms = 275000;
       this.itemscredit+="<span><i class='fa fa-check'></i></span>&nbsp;275000 SMS for 85032 PKR \n";
     }
     
@@ -212,7 +247,7 @@ export class BuybundlesComponent implements OnInit {
       this.items+="<span><i class='fa fa-check'></i></span>&nbsp;Throughput for SMS = 0 PKR \n";
     }else if(this._tpsms == "0"){
       this.cost+=0;
-      this.items+="<span><i class='fa fa-check'></i></span>&nbsp;Throughput for SMS = 0 PKR \n";
+      // this.items+="<span><i class='fa fa-check'></i></span>&nbsp;Throughput for SMS = 0 PKR \n";
     }
 
     if(this._tpwa == "10" ){
@@ -226,7 +261,7 @@ export class BuybundlesComponent implements OnInit {
       this.items+="<span><i class='fa fa-check'></i></span>&nbsp;Throughput for WhatsApp = 0 PKR \n";
     }else if(this._tpwa == "0"){
       this.cost+=0;
-      this.items+="<span><i class='fa fa-check'></i></span>&nbsp;Throughput for WhatsApp = 0 PKR \n";
+      // this.items+="<span><i class='fa fa-check'></i></span>&nbsp;Throughput for WhatsApp = 0 PKR \n";
     }
   }
 
@@ -238,7 +273,7 @@ export class BuybundlesComponent implements OnInit {
     }
 
     let credit = {
-      smscredit:this._smscredit,
+      smscredit:this.newamountofsms,
       whatsappcredit:this._whatsappcredit,
       from:'sa@mangotree.com',
       to:this.auth.getSavedEmail(),
@@ -247,7 +282,7 @@ export class BuybundlesComponent implements OnInit {
       createdby:this.auth.getSavedEmail()
     }
 
-    this.pricingService.registercredit(credit).subscribe(data=>{
+    this.pricingService.registercredit(credit).subscribe((data:any)=>{
       if(data.success){
         alert('Credit requested!');
         location.reload();
@@ -293,7 +328,7 @@ export class BuybundlesComponent implements OnInit {
       createdby:this.auth.getSavedEmail()
     };
 
-    this.pricingService.registerbundle(newBundle).subscribe(data=>{
+    this.pricingService.registerbundle(newBundle).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Subscribed");
         location.reload();
@@ -312,7 +347,7 @@ export class BuybundlesComponent implements OnInit {
       createdby:this.auth.getSavedEmail()
     }
 
-    this.pricingService.registerbundle(newBundle).subscribe(data=>{
+    this.pricingService.registerbundle(newBundle).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Subscribed");
         this.getAllBundles();
@@ -323,20 +358,20 @@ export class BuybundlesComponent implements OnInit {
   }
 
   getAllBundles(){
-    this.pricingService.getallbundles(this.auth.getSavedEmail()).subscribe(data=>{
+    this.pricingService.getallbundles(this.auth.getSavedEmail()).subscribe((data:any)=>{
       this.bundlearr = data.data;
     }); 
   }
 
   creditarr:any=[];
   getAllCredit(){
-    this.pricingService.getallcredits(this.auth.getSavedEmail()).subscribe(data=>{
+    this.pricingService.getallcredits(this.auth.getSavedEmail()).subscribe((data:any)=>{
       this.creditarr=data.data;
     })
   }
 
   ondelete(id){
-    this.pricingService.removebundle(id).subscribe(data=>{
+    this.pricingService.removebundle(id).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Deleted");
         this.getAllBundles();

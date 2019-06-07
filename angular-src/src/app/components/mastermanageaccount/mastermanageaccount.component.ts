@@ -24,7 +24,7 @@ export class MastermanageaccountComponent implements OnInit {
 
   accountsarr: any = []
   getallaccounts() {
-    this.auth.getallactivatedusers().subscribe(data => {
+    this.auth.getallactivatedusers().subscribe((data:any)=> {
       if (data.success) {
         this.accountsarr = data.data;
       }
@@ -36,7 +36,7 @@ export class MastermanageaccountComponent implements OnInit {
       alert("Enter Email");
       return false;
     }
-    this.auth.getBalance(this.email.trim()).subscribe(data => {
+    this.auth.getBalance(this.email.trim()).subscribe((data:any)=> {
       if (data.success) {
         this.userobj = data.data;
         this.enable = true;
@@ -59,7 +59,7 @@ export class MastermanageaccountComponent implements OnInit {
       issuspended: true
     }
 
-    this.auth.manipulateAccount(obj).subscribe(data => {
+    this.auth.manipulateAccount(obj).subscribe((data:any)=> {
       this.enable = false;
       this.search()
     })
@@ -71,7 +71,7 @@ export class MastermanageaccountComponent implements OnInit {
       issuspended: false
     }
 
-    this.auth.manipulateAccount(obj).subscribe(data => {
+    this.auth.manipulateAccount(obj).subscribe((data:any)=> {
       this.enable = false;
       this.search()
     })
@@ -81,7 +81,7 @@ export class MastermanageaccountComponent implements OnInit {
     let email = {
       email: e
     }
-    this.auth.resetpassword(email).subscribe(data => {
+    this.auth.resetpassword(email).subscribe((data:any)=> {
       if (data.success) {
         alert('Password reset complete.');
       } else {
@@ -91,7 +91,7 @@ export class MastermanageaccountComponent implements OnInit {
   }
 
   quick(e) {
-    this.messaging.getalltotalquickcount(e).subscribe(data => {
+    this.messaging.getalltotalquickcount(e).subscribe((data:any)=> {
       if (data.success) {
         alert(data.count + ' messages were sent');
       }
@@ -99,7 +99,7 @@ export class MastermanageaccountComponent implements OnInit {
   }
 
   bulk(e) {
-    this.messaging.getalltotalbulkcount(e).subscribe(data => {
+    this.messaging.getalltotalbulkcount(e).subscribe((data:any)=> {
       if (data.success) {
         alert(data.count + ' messages were sent');
       }
@@ -107,7 +107,7 @@ export class MastermanageaccountComponent implements OnInit {
   }
 
   whatsapp(e) {
-    this.messaging.getalltotaldigitalcount(e).subscribe(data => {
+    this.messaging.getalltotaldigitalcount(e).subscribe((data:any)=> {
       if (data.success) {
         alert(data.count + ' messages were sent');
       }
@@ -116,7 +116,7 @@ export class MastermanageaccountComponent implements OnInit {
 
   childsarr: any = []
   getchilds(email) {
-    this.auth.getChildAccess(email).subscribe(data => {
+    this.auth.getChildAccess(email).subscribe((data:any)=> {
       if (data.success) {
         this.childsarr = data.data
       }
@@ -124,7 +124,7 @@ export class MastermanageaccountComponent implements OnInit {
   }
 
   week1(email,expiry) {
-      this.pricing.extendexpirypromo({email:email,expiry:expiry}).subscribe(data=>{
+      this.pricing.extendexpirypromo({email:email,expiry:expiry}).subscribe((data:any)=>{
         if(data.success){
           alert('Successfully added 1 week to the expiry.')
         }else{
@@ -134,7 +134,7 @@ export class MastermanageaccountComponent implements OnInit {
   }
 
   smstp10(email) {
-    this.pricing.extendsmstp10promo({email:email}).subscribe(data=>{
+    this.pricing.extendsmstp10promo({email:email}).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully added Throughput')
       }else{
@@ -144,7 +144,7 @@ export class MastermanageaccountComponent implements OnInit {
   }
 
   watp10(email) {
-    this.pricing.extendwatp10promo({email:email}).subscribe(data=>{
+    this.pricing.extendwatp10promo({email:email}).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully added Throughput')
       }else{
@@ -168,7 +168,7 @@ export class MastermanageaccountComponent implements OnInit {
       createdby:email
     };
 
-    this.pricing.registercredit(credit).subscribe(data=>{
+    this.pricing.registercredit(credit).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully Added Promo Credit!');
       }else{
@@ -189,7 +189,7 @@ export class MastermanageaccountComponent implements OnInit {
       createdby:email
     };
 
-    this.pricing.registercredit(credit).subscribe(data=>{
+    this.pricing.registercredit(credit).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully Added Promo Credit!');
       }else{

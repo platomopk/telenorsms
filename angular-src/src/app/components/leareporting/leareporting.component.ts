@@ -70,7 +70,7 @@ export class LeareportingComponent implements OnInit {
       {
         this.router.navigate(['/home/login']);
       }
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
     this.getallaccounts();
@@ -100,7 +100,7 @@ export class LeareportingComponent implements OnInit {
   accountsArr:any=[];
   getallaccounts(){
     this.auth.getallaccounts(this.auth.getSavedEmail()).
-    subscribe(data=>{
+    subscribe((data:any)=>{
       if(data.success){
         // data.data.forEach(element => {
         //   element.email = AES.decrypt(element.email.trim(), this.localemail.trim().toString()).toString(enc.Utf8)
@@ -160,7 +160,7 @@ export class LeareportingComponent implements OnInit {
         datefrom: this.datefrom,
         dateto: this.dateto
       }
-      this.msgService.getallquick(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallquick(JSON.stringify(queryobj)).subscribe((data:any)=> {
 
         //console.log(data);
         var feed = {
@@ -285,7 +285,7 @@ export class LeareportingComponent implements OnInit {
         datefrom: this.datefrom,
         dateto: this.dateto
       }
-      this.msgService.getallbulk(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulk(JSON.stringify(queryobj)).subscribe((data:any)=> {
         console.log(data);
         var feed = {
           joutbox : 0,
@@ -427,7 +427,7 @@ export class LeareportingComponent implements OnInit {
       this.barChartLabels = ['Timeline'];
       this.spinner = true;
 
-      this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe(data => {
+      this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe((data:any)=> {
         if (data.data.length > 0) {
 
 
@@ -506,7 +506,7 @@ export class LeareportingComponent implements OnInit {
       datefrom: this.datefrom,
       dateto: this.dateto
     }
-    this.msgService.getallquick(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquick(JSON.stringify(queryobj)).subscribe((data:any)=> {
 
       console.log(data);
 
@@ -525,7 +525,7 @@ export class LeareportingComponent implements OnInit {
 
 
   getallbulk() {
-    this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe(data => {
+    this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe((data:any)=> {
       if (data.data.length > 0) {
         // console.log(data.data);
 
@@ -541,7 +541,7 @@ export class LeareportingComponent implements OnInit {
   }
 
   getalldrip() {
-    this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe(data => {
+    this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe((data:any)=> {
       if (data.data.length > 0) {
 
 

@@ -27,7 +27,7 @@ export class StatictemplatemessagingComponent implements OnInit {
       createdby:this.authService.getSavedEmail()
     };
 
-    this.messagingService.registertemplate(template).subscribe(data=>{
+    this.messagingService.registertemplate(template).subscribe((data:any)=>{
       if(data.success){
         alert("Template Registered");
         this.getalltemplates();
@@ -42,7 +42,7 @@ export class StatictemplatemessagingComponent implements OnInit {
   templateArr:any[]=[];
   getalltemplates(){
     this.messagingService.getalltemplates(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       if(data.success){
         this.templateArr = data.data;
       }else{
@@ -53,7 +53,7 @@ export class StatictemplatemessagingComponent implements OnInit {
   }
 
   removetemplate(id){
-    this.messagingService.removetemplate(id).subscribe(data=>{
+    this.messagingService.removetemplate(id).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Removed");
         this.getalltemplates();

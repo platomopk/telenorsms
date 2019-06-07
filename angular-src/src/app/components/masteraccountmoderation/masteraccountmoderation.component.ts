@@ -19,7 +19,7 @@ export class MasteraccountmoderationComponent implements OnInit {
   }
 
   getpending(){
-    this.auth.getpending().subscribe(data=>{
+    this.auth.getpending().subscribe((data:any)=>{
       if(data.success){
         this.usersarr = data.data;
       }else{
@@ -32,7 +32,7 @@ export class MasteraccountmoderationComponent implements OnInit {
     let e={
       email:email
     }
-    this.auth.activateaccount(e).subscribe(data=>{
+    this.auth.activateaccount(e).subscribe((data:any)=>{
       if(data.success){
         alert('Success')
         this.getpending();
@@ -43,7 +43,7 @@ export class MasteraccountmoderationComponent implements OnInit {
   }
 
   delete(_id){
-    this.auth.deleteaccount(_id).subscribe(data=>{
+    this.auth.deleteaccount(_id).subscribe((data:any)=>{
       if(data.success){
         alert('Success')
         this.getpending();

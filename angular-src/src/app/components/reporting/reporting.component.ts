@@ -89,7 +89,7 @@ export class ReportingComponent implements OnInit {
 
     this.localemail = this.auth.getSavedEmail();
 
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
 
@@ -155,7 +155,7 @@ export class ReportingComponent implements OnInit {
       };
       this.msgService
         .getalldigital(JSON.stringify(queryobj))
-        .subscribe(data => {
+        .subscribe((data:any)=> {
           console.log(data);
 
           if (data.data.length > 0) {
@@ -214,7 +214,7 @@ export class ReportingComponent implements OnInit {
         datefrom: this.datefrom,
         dateto: this.dateto
       };
-      this.msgService.getallquick(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallquick(JSON.stringify(queryobj)).subscribe((data:any)=> {
         //console.log(data);
         var feed = {
           joutbox: 0,
@@ -367,7 +367,7 @@ export class ReportingComponent implements OnInit {
         datefrom: this.datefrom,
         dateto: this.dateto
       };
-      this.msgService.getallbulk(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulk(JSON.stringify(queryobj)).subscribe((data:any)=> {
         console.log(data);
         var feed = {
           joutbox: 0,
@@ -525,7 +525,7 @@ export class ReportingComponent implements OnInit {
       this.barChartLabels = ["Timeline"];
       this.spinner = true;
 
-      this.msgService.getalldrip(this.variableemail).subscribe(data => {
+      this.msgService.getalldrip(this.variableemail).subscribe((data:any)=> {
         if (data.data.length > 0) {
           this.ops = data.data;
           
@@ -575,7 +575,7 @@ export class ReportingComponent implements OnInit {
 
   childsArr: any[] = [];
   getallchilds() {
-    this.auth.getChildAccess(this.auth.getSavedEmail()).subscribe(data => {
+    this.auth.getChildAccess(this.auth.getSavedEmail()).subscribe((data:any)=> {
       if (data.data.length > 0) {
         //console.log(data.data);
 
@@ -601,7 +601,7 @@ export class ReportingComponent implements OnInit {
       datefrom: this.datefrom,
       dateto: this.dateto
     };
-    this.msgService.getallquick(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquick(JSON.stringify(queryobj)).subscribe((data:any)=> {
       console.log(data);
 
       if (data.data.length > 0) {
@@ -615,7 +615,7 @@ export class ReportingComponent implements OnInit {
   }
 
   getallbulk() {
-    this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe(data => {
+    this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe((data:any)=> {
       if (data.data.length > 0) {
         // console.log(data.data);
 
@@ -628,7 +628,7 @@ export class ReportingComponent implements OnInit {
   }
 
   getalldrip() {
-    this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe(data => {
+    this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe((data:any)=> {
       if (data.data.length > 0) {
         this.ops = data.data;
         console.log(this.ops);

@@ -19,7 +19,7 @@ export class MasterdashboardComponent implements OnInit {
 
   zongapicreds(){
     this.showspinnerzong = true;
-        this.msgService.getzongapicreds().subscribe(data=>{
+        this.msgService.getzongapicreds().subscribe((data:any)=>{
           this.showspinnerzong = false;
           if(data.success){
             this.zong = data.data;

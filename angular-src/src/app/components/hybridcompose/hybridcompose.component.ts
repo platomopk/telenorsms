@@ -42,7 +42,7 @@ export class HybridcomposeComponent implements OnInit {
       password:this.password
     }
 
-    this.hybridService.registerhybrid(hybrid).subscribe(data=>{
+    this.hybridService.registerhybrid(hybrid).subscribe((data:any)=>{
       if(data.success){
         alert("Message Sent");
         location.reload(true);
@@ -82,7 +82,7 @@ export class HybridcomposeComponent implements OnInit {
       loginId:this.account,
       loginPassword:this.password
     }
-    this.messagingService.getAccountSummary(creds).subscribe(data=>{
+    this.messagingService.getAccountSummary(creds).subscribe((data:any)=>{
       if(data.success){
         this.verified = true;
       }else{

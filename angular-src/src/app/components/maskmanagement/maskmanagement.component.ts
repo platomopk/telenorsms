@@ -44,7 +44,7 @@ export class MaskmanagementComponent implements OnInit {
       createdby:this.auth.getSavedEmail()
     }
 
-    this.maskService.registermask(newMask).subscribe(data=>{
+    this.maskService.registermask(newMask).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Created");
         this.getAllMasks();
@@ -55,13 +55,13 @@ export class MaskmanagementComponent implements OnInit {
   }
 
   getAllMasks(){
-    this.maskService.getallmask(this.auth.getSavedEmail()).subscribe(data=>{
+    this.maskService.getallmask(this.auth.getSavedEmail()).subscribe((data:any)=>{
       this.dataArr = data.data;
     }); 
   }
 
   ondelete(id){
-    this.maskService.removemask(id).subscribe(data=>{
+    this.maskService.removemask(id).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Deleted");
         this.getAllMasks();

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {take} from 'rxjs/operators'
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/template/register",template,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalltemplates(email){
@@ -27,7 +28,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/template/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallstatictemplates(email){
@@ -35,7 +36,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/template/static/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldynamictemplates(email){
@@ -43,7 +44,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/template/dynamic/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removetemplate(id){
@@ -51,7 +52,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"messaging/template/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   //  -------------------------------------------------------------------
@@ -60,7 +61,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/campaigns/register",campaign,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallcampaigns(email){
@@ -68,7 +69,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/campaigns/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallstaticcampaigns(email){
@@ -76,7 +77,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/campaigns/static/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldynamiccampaigns(email){
@@ -84,7 +85,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/campaigns/dynamic/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removecampaign(id){
@@ -92,7 +93,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"messaging/campaigns/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   downloadcampaign(path){
@@ -100,7 +101,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/campaigns/download/"+path,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // ----------------------------------------------------------------------
@@ -109,7 +110,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/digital/register",digital,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   registerdigitalstatic(bulk){
@@ -117,7 +118,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/digital/static/register",bulk,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   registerdigitaldynamic(bulk){
@@ -125,7 +126,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/digital/dynamic/register",bulk,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldigital(queryobj){
@@ -133,7 +134,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/digital/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getdigitaldump(queryobj){
@@ -141,7 +142,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/digital/dump/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removedigital(name){
@@ -149,7 +150,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"messaging/digital/"+name,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // ---------------------------------------
@@ -163,7 +164,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/quick/register",quick,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // getallquick(email){
@@ -171,7 +172,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.get("messaging/quick/"+email,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   getallquick(queryobj){
@@ -179,7 +180,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/quick/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallquicktelcocount(queryobj){
@@ -187,7 +188,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/quick/counttelco/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getmonthoutboxcount(queryobj){
@@ -195,7 +196,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountoutbox/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getmonthoutboxquickcount(queryobj){
@@ -203,21 +204,21 @@ export class MessagingService {
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountoutboxquick/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
   getmonthoutboxbulkcount(queryobj){
     let headers = new Headers();
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountoutboxbulk/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
   getmonthoutboxdripcount(queryobj){
     let headers = new Headers();
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountoutboxdrip/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getmonthsentcount(queryobj){
@@ -225,7 +226,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountsent/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getmonthsentquickcount(queryobj){
@@ -233,21 +234,21 @@ export class MessagingService {
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountsentquick/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
   getmonthsentbulkcount(queryobj){
     let headers = new Headers();
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountsentbulk/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
   getmonthsentdripcount(queryobj){
     let headers = new Headers();
     headers.append('Content-Type','application/json;charset=UTF-8');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/monthcountsentdrip/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getquickdump(queryobj){
@@ -255,7 +256,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/quick/dump/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removequick(name){
@@ -263,7 +264,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"messaging/quick/"+name,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   //  --------------------------------------------------------------------
@@ -273,7 +274,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/bulk/register",bulk,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   registerbulktest(bulk){
@@ -281,7 +282,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/bulk/registertest",bulk,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallbulk(queryobj){
@@ -289,7 +290,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/bulk/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallbulktelcocount(queryobj){
@@ -297,7 +298,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/bulk/counttelco/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getbulkdump(queryobj){
@@ -305,7 +306,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/bulk/dump/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removebulk(name){
@@ -313,7 +314,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"messaging/bulk/"+name,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
   
   // -----------------------------------------------------
@@ -323,7 +324,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/bulk/dynamic/register",bulk,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   registerbulkdynamictest(bulk){
@@ -331,7 +332,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/bulk/dynamic/registertest",bulk,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // ---------------------------------------------
@@ -341,7 +342,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/drip/register",drip,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldrip(email){
@@ -349,7 +350,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/drip/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldriptelcocount(queryobj){
@@ -357,7 +358,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/drip/counttelco/"+queryobj,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getdripdump(query){
@@ -365,7 +366,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/drip/dump/"+query,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removedrip(name){
@@ -373,7 +374,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"messaging/drip/"+name,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // registergroup(group){
@@ -381,7 +382,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.post("contacts/group/register",group,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // getallgroups(email){
@@ -389,7 +390,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.get("contacts/group/"+email,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // getallcontacts(email){
@@ -397,7 +398,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.get("contacts/"+email,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // removecontact(id){
@@ -405,7 +406,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.delete("contacts/"+id,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // removecontactfromgroup(contact){
@@ -413,7 +414,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.delete("contacts/group/contact/"+contact,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // removegroup(id){
@@ -421,7 +422,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.delete("contacts/group/"+id,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // updategroup(group){
@@ -429,7 +430,7 @@ export class MessagingService {
   //   let headers = new Headers();
   //   headers.append('Content-Type','application/json');
   //   return this.http.put("contacts/group",group,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   // getgroupwithdetails(email){
@@ -437,7 +438,7 @@ export class MessagingService {
   //   headers.append('Content-Type','application/json');
   //   //since it is an obsservable so we have to map its response
   //   return this.http.get("contacts/group/details/"+email,{headers})
-  //   .map(res => res.json());
+  //   .map(res => res.json()).pipe(take(1));
   // }
 
   getAccountSummary(creds){
@@ -445,7 +446,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"messaging/account/summary",creds,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -464,7 +465,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/quick/dashboard/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallbulkdashboard(email){
@@ -472,7 +473,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/bulk/dashboard/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldripdashboard(email){
@@ -480,7 +481,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/drip/dashboard/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalldigitaldashboard(email){
@@ -488,7 +489,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/digital/dashboard/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // --------------- sent
@@ -497,7 +498,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/sent/quick/limit/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -507,7 +508,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/limit/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxbulklimit(email){
@@ -515,7 +516,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/limit/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxdigitallimit(email){
@@ -523,7 +524,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/digital/limit/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -533,7 +534,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/limit/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // ----- outbox quick count
@@ -542,7 +543,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxquickjazzcount(email){
@@ -550,7 +551,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/jazz/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxquickzongcount(email){
@@ -558,7 +559,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/zong/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxquickwaridcount(email){
@@ -566,7 +567,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/warid/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxquickufonecount(email){
@@ -574,7 +575,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/ufone/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxquicktelenorcount(email){
@@ -582,7 +583,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/quick/telenor/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // ------------------------------- prio outbox
@@ -591,7 +592,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   // -----------------------------------
@@ -602,7 +603,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/jazz/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxbulkzongcount(email){
@@ -610,7 +611,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/zong/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxbulkwaridcount(email){
@@ -618,7 +619,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/warid/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxbulkufonecount(email){
@@ -626,7 +627,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/ufone/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxbulktelenorcount(email){
@@ -634,7 +635,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/telenor/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -644,7 +645,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/jazz/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxquickzongcount(email){
@@ -652,7 +653,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/zong/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxquickwaridcount(email){
@@ -660,7 +661,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/warid/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxquickufonecount(email){
@@ -668,7 +669,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/ufone/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxquicktelenorcount(email){
@@ -676,7 +677,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/quick/telenor/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   
@@ -685,7 +686,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/bulk/jazz/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxbulkzongcount(email){
@@ -693,7 +694,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/bulk/zong/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxbulkwaridcount(email){
@@ -701,7 +702,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/bulk/warid/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxbulkufonecount(email){
@@ -709,7 +710,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/bulk/ufone/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallprioutboxbulktelenorcount(email){
@@ -717,7 +718,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/pri/bulk/telenor/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -731,7 +732,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/bulk/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getalloutboxdigitalcount(email){
@@ -739,7 +740,7 @@ export class MessagingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"messaging/outbox/digital/count/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
     // ----- 
@@ -748,7 +749,7 @@ export class MessagingService {
       headers.append('Content-Type','application/json');
       //since it is an obsservable so we have to map its response
       return this.http.get(this.ip+"messaging/total/quick/count/"+email,{headers})
-      .map(res => res.json());
+      .map(res => res.json()).pipe(take(1));
     }
   
     getalltotalbulkcount(email){
@@ -756,7 +757,7 @@ export class MessagingService {
       headers.append('Content-Type','application/json');
       //since it is an obsservable so we have to map its response
       return this.http.get(this.ip+"messaging/total/bulk/count/"+email,{headers})
-      .map(res => res.json());
+      .map(res => res.json()).pipe(take(1));
     }
   
     getalltotaldigitalcount(email){
@@ -764,7 +765,7 @@ export class MessagingService {
       headers.append('Content-Type','application/json');
       //since it is an obsservable so we have to map its response
       return this.http.get(this.ip+"messaging/total/digital/count/"+email,{headers})
-      .map(res => res.json());
+      .map(res => res.json()).pipe(take(1));
     }
 
     getalltotaldripcount(email){
@@ -772,7 +773,7 @@ export class MessagingService {
       headers.append('Content-Type','application/json');
       //since it is an obsservable so we have to map its response
       return this.http.get(this.ip+"messaging/total/drip/count/"+email,{headers})
-      .map(res => res.json());
+      .map(res => res.json()).pipe(take(1));
     }
 
 
@@ -782,7 +783,7 @@ export class MessagingService {
       headers.append('Content-Type','application/json');
       //since it is an obsservable so we have to map its response
       return this.http.get(this.ip+"messaging/account/summary",{headers})
-      .map(res => res.json());
+      .map(res => res.json()).pipe(take(1));
     }
 
 

@@ -51,7 +51,7 @@ export class CampaignmanagementComponent implements OnInit {
       createdby:this.authService.getSavedEmail()
     };
     //console.log(campaign);
-    this.messagingService.registercampaign(campaign).subscribe(data=>{
+    this.messagingService.registercampaign(campaign).subscribe((data:any)=>{
       if(data.success){
         alert("Campaign Registered");
         location.reload();
@@ -65,7 +65,7 @@ export class CampaignmanagementComponent implements OnInit {
 
   campaignsArr:any[]=[];
   getallcampaigns(){
-    this.messagingService.getallcampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+    this.messagingService.getallcampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.campaignsArr=data.data;
       }else{
@@ -76,7 +76,7 @@ export class CampaignmanagementComponent implements OnInit {
   }
 
   removecampaign(id){
-    this.messagingService.removecampaign(id).subscribe(data=>{
+    this.messagingService.removecampaign(id).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Removed");
         this.getallcampaigns();

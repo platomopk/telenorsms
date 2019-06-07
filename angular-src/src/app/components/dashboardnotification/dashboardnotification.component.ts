@@ -42,7 +42,7 @@ export class DashboardnotificationComponent implements OnInit {
 
   getallnotifications(){
     this.notificationService.getallnotificaitons(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       // console.log(data);
       
       if(data.success){

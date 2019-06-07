@@ -19,13 +19,13 @@ export class GroupsComponent implements OnInit {
   }
 
   getallgroups(){
-    this.contactService.getallgroups(this.authService.getSavedEmail()).subscribe(data=>{
+    this.contactService.getallgroups(this.authService.getSavedEmail()).subscribe((data:any)=>{
       this.groupsArr = data.data;
     });
   }
 
   removegroup(id){
-    this.contactService.removegroup(id).subscribe(data=>{
+    this.contactService.removegroup(id).subscribe((data:any)=>{
       console.log(data);
       if(data.success){
         alert("Removed");
@@ -44,7 +44,7 @@ export class GroupsComponent implements OnInit {
       groupid:gid
     };
 
-    this.contactService.removecontactfromgroup(JSON.stringify(con)).subscribe(data=>{
+    this.contactService.removecontactfromgroup(JSON.stringify(con)).subscribe((data:any)=>{
       console.log(data);
       if(data.success){
         alert("Removed");
@@ -57,7 +57,7 @@ export class GroupsComponent implements OnInit {
   }
 
   getGroupsWithDetails(){
-    this.contactService.getgroupwithdetails(this.authService.getSavedEmail()).subscribe(data=>{
+    this.contactService.getgroupwithdetails(this.authService.getSavedEmail()).subscribe((data:any)=>{
       //this.groupsArr = data.data;
       console.log(data);
     });

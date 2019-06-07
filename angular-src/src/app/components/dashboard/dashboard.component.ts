@@ -70,13 +70,13 @@ export class DashboardComponent implements OnInit {
     this.drip = 0;
     this.doughnutChartData=[];
 
-    this.msgService.getalltotalquickcount(email).subscribe(data=>{
+    this.msgService.getalltotalquickcount(email).subscribe((data:any)=>{
         this.quick = data.count;
-        this.msgService.getalltotalbulkcount(email).subscribe(data=>{
+        this.msgService.getalltotalbulkcount(email).subscribe((data:any)=>{
             this.bulk = data.count;
-            this.msgService.getalltotaldripcount(email).subscribe(data=>{
+            this.msgService.getalltotaldripcount(email).subscribe((data:any)=>{
                 this.drip = data.count;
-                this.msgService.getalltotaldigitalcount(email).subscribe(data=>{
+                this.msgService.getalltotaldigitalcount(email).subscribe((data:any)=>{
                   this.digital = data.count;
                   this.doughnutChartData.push(this.quick,this.bulk,this.drip,this.digital);
                 });
@@ -96,18 +96,18 @@ export class DashboardComponent implements OnInit {
     this.digitalArr = [];
     this.doughnutChartData = [];
 
-    this.msgService.getallquickdashboard(email).subscribe(data=>{
+    this.msgService.getallquickdashboard(email).subscribe((data:any)=>{
       
         this.quickArr = data.data;
-        this.msgService.getallbulkdashboard(email).subscribe(data=>{
+        this.msgService.getallbulkdashboard(email).subscribe((data:any)=>{
           
             this.bulkArr = data.data;
-            this.msgService.getalldripdashboard(email).subscribe(data=>{
+            this.msgService.getalldripdashboard(email).subscribe((data:any)=>{
               
                 this.dripArr = data.data;
 
 
-                this.msgService.getalldigitaldashboard(email).subscribe(data=>{
+                this.msgService.getalldigitaldashboard(email).subscribe((data:any)=>{
                   this.digitalArr = data.data;
                   this.doughnutChartData.push(this.quickArr.length,this.bulkArr.length,this.dripArr.length,this.digitalArr.length);
                 });
@@ -147,7 +147,7 @@ export class DashboardComponent implements OnInit {
 
   childsArr:any[]=[];
   getallchilds(){
-    this.auth.getChildAccess(this.auth.getSavedEmail()).subscribe(data=>{
+    this.auth.getChildAccess(this.auth.getSavedEmail()).subscribe((data:any)=>{
       if(data.data.length>0){
         //console.log(data.data);
         
@@ -169,7 +169,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-    this.msgService.getallquick(this.auth.getSavedEmail()).subscribe(data=>{
+    this.msgService.getallquick(this.auth.getSavedEmail()).subscribe((data:any)=>{
       if(data.data.length>0){
         //console.log(data.data);
         
@@ -184,7 +184,7 @@ export class DashboardComponent implements OnInit {
 
   bulkArr:any[]=[];
   getallbulk(){
-    this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe(data=>{
+    this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe((data:any)=>{
       if(data.data.length>0){
         // console.log(data.data);
         
@@ -201,7 +201,7 @@ export class DashboardComponent implements OnInit {
 
   dripArr:any[]=[]
   getalldrip(){
-    this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe(data=>{
+    this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe((data:any)=>{
       if(data.data.length>0){
         
         

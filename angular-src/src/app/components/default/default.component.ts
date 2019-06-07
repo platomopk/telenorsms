@@ -137,7 +137,7 @@ export class DefaultComponent implements OnInit {
     }
     this.user = JSON.parse(obj)
 
-    this.dataService.currentnavbar.subscribe(data => {
+    this.dataService.currentnavbar.subscribe((data:any) => {
       this.navbarshow = data;
     })
 
@@ -163,7 +163,7 @@ export class DefaultComponent implements OnInit {
     let obj = {
       email: this.auth.getSavedEmail()
     }
-    this.auth.getbalance(obj).subscribe(data => {
+    this.auth.getbalance(obj).subscribe((data:any)=> {
       if (data.success) {
         this.obj = data.data;
       } else {
@@ -183,13 +183,13 @@ export class DefaultComponent implements OnInit {
 
     this.doughnutChartData = [];
 
-    this.msgService.getalltotalquickcount(email).subscribe(data => {
+    this.msgService.getalltotalquickcount(email).subscribe((data:any)=> {
       this.quick = data.count;
-      this.msgService.getalltotalbulkcount(email).subscribe(data => {
+      this.msgService.getalltotalbulkcount(email).subscribe((data:any)=> {
         this.bulk = data.count;
-        this.msgService.getalltotaldripcount(email).subscribe(data => {
+        this.msgService.getalltotaldripcount(email).subscribe((data:any)=> {
           this.drip = data.count;
-          this.msgService.getalltotaldigitalcount(email).subscribe(data => {
+          this.msgService.getalltotaldigitalcount(email).subscribe((data:any)=> {
             this.digital = data.count;
             this.doughnutChartData.push(this.quick, this.bulk, this.drip, this.digital);
 
@@ -210,19 +210,19 @@ export class DefaultComponent implements OnInit {
       dateto: this.dateto,
       telco: "telenor"
     };
-    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
       if (data.success) {
         this.telenor += data.data;
       } else {
         console.log("No quick telenor Messages");
       }
-      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
         if (data.success) {
           this.telenor += data.data;
         } else {
           console.log("No bulk telenor Messages");
         }
-        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe(data => {
+        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
           if (data.success) {
             this.telenor += data.data;
           } else {
@@ -241,19 +241,19 @@ export class DefaultComponent implements OnInit {
       dateto: this.dateto,
       telco: "ufone"
     };
-    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
       if (data.success) {
         this.ufone += data.data;
       } else {
         console.log("No quick ufone Messages");
       }
-      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
         if (data.success) {
           this.ufone += data.data;
         } else {
           console.log("No bulk ufone Messages");
         }
-        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe(data => {
+        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
           if (data.success) {
             this.ufone += data.data;
           } else {
@@ -272,19 +272,19 @@ export class DefaultComponent implements OnInit {
       dateto: this.dateto,
       telco: "warid"
     };
-    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
       if (data.success) {
         this.warid += data.data;
       } else {
         console.log("No quick warid Messages");
       }
-      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
         if (data.success) {
           this.warid += data.data;
         } else {
           console.log("No bulk warid Messages");
         }
-        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe(data => {
+        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
           if (data.success) {
             this.warid += data.data;
           } else {
@@ -303,19 +303,19 @@ export class DefaultComponent implements OnInit {
       dateto: this.dateto,
       telco: "jazz"
     };
-    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
       if (data.success) {
         this.jazz += data.data;
       } else {
         console.log("No quick jazz Messages");
       }
-      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
         if (data.success) {
           this.jazz += data.data;
         } else {
           console.log("No bulk jazz Messages");
         }
-        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe(data => {
+        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
           if (data.success) {
             this.jazz += data.data;
           } else {
@@ -334,19 +334,19 @@ export class DefaultComponent implements OnInit {
       dateto: this.dateto,
       telco: "zong"
     };
-    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getallquicktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
       if (data.success) {
         this.zong += data.data;
       } else {
         console.log("No quick zong Messages");
       }
-      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe(data => {
+      this.msgService.getallbulktelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
         if (data.success) {
           this.zong += data.data;
         } else {
           console.log("No bulk zong Messages");
         }
-        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe(data => {
+        this.msgService.getalldriptelcocount(JSON.stringify(queryobj)).subscribe((data:any)=> {
           if (data.success) {
             this.zong += data.data;
           } else {
@@ -368,7 +368,7 @@ export class DefaultComponent implements OnInit {
       datefrom: this.datefrom,
       dateto: this.dateto
     };
-    this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe(odata => {
+    this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe((odata:any)=> {
 
 
       this.datefrom =
@@ -390,7 +390,7 @@ export class DefaultComponent implements OnInit {
         datefrom: this.datefrom,
         dateto: this.dateto
       };
-      this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe(odata1 => {
+      this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe((odata1:any)=> {
 
         // second month
         this.datefrom =
@@ -412,7 +412,7 @@ export class DefaultComponent implements OnInit {
           datefrom: this.datefrom,
           dateto: this.datefrom
         };
-        this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe(odata2 => {
+        this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe((odata2:any)=> {
 
           // outboxend
 
@@ -434,7 +434,7 @@ export class DefaultComponent implements OnInit {
             datefrom: this.datefrom,
             dateto: this.dateto
           };
-          this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe(sdata => {
+          this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe((sdata:any)=> {
 
             // 1st month
             this.datefrom =
@@ -454,7 +454,7 @@ export class DefaultComponent implements OnInit {
               datefrom: this.datefrom,
               dateto: this.dateto
             };
-            this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe(sdata1 => {
+            this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe((sdata1:any)=> {
 
               // second month
               this.datefrom =
@@ -474,7 +474,7 @@ export class DefaultComponent implements OnInit {
                 datefrom: this.datefrom,
                 dateto: this.dateto
               };
-              this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe(sdata2 => {
+              this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe((sdata2:any)=> {
 
                 // sent end
                 this.outbox = odata2.quick + odata2.bulk + odata2.drip + odata1.quick + odata1.bulk + odata1.drip + odata.quick + odata.bulk + odata.drip;
@@ -526,7 +526,7 @@ export class DefaultComponent implements OnInit {
       datefrom: this.dateto,
       dateto: this.dateto
     };
-    this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe(data => {
+    this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe((data:any)=> {
 
       // 1st month
       this.datefrom =
@@ -540,7 +540,7 @@ export class DefaultComponent implements OnInit {
         datefrom: this.datefrom,
         dateto: this.datefrom
       };
-      this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe(data1 => {
+      this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe((data1:any)=> {
 
         // second month
         this.datefrom =
@@ -554,7 +554,7 @@ export class DefaultComponent implements OnInit {
           datefrom: this.datefrom,
           dateto: this.datefrom
         };
-        this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe(data2 => {
+        this.msgService.getmonthsentcount(JSON.stringify(queryobj)).subscribe((data2:any)=> {
           this.lineChartData.push({ data: [data2.quick + data2.bulk + data2.drip, data1.quick + data1.bulk + data1.drip, data.quick + data.bulk + data.drip], label: 'Sent' });
           this.sent = data2.quick + data2.bulk + data2.drip + data1.quick + data1.bulk + data1.drip + data.quick + data.bulk + data.drip;
 
@@ -577,14 +577,14 @@ export class DefaultComponent implements OnInit {
       dateto: this.dateto
     };
 
-    this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe(odata => {
+    this.msgService.getmonthoutboxcount(JSON.stringify(queryobj)).subscribe((odata:any)=> {
         let queryobjs = {
           email: this.auth.getSavedEmail(),
           datefrom: this.datefrom,
           dateto: this.dateto
         };
         // odata is last month's output data
-        this.msgService.getmonthsentcount(JSON.stringify(queryobjs)).subscribe(sdata => {
+        this.msgService.getmonthsentcount(JSON.stringify(queryobjs)).subscribe((sdata:any)=> {
           // sdata is last month's sent data
           this.outbox = odata.quick + odata.bulk + odata.drip;
           this.sent = sdata.quick + sdata.bulk + sdata.drip;

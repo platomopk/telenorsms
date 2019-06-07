@@ -191,7 +191,7 @@ export class PrioutboxComponent implements OnInit {
     this.spinner = true;
     this.messagingService
       .getallprioutboxquicklimit(this.authService.getSavedEmail())
-      .subscribe(data => {
+      .subscribe((data:any)=> {
         if (data.success) {          
           this.quickarr = [];
           data.data.forEach(element => {
@@ -241,7 +241,7 @@ export class PrioutboxComponent implements OnInit {
 
     this.messagingService
       .getallprioutboxquickjazzcount(this.authService.getSavedEmail())
-      .subscribe(data1 => {
+      .subscribe((data1:any)=> {
         if (data1.success) {
           this.outboxquick = data1.count;
           this.q.push(data1.count);
@@ -249,7 +249,7 @@ export class PrioutboxComponent implements OnInit {
           // console.log('jazz',data1.count);
 
           this.messagingService.getallprioutboxbulkjazzcount(this.authService.getSavedEmail())
-          .subscribe(data2 => {
+          .subscribe((data2:any)=> {
 
             this.lineChartData[0].data[this.lineChartData[0].data.length] = data1.count + data2.count;
 
@@ -259,14 +259,14 @@ export class PrioutboxComponent implements OnInit {
 
         this.messagingService
           .getallprioutboxquickzongcount(this.authService.getSavedEmail())
-          .subscribe(data => {
+          .subscribe((data:any)=> {
             if (data.success) {
               this.outboxbulk = data.count;
               this.b.push(data.count);
 
               // console.log('zong',data.count);
               this.messagingService.getallprioutboxbulkzongcount(this.authService.getSavedEmail())
-              .subscribe(data2 => {
+              .subscribe((data2:any)=> {
     
                 this.lineChartData[1].data[this.lineChartData[1].data.length] = data.count + data2.count;
     
@@ -277,14 +277,14 @@ export class PrioutboxComponent implements OnInit {
 
             this.messagingService
               .getallprioutboxquickwaridcount(this.authService.getSavedEmail())
-              .subscribe(data => {
+              .subscribe((data:any)=> {
                 if (data.success) {
                   this.outboxdigital = data.count;
                   this.d.push(data.count);
 
                   // console.log('warid',data.count);
                   this.messagingService.getallprioutboxbulkwaridcount(this.authService.getSavedEmail())
-                  .subscribe(data2 => {
+                  .subscribe((data2:any)=> {
         
                     this.lineChartData[2].data[this.lineChartData[2].data.length] = data.count + data2.count;
         
@@ -294,11 +294,11 @@ export class PrioutboxComponent implements OnInit {
 
 
                   this.messagingService.getallprioutboxquickufonecount(this.authService.getSavedEmail())
-                  .subscribe(data=>{
+                  .subscribe((data:any)=>{
                     // console.log('ufone',data1.count);
 
                     this.messagingService.getallprioutboxbulkufonecount(this.authService.getSavedEmail())
-                    .subscribe(data2 => {
+                    .subscribe((data2:any)=> {
           
                       this.lineChartData[3].data[this.lineChartData[3].data.length] = data.count + data2.count;
           
@@ -309,10 +309,10 @@ export class PrioutboxComponent implements OnInit {
 
 
                     this.messagingService.getallprioutboxquicktelenorcount(this.authService.getSavedEmail())
-                    .subscribe(data=>{
+                    .subscribe((data:any)=>{
                       // console.log('tp',data1.count);
                       this.messagingService.getallprioutboxbulktelenorcount(this.authService.getSavedEmail())
-                      .subscribe(data2 => {
+                      .subscribe((data2:any)=> {
             
                         this.lineChartData[4].data[this.lineChartData[4].data.length] = data.count + data2.count;
             

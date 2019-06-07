@@ -37,7 +37,7 @@ export class CreateissueComponent implements OnInit {
     }
     
     //this.issueService.registerissue(newIssue);
-    this.issueService.registerissue(newIssue).subscribe(data=>{
+    this.issueService.registerissue(newIssue).subscribe((data:any)=>{
       if (data.success){
         alert("Issue registered!");
         console.log(data.issue);
@@ -50,7 +50,7 @@ export class CreateissueComponent implements OnInit {
 
   getMasks(){
     this.maskService.getactivatedmasks(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       this.masksArr = data.data;
     });
   }

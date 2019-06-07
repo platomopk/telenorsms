@@ -78,7 +78,7 @@ export class RegisterComponent implements OnInit {
     
     
     this.authService.registerUser(user)
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       this.sent = false;
       console.log(data);
       if(data.success){

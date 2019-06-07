@@ -56,13 +56,13 @@ export class MessagingdashboardComponent implements OnInit {
     this.digitalArr = [];
     this.doughnutChartData = [];
 
-    this.msgService.getalltotalquickcount(email).subscribe(data=>{
+    this.msgService.getalltotalquickcount(email).subscribe((data:any)=>{
         this.quick = data.count;
-        this.msgService.getalltotalbulkcount(email).subscribe(data=>{
+        this.msgService.getalltotalbulkcount(email).subscribe((data:any)=>{
             this.bulk = data.count;
-            this.msgService.getalltotaldripcount(email).subscribe(data=>{
+            this.msgService.getalltotaldripcount(email).subscribe((data:any)=>{
                 this.drip = data.count;
-                this.msgService.getalltotaldigitalcount(email).subscribe(data=>{
+                this.msgService.getalltotaldigitalcount(email).subscribe((data:any)=>{
                   this.digital = data.count;
                   this.barChartData.push({data:[this.quick,this.bulk,this.drip,this.digital],label:""})
                   this.doughnutChartData.push(this.quick,this.bulk,this.drip,this.digital);
@@ -73,13 +73,13 @@ export class MessagingdashboardComponent implements OnInit {
   }
 
   // geteverything(){
-  //   this.msgService.getallquick(this.auth.getSavedEmail()).subscribe(data=>{
+  //   this.msgService.getallquick(this.auth.getSavedEmail()).subscribe((data:any)=>{
   //     if(data.data.length>0){
   //       this.quickArr = data.data;
-  //       this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe(data=>{
+  //       this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe((data:any)=>{
   //         if(data.data.length>0){
   //           this.bulkArr = data.data;
-  //           this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe(data=>{
+  //           this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe((data:any)=>{
   //             if(data.data.length>0){
   //               this.dripArr = data.data;
 
@@ -110,7 +110,7 @@ export class MessagingdashboardComponent implements OnInit {
 
 
   // getallquick(){
-  //   this.msgService.getallquick(this.auth.getSavedEmail()).subscribe(data=>{
+  //   this.msgService.getallquick(this.auth.getSavedEmail()).subscribe((data:any)=>{
   //     if(data.data.length>0){
   //       //console.log(data.data);
         
@@ -124,7 +124,7 @@ export class MessagingdashboardComponent implements OnInit {
   // }    
 
   // removequick(name){
-  //   this.msgService.removequick(name).subscribe(data=>{
+  //   this.msgService.removequick(name).subscribe((data:any)=>{
   //       if(data.success){
   //         alert("Removed");
   //         this.getallquick();
@@ -136,7 +136,7 @@ export class MessagingdashboardComponent implements OnInit {
 
   
   // getallbulk(){
-  //   this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe(data=>{
+  //   this.msgService.getallbulk(this.auth.getSavedEmail()).subscribe((data:any)=>{
   //     if(data.data.length>0){
   //       // console.log(data.data);
         
@@ -151,7 +151,7 @@ export class MessagingdashboardComponent implements OnInit {
   // }    
 
   // removebulk(name){
-  //   this.msgService.removebulk(name).subscribe(data=>{
+  //   this.msgService.removebulk(name).subscribe((data:any)=>{
   //       if(data.success){
   //         alert("Removed");
   //         this.getallbulk();
@@ -163,7 +163,7 @@ export class MessagingdashboardComponent implements OnInit {
 
  
   // getalldrip(){
-  //   this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe(data=>{
+  //   this.msgService.getalldrip(this.auth.getSavedEmail()).subscribe((data:any)=>{
   //     if(data.data.length>0){
         
         
@@ -180,7 +180,7 @@ export class MessagingdashboardComponent implements OnInit {
   // removedrip(name){
   //   //console.log(name);
     
-  //   this.msgService.removedrip(name).subscribe(data=>{
+  //   this.msgService.removedrip(name).subscribe((data:any)=>{
   //       if(data.success){
   //         alert("Removed");
   //         this.getalldrip();

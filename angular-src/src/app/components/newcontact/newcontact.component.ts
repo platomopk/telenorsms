@@ -33,7 +33,7 @@ export class NewcontactComponent implements OnInit {
       createdby:this.authService.getSavedEmail()
     }
 
-    this.contactService.registercontact(newContact).subscribe(data=>{
+    this.contactService.registercontact(newContact).subscribe((data:any)=>{
       if(data.success){
         alert("New contact addded");
       }else{

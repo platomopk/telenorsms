@@ -83,7 +83,7 @@ export class MastersalesrevenueComponent implements OnInit {
 
 
   getallsalesmen(){
-    this.auth.getallsalesmen().subscribe(data => {
+    this.auth.getallsalesmen().subscribe((data:any)=> {
       if (data.data.length > 0) {
         //console.log(data.data);
 
@@ -108,7 +108,7 @@ export class MastersalesrevenueComponent implements OnInit {
 
     this.localemail = this.auth.getSavedEmail();
 
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
 
@@ -171,7 +171,7 @@ export class MastersalesrevenueComponent implements OnInit {
     }
 
     this.spinner = true;
-    this.salesService.getsalesreport(JSON.stringify(query)).subscribe(data=>{
+    this.salesService.getsalesreport(JSON.stringify(query)).subscribe((data:any)=>{
       if(data.success){
         console.log(data);
         if(data.data.length>0){
@@ -200,7 +200,7 @@ export class MastersalesrevenueComponent implements OnInit {
 
   childsArr: any[] = [];
   getallchilds() {
-    this.auth.getChildAccess(this.auth.getSavedEmail()).subscribe(data => {
+    this.auth.getChildAccess(this.auth.getSavedEmail()).subscribe((data:any)=> {
       if (data.data.length > 0) {
         //console.log(data.data);
 

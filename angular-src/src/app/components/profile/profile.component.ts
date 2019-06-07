@@ -28,13 +28,13 @@ export class ProfileComponent implements OnInit {
     // get the user id
     const ide = localStorage.getItem('user');
     this.user = JSON.parse(ide);
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
 
     //get the user info
     this.authService.getProfile().subscribe(
-      data => {
+      (data:any) => {
         // this.user = data.user;
         // console.log(data);
         
@@ -104,7 +104,7 @@ export class ProfileComponent implements OnInit {
 
     
 
-    this.authService.updateProfile(user).subscribe(data =>{
+    this.authService.updateProfile(user).subscribe((data:any)=>{
       if(data.success){
         this.authService.storeUserData(data.token,data.user);
         alert(data.msg + " Please re-login.");

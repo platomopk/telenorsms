@@ -37,12 +37,12 @@ export class TopbarComponent implements OnInit {
     if( localStorage.getItem('id_loggedIn') != null && localStorage.getItem('id_loggedIn')=='true'){
       this.loggedIn=true;
 
-      this.data.currentnavbar.subscribe(data=>{
+      this.data.currentnavbar.subscribe((data:any)=>{
           this.navbarshow = data;
       })
 
       // this.authService.getProfile().subscribe(
-      //   data=>{
+      //   (data:any)=>{
       //     this.instanceid = data._id;
       //   },
       //   err=>{

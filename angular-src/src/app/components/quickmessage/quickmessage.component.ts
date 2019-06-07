@@ -47,7 +47,7 @@ export class QuickmessageComponent implements OnInit {
 
   masksarr:any=[];
   getallmasks(){
-    this.maskService.getactivatedmasks(this.authService.getSavedEmail()).subscribe(data=>{
+    this.maskService.getactivatedmasks(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.masksarr = data.data;
       }
@@ -69,7 +69,7 @@ export class QuickmessageComponent implements OnInit {
       loginId:this.account,
       loginPassword:this.password
     }
-    this.messagingService.getAccountSummary(creds).subscribe(data=>{
+    this.messagingService.getAccountSummary(creds).subscribe((data:any)=>{
       console.log(data,this.verified);
       if(data.success){
         // verify the condition
@@ -144,7 +144,7 @@ export class QuickmessageComponent implements OnInit {
             account:this.account,
             password:this.password
           };
-          this.messagingService.registerquick(quickObj).subscribe(data=>{
+          this.messagingService.registerquick(quickObj).subscribe((data:any)=>{
             //console.log(data);
             if(data.success){
               alert("Quick Message(s) : Sent") ;
@@ -165,7 +165,7 @@ export class QuickmessageComponent implements OnInit {
   templateArr:any[]=[];
   getallstatictemplates(){
     this.messagingService.getallstatictemplates(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       if(data.success){
         this.templateArr = data.data;
       }else{

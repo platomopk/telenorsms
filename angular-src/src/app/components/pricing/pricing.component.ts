@@ -11,7 +11,7 @@ export class PricingComponent implements OnInit {
   constructor(private dataService:DataService) { }
 
   ngOnInit() {
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
   }

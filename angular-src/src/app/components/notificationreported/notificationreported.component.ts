@@ -27,7 +27,7 @@ export class NotificationreportedComponent implements OnInit {
   }
 
   getallreported(){
-    this.notificationService.getAllnotificationreported(this.notificationId).subscribe(data=>{
+    this.notificationService.getAllnotificationreported(this.notificationId).subscribe((data:any)=>{
       
       this.notificationArr = data[0].payload;
     });

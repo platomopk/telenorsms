@@ -55,7 +55,7 @@ export class BulkmessageComponent implements OnInit {
 
   masksarr:any=[];
   getallmasks(){
-    this.maskService.getactivatedmasks(this.authService.getSavedEmail()).subscribe(data=>{
+    this.maskService.getactivatedmasks(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         this.masksarr = data.data;
       }
@@ -107,7 +107,7 @@ export class BulkmessageComponent implements OnInit {
     }
 
     if(this.op == "static"){
-      this.messagingService.registerbulk(bulk).subscribe(data=>{
+      this.messagingService.registerbulk(bulk).subscribe((data:any)=>{
         if(data.success){
           alert("Bulk Sent!");
           location.reload();
@@ -118,7 +118,7 @@ export class BulkmessageComponent implements OnInit {
         this.sent =false;
       });
     }else if(this.op == "dynamic"){
-      this.messagingService.registerbulkdynamic(bulk).subscribe(data=>{
+      this.messagingService.registerbulkdynamic(bulk).subscribe((data:any)=>{
         if(data.success){
           alert("Bulk of "+data.records+" sent in "+data.timetaken+"ms!");
           location.reload();
@@ -168,7 +168,7 @@ export class BulkmessageComponent implements OnInit {
     }
 
     if(this.op == "static"){
-      this.messagingService.registerbulktest(bulk).subscribe(data=>{
+      this.messagingService.registerbulktest(bulk).subscribe((data:any)=>{
         if(data.success){
           alert("Test Bulk Sent!");
   
@@ -178,7 +178,7 @@ export class BulkmessageComponent implements OnInit {
         this.sent =false;
       });
     }else if(this.op == "dynamic"){
-      this.messagingService.registerbulkdynamictest(bulk).subscribe(data=>{
+      this.messagingService.registerbulkdynamictest(bulk).subscribe((data:any)=>{
         if(data.success){
           alert("Test Bulk Sent!");
         }else{
@@ -218,14 +218,14 @@ export class BulkmessageComponent implements OnInit {
   gettemplates(){
     if(this.op==""){
 
-      // this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+      // this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
       //     if(data.success){
       //       this.templatesArr = data.data;
       //       console.log(this.templatesArr);
       //     }
       // });
 
-      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.campaignsArr = data.data;
           console.log(this.campaignsArr);
@@ -236,13 +236,13 @@ export class BulkmessageComponent implements OnInit {
       console.log("Get static templates");
     }else if(this.op=="static"){
 
-      this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.templatesArr = data.data;
         }
       });
 
-      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.campaignsArr = data.data;
         }
@@ -254,13 +254,13 @@ export class BulkmessageComponent implements OnInit {
     }else if(this.op=="dynamic"){
 
 
-      this.messagingService.getalldynamictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getalldynamictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.templatesArr = data.data;
         }
       });
 
-      this.messagingService.getalldynamiccampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getalldynamiccampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.campaignsArr = data.data;
         }

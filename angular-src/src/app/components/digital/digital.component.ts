@@ -77,7 +77,7 @@ export class DigitalComponent implements OnInit {
     }
 
     if(this.op == "static"){
-      this.messagingService.registerdigitalstatic(obj).subscribe(data=>{
+      this.messagingService.registerdigitalstatic(obj).subscribe((data:any)=>{
         console.log(data);
         
         if(data.success){
@@ -87,7 +87,7 @@ export class DigitalComponent implements OnInit {
         }
       })
     }else{
-      this.messagingService.registerdigitaldynamic(obj).subscribe(data=>{
+      this.messagingService.registerdigitaldynamic(obj).subscribe((data:any)=>{
         if(data.success){
           alert('Successful!' + data.timetaken + data.records);
         }else{
@@ -106,7 +106,7 @@ export class DigitalComponent implements OnInit {
     //     createdby: this.authService.getSavedEmail()
     //   }
 
-    //   this.messagingService.registerdigital(obj).subscribe(data=>{
+    //   this.messagingService.registerdigital(obj).subscribe((data:any)=>{
     //     if(data.success){
     //       alert('Successful!');
     //       location.reload(true);
@@ -152,7 +152,7 @@ export class DigitalComponent implements OnInit {
     }
 
     if(this.op == "static"){
-      this.messagingService.registerbulk(bulk).subscribe(data=>{
+      this.messagingService.registerbulk(bulk).subscribe((data:any)=>{
         if(data.success){
           alert("Bulk Sent!");
           location.reload();
@@ -162,7 +162,7 @@ export class DigitalComponent implements OnInit {
         }
       });
     }else if(this.op == "dynamic"){
-      this.messagingService.registerbulkdynamic(bulk).subscribe(data=>{
+      this.messagingService.registerbulkdynamic(bulk).subscribe((data:any)=>{
         if(data.success){
           alert("Bulk of "+data.records+" sent in "+data.timetaken+"ms!");
           location.reload();
@@ -191,7 +191,7 @@ export class DigitalComponent implements OnInit {
   //     loginId:this.account,
   //     loginPassword:this.password
   //   }
-  //   this.messagingService.getAccountSummary(creds).subscribe(data=>{
+  //   this.messagingService.getAccountSummary(creds).subscribe((data:any)=>{
   //     console.log(data,this.verified);
   //     if(data.success){
   //       // verify the condition
@@ -256,7 +256,7 @@ export class DigitalComponent implements OnInit {
   //           account:this.account,
   //           password:this.password
   //         };
-  //         this.messagingService.registerquick(quickObj).subscribe(data=>{
+  //         this.messagingService.registerquick(quickObj).subscribe((data:any)=>{
   //           //console.log(data);
   //           if(data.success){
   //             alert("Quick Message(s) : Sent") ;
@@ -276,7 +276,7 @@ export class DigitalComponent implements OnInit {
   templateArr:any[]=[];
   getallstatictemplates(){
     this.messagingService.getallstatictemplates(this.authService.getSavedEmail())
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       if(data.success){
         this.templateArr = data.data;
       }else{
@@ -291,14 +291,14 @@ export class DigitalComponent implements OnInit {
   gettemplates(){
     if(this.op==""){
 
-      // this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+      // this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
       //     if(data.success){
       //       this.templatesArr = data.data;
       //       console.log(this.templatesArr);
       //     }
       // });
 
-      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.campaignsArr = data.data;
           console.log(this.campaignsArr);
@@ -309,13 +309,13 @@ export class DigitalComponent implements OnInit {
       console.log("Get static templates");
     }else if(this.op=="static"){
 
-      this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getallstatictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.templatesArr = data.data;
         }
       });
 
-      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getallstaticcampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.campaignsArr = data.data;
         }
@@ -327,13 +327,13 @@ export class DigitalComponent implements OnInit {
     }else if(this.op=="dynamic"){
 
 
-      this.messagingService.getalldynamictemplates(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getalldynamictemplates(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.templatesArr = data.data;
         }
       });
 
-      this.messagingService.getalldynamiccampaigns(this.authService.getSavedEmail()).subscribe(data=>{
+      this.messagingService.getalldynamiccampaigns(this.authService.getSavedEmail()).subscribe((data:any)=>{
         if(data.success){
           this.campaignsArr = data.data;
         }

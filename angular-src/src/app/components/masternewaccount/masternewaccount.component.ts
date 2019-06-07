@@ -120,7 +120,7 @@ export class MasternewaccountComponent implements OnInit {
     
     
     this.authService.registerUser(user)
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       if(data.success){
         alert("User registered successfully.");
       }else{

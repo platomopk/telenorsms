@@ -37,7 +37,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.pricingService.getconfigurationdump(JSON.stringify(query)).subscribe(data => {
+    this.pricingService.getconfigurationdump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'configdump');
@@ -52,7 +52,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.pricingService.getcreditdump(JSON.stringify(query)).subscribe(data => {
+    this.pricingService.getcreditdump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'creditdump');
@@ -67,7 +67,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.messagingService.getquickdump(JSON.stringify(query)).subscribe(data => {
+    this.messagingService.getquickdump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'quickdump');
@@ -82,7 +82,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.messagingService.getbulkdump(JSON.stringify(query)).subscribe(data => {
+    this.messagingService.getbulkdump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'bulkdump');
@@ -97,7 +97,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.messagingService.getdigitaldump(JSON.stringify(query)).subscribe(data => {
+    this.messagingService.getdigitaldump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'digitaldump');
@@ -112,7 +112,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.messagingService.getdripdump(JSON.stringify(query)).subscribe(data => {
+    this.messagingService.getdripdump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'dripdump');
@@ -127,7 +127,7 @@ export class MasterreportsComponent implements OnInit {
       dateto: this.dateto,
       datefrom: this.datefrom
     }
-    this.auth.getusersdump(JSON.stringify(query)).subscribe(data => {
+    this.auth.getusersdump(JSON.stringify(query)).subscribe((data:any)=> {
       if (data.success) {
         console.log(data.data);
         this._csvService.download(data.data,'accountsdump');

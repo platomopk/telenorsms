@@ -16,7 +16,7 @@ export class IssuestrackerComponent implements OnInit {
       {
         this.router.navigate(['/home/login']);
       }
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
   }

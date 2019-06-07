@@ -90,7 +90,7 @@ export class UacmanagementComponent implements OnInit {
   }
 
   getparentbalance(){
-    this.authService.getBalance(this.authService.getSavedEmail()).subscribe(data=>{
+    this.authService.getBalance(this.authService.getSavedEmail()).subscribe((data:any)=>{
       if(data.success){
         
         this.smscredit=data.data.creditsms;
@@ -128,7 +128,7 @@ export class UacmanagementComponent implements OnInit {
     let email = {
       val:this.parentemail
     }
-    this.authService.getChildAccess(email.val).subscribe(data =>{
+    this.authService.getChildAccess(email.val).subscribe((data:any)=>{
       
       //console.log(data.data);
 
@@ -148,7 +148,7 @@ export class UacmanagementComponent implements OnInit {
 
   getallchilds(){
     this.childsarr=[];
-    this.authService.getChildAccess(this.parentemail).subscribe(data =>{
+    this.authService.getChildAccess(this.parentemail).subscribe((data:any)=>{
       console.log(data.data);
       
       this.childsarr=data.data;
@@ -167,7 +167,7 @@ export class UacmanagementComponent implements OnInit {
     
 
     // here call the function to get the values of rights from main email address
-    this.authService.getRights(event.target.value).subscribe(data=>{
+    this.authService.getRights(event.target.value).subscribe((data:any)=>{
 
       console.log(data);
 
@@ -239,7 +239,7 @@ export class UacmanagementComponent implements OnInit {
     //console.log(JSON.stringify(rights));
     //console.log(rights);
 
-    this.authService.updateRights(rights).subscribe(data=>{
+    this.authService.updateRights(rights).subscribe((data:any)=>{
       if(data.success){
         alert("Rights for this child account were updated.")
         location.reload(true);
@@ -355,7 +355,7 @@ export class UacmanagementComponent implements OnInit {
 
     //Register new user
     this.authService.registerUser(user)
-    .subscribe(data=>{
+    .subscribe((data:any)=>{
       if(data.success){
         alert("You just registered a child account.");
         this.getallchilds();
@@ -373,7 +373,7 @@ export class UacmanagementComponent implements OnInit {
   }
 
   childdelete(id){
-    this.authService.removechild(id).subscribe(data=>{
+    this.authService.removechild(id).subscribe((data:any)=>{
       if(data.success){
         alert("Successfully Deleted");
         this.getallchilds();
@@ -400,7 +400,7 @@ export class UacmanagementComponent implements OnInit {
       createdby:this.authService.getSavedEmail()
     };
 
-    this.pricingService.registercredit(credit).subscribe(data=>{
+    this.pricingService.registercredit(credit).subscribe((data:any)=>{
       if(data.success){
         alert('Successfully shared!');
       }else{
@@ -424,7 +424,7 @@ export class UacmanagementComponent implements OnInit {
       to:this.historychild
     }
 
-    this.pricingService.credithistory(JSON.stringify(query)).subscribe(data=>{
+    this.pricingService.credithistory(JSON.stringify(query)).subscribe((data:any)=>{
       if(data.success){
         console.log(data.data);
         this.historyarr = data.data;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {take} from 'rxjs/operators'
 
 @Injectable()
 export class ContactService {
@@ -15,7 +16,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"contacts/register",contact,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   registergroup(group){
@@ -23,7 +24,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"contacts/group/register",group,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallgroups(email){
@@ -31,7 +32,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"contacts/group/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallcontacts(email){
@@ -39,7 +40,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"contacts/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removecontact(id){
@@ -47,7 +48,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"contacts/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removecontactfromgroup(contact){
@@ -55,7 +56,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"contacts/group/contact/"+contact,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   removegroup(id){
@@ -63,7 +64,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"contacts/group/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   updategroup(group){
@@ -71,7 +72,7 @@ export class ContactService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     return this.http.put(this.ip+"contacts/group",group,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getgroupwithdetails(email){
@@ -79,7 +80,7 @@ export class ContactService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"contacts/group/details/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 }

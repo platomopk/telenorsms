@@ -39,7 +39,7 @@ export class MessagingComponent implements OnInit {
     let local = localStorage.getItem("user");
     let type = JSON.parse(local).type;
 
-    this.dataService.currentnavbar.subscribe(data=>{
+    this.dataService.currentnavbar.subscribe((data:any)=>{
       this.navbarshow = data;
     })
 
@@ -75,21 +75,21 @@ export class MessagingComponent implements OnInit {
     this.spinner = true;
     this.messagingService
       .getalloutboxquickcount(this.authService.getSavedEmail())
-      .subscribe(data => {
+      .subscribe((data:any)=> {
         if (data.success) {
           this.outboxquick = data.count;
         }
 
         this.messagingService
           .getalloutboxbulkcount(this.authService.getSavedEmail())
-          .subscribe(data => {
+          .subscribe((data:any)=> {
             if (data.success) {
               this.outboxbulk = data.count;
             }
 
             this.messagingService
               .getalloutboxdigitalcount(this.authService.getSavedEmail())
-              .subscribe(data => {
+              .subscribe((data:any)=> {
                 if (data.success) {
                   this.outboxdigital = data.count;
                 }
@@ -106,7 +106,7 @@ export class MessagingComponent implements OnInit {
     this.spinner = true;
     this.messagingService
       .getalloutboxquickcount(this.authService.getSavedEmail())
-      .subscribe(data => {
+      .subscribe((data:any)=> {
         if (data.success) {
           this.outboxquick = data.count;
         }
@@ -114,21 +114,21 @@ export class MessagingComponent implements OnInit {
         // priority
         this.messagingService
           .getallprioutboxquickcount(this.authService.getSavedEmail())
-          .subscribe(data => {
+          .subscribe((data:any)=> {
             if (data.success) {
               this.totalPriOutbox = data.count;
             }
 
             this.messagingService
               .getalloutboxbulkcount(this.authService.getSavedEmail())
-              .subscribe(data => {
+              .subscribe((data:any)=> {
                 if (data.success) {
                   this.outboxbulk = data.count;
                 }
 
                 this.messagingService
                   .getalloutboxdigitalcount(this.authService.getSavedEmail())
-                  .subscribe(data => {
+                  .subscribe((data:any)=> {
                     if (data.success) {
                       this.outboxdigital = data.count;
                     }

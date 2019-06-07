@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import {take} from 'rxjs/operators'
 
 @Injectable()
 export class PricingService {
@@ -18,7 +19,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"bundles/register",bundle,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   extendexpirypromo(email){
@@ -26,7 +27,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"bundles/extendexpirypromo",email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   extendsmstp10promo(email){
@@ -34,7 +35,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"bundles/extendsmstp10promo",email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   extendwatp10promo(email){
@@ -42,7 +43,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"bundles/extendwatp10promo",email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   registercredit(credit){
@@ -50,7 +51,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.post(this.ip+"bundles/credit/register",credit,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   credithistory(query){
@@ -58,7 +59,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/credit/history/"+query,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallbundles(email){
@@ -66,7 +67,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getallcredits(email){
@@ -74,7 +75,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/credit/"+email,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getpendingconfigs(){
@@ -82,7 +83,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/all/pending/",{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   receivebundlepayment(bundleid){
@@ -90,7 +91,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"bundles/receive",bundleid,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -101,7 +102,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/credit/all/pending/",{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   receivecreditpayment(creditid){
@@ -109,7 +110,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.put(this.ip+"bundles/credit/receive",creditid,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -121,7 +122,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.delete(this.ip+"bundles/"+id,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
@@ -131,7 +132,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/dump/"+dump,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
   getcreditdump(dump){
@@ -139,7 +140,7 @@ export class PricingService {
     headers.append('Content-Type','application/json');
     //since it is an obsservable so we have to map its response
     return this.http.get(this.ip+"bundles/credit/dump/"+dump,{headers})
-    .map(res => res.json());
+    .map(res => res.json()).pipe(take(1));
   }
 
 
