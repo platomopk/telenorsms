@@ -2657,7 +2657,7 @@ router.post('/quick/register', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 
@@ -2855,7 +2855,7 @@ router.post('/quick/register', (req, res) => {
                                             // msg: docx.encryption == 'enable' ? CryptoJS.AES.encrypt(msg.trim(), apiarr[index].createdby.trim()).toString() : msg,
                                             language: apiarr[index].language
                                         }
-                                        // TelenorQuickSmsApiHandler.push(obj);
+                                        TelenorQuickSmsApiHandler.push(obj);
 
 
 
@@ -3349,7 +3349,7 @@ router.post('/bulk/register', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 
@@ -3631,7 +3631,7 @@ router.post('/bulk/dynamic/register', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 
@@ -3929,7 +3929,7 @@ router.post('/bulk/registertest', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 
@@ -4199,7 +4199,7 @@ router.post('/bulk/dynamic/registertest', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 
@@ -4555,7 +4555,7 @@ router.post('/drip/register', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 
@@ -5614,7 +5614,7 @@ router.post('/api/static', (req, res) => {
     if (req.app.locals.isServerOpen == false) {
         return res.json({
             success: false,
-            error: "server under maintenance, please contact support@mangotree.com"
+            error: "server under maintenance, please contact MANGOTREEPKPL@GMAIL.COM"
         })
     }
 

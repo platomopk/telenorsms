@@ -68,7 +68,7 @@ export class OmologinComponent implements OnInit {
             }
           }else{
             alert("Your account is blocked." +
-            " Please contact us at support@mangotree.com for further assistance.");
+            " Please contact us at MANGOTREEPKPL@GMAIL.COM for further assistance.");
             this.router.navigate(['/omo/login']);
           }
 
