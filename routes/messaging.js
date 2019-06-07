@@ -921,7 +921,7 @@ ZongQuickSmsApiHandler.drain = function () {
 
 
 // --------------------------------------------------------------------------------------
-var TelenorQuickSMSApiHandlerQueueSize = 2;
+var TelenorQuickSMSApiHandlerQueueSize = 5;
 var TelenorQuickSmsApiHandler = async.queue(function (request_, done) {
     // console.log('Picked ', request);
     // setTimeout(() => {
@@ -1064,6 +1064,8 @@ var TelenorQuickSmsApiHandler = async.queue(function (request_, done) {
             action:request_.action,
             type: 'quick'
         });
+
+        console.log("QUICK LOGS", log.toString())
     
         log.save((err, log) => {
             if (err) {
@@ -1590,7 +1592,7 @@ ZongQuickSmsApiHandlerForBulk.drain = function () {
 
 
 // --------------------------------------------------------------------------------------
-var TelenorQuickSMSApiHandlerForBulkQueueSize = 2;
+var TelenorQuickSMSApiHandlerForBulkQueueSize = 10;
 var TelenorQuickSmsApiHandlerForBulk = async.queue(function (request_, done) {
     // console.log('Picked ', request);
     // setTimeout(() => {
@@ -4640,38 +4642,40 @@ router.get('/drip/counttelco/:query', (req, resp) => {
 
 router.get('/drip/:email', (req, resp) => {
 
-    // var obj = JSON.parse(req.params.query);
+    var obj = JSON.parse(req.params.email);
 
-    //     Dripbulk.find({
-    //         created: {
-    //             $lte: moment.utc(obj.dateto).endOf('day').toDate(),
-    //             $gte: moment.utc(obj.datefrom).startOf('day').toDate()
-    //         }
-    //     },
-    //         (err, docs) => {
-    //             if (err) {
-    //                 console.log(err);
-    //             }
-    //             //console.log(quick);
-
-    //             resp.json({
-    //                 success: true,
-    //                 data: docs
-    //             });
-    //         });
 
     let query = {
-        createdby: req.params.email
+        createdby: obj.email
     };
+
+    console.log("drip",req.params.email);
     Drip.find(query, (err, doc) => {
         if (err) {
             throw err;
         } else {
-            //console.log(doc);
-            resp.json({
-                success: true,
-                data: doc
-            });
+            Dripbulk.find({
+                createdby:obj.email,
+                created: {
+                    $lte: moment.utc(obj.dateto).endOf('day').toDate(),
+                    $gte: moment.utc(obj.datefrom).startOf('day').toDate()
+                }
+            },
+                (err, dripbulk) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    //console.log(quick);
+
+                    resp.json({
+                        success: true,
+                        data: doc,
+                        dripbulk:dripbulk
+                    });
+                });
+
+
+
         }
     });
 });
@@ -5588,7 +5592,7 @@ router.get('/total/digital/count/:email', (req, resp) => {
 });
 
 router.get('/total/drip/count/:email', (req, resp) => {
-    Drip.count({
+    Dripbulk.count({
         createdby: req.params.email
     }, function (err, docs) {
         if (err) {

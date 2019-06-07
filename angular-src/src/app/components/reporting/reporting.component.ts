@@ -60,6 +60,7 @@ export class ReportingComponent implements OnInit {
 
   operation: String;
   operationname: String;
+  dripdetails:any=[];
 
   downloadable: any[] = [];
 
@@ -525,9 +526,17 @@ export class ReportingComponent implements OnInit {
       this.barChartLabels = ["Timeline"];
       this.spinner = true;
 
-      this.msgService.getalldrip(this.variableemail).subscribe((data:any)=> {
+
+      var queryobj = {
+        email: this.variableemail,
+        datefrom: this.datefrom,
+        dateto: this.dateto
+      };
+
+      this.msgService.getalldrip(JSON.stringify(queryobj)).subscribe((data:any)=> {
         if (data.data.length > 0) {
           this.ops = data.data;
+        
           
           // console.log(this.dripArr.length);
 
@@ -537,6 +546,9 @@ export class ReportingComponent implements OnInit {
           //console.log(this.dateDiffInDays(from, new Date(this.dateto.toString())),to,new Date(this.datefrom.toString()));
 
           var driparr = [];
+          this.dripdetails = [];
+
+
           this.barChartData = [];
           this.ops.forEach(element => {
             var quickdate = new Date(element.created.toString());
@@ -558,10 +570,11 @@ export class ReportingComponent implements OnInit {
           });
 
           this.downloadable = driparr;
+          this.dripdetails = data.dripbulk;
 
           //this.spinner=false;
         } else {
-          console.log("No Bulk Messages");
+          console.log("No Drip Messages");
           this.notfound = true;
         }
         this.spinner = false;
@@ -570,7 +583,13 @@ export class ReportingComponent implements OnInit {
   }
 
   download() {
-    this._csvService.download(this.downloadable, this.operation.toString());
+    if(this.operation == "drip"){
+      this._csvService.download(this.downloadable, this.operation.toString());
+      this._csvService.download(this.dripdetails, "drip-details");
+    }else{
+      this._csvService.download(this.downloadable, this.operation.toString());
+    }
+    
   }
 
   childsArr: any[] = [];
