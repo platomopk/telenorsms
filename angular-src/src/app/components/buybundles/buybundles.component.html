@@ -23,7 +23,7 @@
         <select (change)="selectchange($event)" [(ngModel)]="_encryption" name="_encryption" class="form-control"
           required>
           <option value="" disabled selected>Select</option>
-          <option value="enable">Yes</option>
+          <!-- <option value="enable">Yes</option> -->
           <option value="disable">No</option>
         </select>
       </div>
@@ -42,7 +42,7 @@
         <label>Throughput SMS</label>
         <select (change)="selectchange($event)" [(ngModel)]="_tpsms" name="_tpsms" class="form-control" required>
           <option value="" disabled selected>Select</option>
-          <option value="0">Don't buy throughput</option>
+          <!-- <option value="0">Don't buy throughput</option> -->
           <option value="10">10/minute</option>
           <option value="50">50/minute</option>
           <option value="100">100/minute</option>
@@ -85,7 +85,7 @@
           <thead>
             <tr class="table-info">
               <th>ID</th>
-              <th>Encryption</th>
+              <!-- <th>Encryption</th> -->
               <th>Features</th>
               <th>SMS TP</th>
               <!-- <th>WA TP</th> -->
@@ -99,7 +99,7 @@
           <tbody>
             <tr *ngFor="let item of bundlearr">
               <td class="text-muted">{{item._id}}</td>
-              <td class="text-muted">{{item.encryption}}</td>
+              <!-- <td class="text-muted">{{item.encryption}}</td> -->
               <td class="text-muted">{{item.featureset}}</td>
               <td class="text-muted">{{item.smstp}}</td>
               <!-- <td class="text-muted">{{item.watp}}</td> -->

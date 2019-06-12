@@ -13,7 +13,7 @@ export class AuthService {
   user:any;
 
 
-  // ip:String="http://localhost:3000/";
+  //ip:String="http://localhost:3000/";
   ip:String="";
 
   constructor(private http:Http,private router:Router,) {

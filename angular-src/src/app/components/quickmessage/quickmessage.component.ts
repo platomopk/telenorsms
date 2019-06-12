@@ -13,7 +13,7 @@ export class QuickmessageComponent implements OnInit {
 
   name:String = new Date().getTime() +  "-";
   language:String;
-  masking:String="";
+  masking:String="default";
   mobilenos:String="";
   msg:String="";
   msgchars:number;

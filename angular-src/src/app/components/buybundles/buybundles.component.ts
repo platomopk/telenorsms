@@ -14,7 +14,7 @@ export class BuybundlesComponent implements OnInit {
   email:String;
   bundlearr:any[]=[];
 
-  _expiry:String;_encryption:string="disable";_featureset:string="messaging";
+  _expiry:String="";_encryption:string="disable";_featureset:string="messaging";
   _smscredit:string="0";_whatsappcredit:string="0";
   _tpsms:String="0";_tpwa:String="0";
   cost:number=0;
@@ -275,7 +275,7 @@ export class BuybundlesComponent implements OnInit {
     let credit = {
       smscredit:this.newamountofsms,
       whatsappcredit:this._whatsappcredit,
-      from:'sa@mangotree.com',
+      from:'admin.mango@platomo.com',
       to:this.auth.getSavedEmail(),
       cost:this.costcredit,
       payment:false,
@@ -316,6 +316,11 @@ export class BuybundlesComponent implements OnInit {
         alert("Please select base througput for WhatsApp");
         return false;
       }
+    }
+
+    if(this._expiry == ""){
+      alert("Select Expiry!");
+      return false;
     }
 
     let newBundle = {

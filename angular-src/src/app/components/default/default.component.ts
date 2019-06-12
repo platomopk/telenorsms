@@ -91,6 +91,7 @@ export class DefaultComponent implements OnInit {
     "July", "August", "September", "October", "November", "December"
   ];
 
+  showQuickSettings:boolean;
   navbarshow: boolean = true;
   quick: any; digital: any; bulk: any; drip: any;
   screenwidth:Number=0;
@@ -136,6 +137,12 @@ export class DefaultComponent implements OnInit {
       this.router.navigate(['/home/login'] );
     }
     this.user = JSON.parse(obj)
+
+    if(this.user.rights.includes('messaging')){
+      this.showQuickSettings = true;
+    }else{
+      this.showQuickSettings = false;
+    }
 
     this.dataService.currentnavbar.subscribe((data:any) => {
       this.navbarshow = data;

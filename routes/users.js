@@ -44,7 +44,7 @@ router.get('/childs/:parentemail',(req,res)=>{
 });
 
 router.get('/',(req,res)=>{
-    let query = {isactivated:true,email:{$ne:'sa@mangotree.com'}};
+    let query = {isactivated:true,email:{$ne:'admin.mango@platomo.com'}};
     let data = {};
     User.find(query,{password:false,rights:false,parents:false,_id:false},{sort:{created:-1}},(err,resp)=>{
         data = resp;

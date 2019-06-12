@@ -16,7 +16,7 @@
               <div class="col-6 col-md-2" style=" margin-top: 5px;
               margin-bottom: 5px; padding-left:20px;">
                 <div class="toptext">
-                  <span><i class="fa fa-envelope-open"></i>&nbsp;SMS</span>
+                  <span><i class="fa fa-commenting-o"></i>&nbsp;SMS</span>
                 </div>
                 <div class="centertext">
                   {{obj.creditsms}}
@@ -37,7 +37,7 @@
                   Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
                 </div>
               </div>
-              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
+              <!-- <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
                 margin-bottom: 5px; padding-left:20px;">
                 <div class="toptext">
                   <span><i class="fa fa-lock"></i>&nbsp;Encryption</span>
@@ -48,41 +48,53 @@
                 <div class="bottomtext">
                   Expiry: {{obj.expirybundle.substring(0,obj.expirybundle.indexOf('T'))}}
                 </div>
+              </div> -->
+              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
+              margin-bottom: 5px; padding-left:20px;">
+                <div class="toptext">
+                  <span><i class="fa fa-envelope-o"></i>&nbsp;Email</span>
+                </div>
+                <div class="centertext">
+                  Disabled
+                </div>
+                <div class="bottomtext">
+                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
+                </div>
               </div>
               <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
                   margin-bottom: 5px; padding-left:20px;">
                 <div class="toptext">
-                  <span><i class="fa fa-angle-right"></i>&nbsp;Heading</span>
+                  <span><i class="fa fa-phone"></i>&nbsp;Robo-Call</span>
                 </div>
                 <div class="centertext">
-                  Value
+                  Disabled
                 </div>
                 <div class="bottomtext">
-                  Subvalue
+                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
                 </div>
               </div>
               <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
               margin-bottom: 5px; padding-left:20px;">
                 <div class="toptext">
-                  <span><i class="fa fa-angle-right"></i>&nbsp;Heading</span>
+                  <span><i class="fa fa-internet-explorer"></i>&nbsp;Web Notifications</span>
                 </div>
                 <div class="centertext">
-                  Value
+                  Disabled
                 </div>
                 <div class="bottomtext">
-                  Subvalue
+                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
                 </div>
               </div>
               <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
           margin-bottom: 5px; padding-left:20px;">
                 <div class="toptext">
-                  <span><i class="fa fa-angle-right"></i>&nbsp;Heading</span>
+                  <span><i class="fa fa-bell"></i>&nbsp;In-App Notifications</span>
                 </div>
                 <div class="centertext">
-                  Value
+                  Disabled
                 </div>
                 <div class="bottomtext">
-                  Subvalue
+                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
                 </div>
               </div>
             </div>
@@ -97,7 +109,9 @@
           <div class="col-md-12" style="padding:0px;">
             <div class="row" style="margin:0">
 
-              <div class="col-md-4" style="margin:5px 0px 5px 0px">
+
+              <!-- *ngIf="showQuickSettings" -->
+              <div class="col-md-4" style="margin:5px 0px 5px 0px" *ngIf="showQuickSettings">
                 <div class="panel">
                   <div class="panelheader">
                     Quick Spotlight
@@ -139,13 +153,14 @@
                       </div>
                       <div class="col-md-8 text-center align-self-center">
                         <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="ufone" aria-valuemin="0" aria-valuemax="30000" [ngStyle]="{width: ((ufone/30000)*100) + '%', transition: transition}">
+                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="ufone" aria-valuemin="0" aria-valuemax="30000"
+                            [ngStyle]="{width: ((ufone/30000)*100) + '%', transition: transition}">
                             <span class="sr-only">{{ufone}}% Complete</span>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;" >
-                          {{ufone > 999 ? (ufone/1000).toFixed(1) + 'k' : ufone}}
+                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
+                        {{ufone > 999 ? (ufone/1000).toFixed(1) + 'k' : ufone}}
                       </div>
                     </div>
 
@@ -155,63 +170,67 @@
                       </div>
                       <div class="col-md-8 text-center align-self-center">
                         <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="telenor" aria-valuemin="0" aria-valuemax="30000" [ngStyle]="{width: ((telenor/30000)*100) + '%', transition: transition}">
+                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="telenor" aria-valuemin="0" aria-valuemax="30000"
+                            [ngStyle]="{width: ((telenor/30000)*100) + '%', transition: transition}">
                             <span class="sr-only">{{telenor}}% Complete</span>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;" >
-                          {{telenor > 999 ? (telenor/1000).toFixed(1) + 'k' : telenor}}
+                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
+                        {{telenor > 999 ? (telenor/1000).toFixed(1) + 'k' : telenor}}
                       </div>
                     </div>
 
                     <div class="pritem row" *ngIf="warid!=null">
-                        <div class="col-md-2 text-left align-self-center">
-                          Warid
-                        </div>
-                        <div class="col-md-8 text-center align-self-center">
-                          <div class="progress">
-                            <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="warid" aria-valuemin="0" aria-valuemax="30000" [ngStyle]="{width: ((warid/30000)*100) + '%', transition: transition}">
-                              <span class="sr-only">{{warid}}% Complete</span>
-                            </div>
+                      <div class="col-md-2 text-left align-self-center">
+                        Warid
+                      </div>
+                      <div class="col-md-8 text-center align-self-center">
+                        <div class="progress">
+                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="warid" aria-valuemin="0" aria-valuemax="30000"
+                            [ngStyle]="{width: ((warid/30000)*100) + '%', transition: transition}">
+                            <span class="sr-only">{{warid}}% Complete</span>
                           </div>
-                        </div>
-                        <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;" >
-                            {{warid > 999 ? (warid/1000).toFixed(1) + 'k' : warid}}
                         </div>
                       </div>
+                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
+                        {{warid > 999 ? (warid/1000).toFixed(1) + 'k' : warid}}
+                      </div>
+                    </div>
 
-                      <div class="pritem row" *ngIf="jazz!=null">
-                          <div class="col-md-2 text-left align-self-center">
-                            Jazz
-                          </div>
-                          <div class="col-md-8 text-center align-self-center">
-                            <div class="progress">
-                              <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="jazz" aria-valuemin="0" aria-valuemax="30000" [ngStyle]="{width: ((jazz/30000)*100) + '%', transition: transition}">
-                                <span class="sr-only">{{jazz}}% Complete</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;" >
-                              {{jazz > 999 ? (jazz/1000).toFixed(1) + 'k' : jazz}}
+                    <div class="pritem row" *ngIf="jazz!=null">
+                      <div class="col-md-2 text-left align-self-center">
+                        Jazz
+                      </div>
+                      <div class="col-md-8 text-center align-self-center">
+                        <div class="progress">
+                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="jazz" aria-valuemin="0" aria-valuemax="30000"
+                            [ngStyle]="{width: ((jazz/30000)*100) + '%', transition: transition}">
+                            <span class="sr-only">{{jazz}}% Complete</span>
                           </div>
                         </div>
+                      </div>
+                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
+                        {{jazz > 999 ? (jazz/1000).toFixed(1) + 'k' : jazz}}
+                      </div>
+                    </div>
 
-                        <div class="pritem row" *ngIf="zong!=null">
-                            <div class="col-md-2 text-left align-self-center">
-                              Zong
-                            </div>
-                            <div class="col-md-8 text-center align-self-center">
-                              <div class="progress">
-                                <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="zong" aria-valuemin="0" aria-valuemax="30000" [ngStyle]="{width: ((zong/30000)*100) + '%', transition: transition}">
-                                  <span class="sr-only">{{jazz}}% Complete</span>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;" >
-                              {{zong > 999 ? (zong/1000).toFixed(1) + 'k' : zong}}
-                            </div>
+                    <div class="pritem row" *ngIf="zong!=null">
+                      <div class="col-md-2 text-left align-self-center">
+                        Zong
+                      </div>
+                      <div class="col-md-8 text-center align-self-center">
+                        <div class="progress">
+                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="zong" aria-valuemin="0" aria-valuemax="30000"
+                            [ngStyle]="{width: ((zong/30000)*100) + '%', transition: transition}">
+                            <span class="sr-only">{{jazz}}% Complete</span>
                           </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
+                        {{zong > 999 ? (zong/1000).toFixed(1) + 'k' : zong}}
+                      </div>
+                    </div>
 
                   </div>
                   <br>
@@ -260,7 +279,7 @@
                             <span><i style="color:rgba(231, 76, 60, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;Quick</span>
                           </td>
                           <td class="tdclass">
-                              {{quick > 999 ? (quick/1000).toFixed(1) + 'k' : quick}}
+                            {{quick > 999 ? (quick/1000).toFixed(1) + 'k' : quick}}
                           </td>
                         </tr>
                         <tr>
@@ -268,7 +287,7 @@
                             <span><i style="color:rgba(52, 152, 219, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;Bulk</span>
                           </td>
                           <td class="tdclass">
-                              {{bulk > 999 ? (bulk/1000).toFixed(1) + 'k' : bulk}}
+                            {{bulk > 999 ? (bulk/1000).toFixed(1) + 'k' : bulk}}
                           </td>
                         </tr>
                         <tr>
@@ -276,7 +295,7 @@
                             <span><i style="color:rgba(155, 89, 182, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;Drip</span>
                           </td>
                           <td class="tdclass">
-                              {{drip > 999 ? (drip/1000).toFixed(1) + 'k' : drip}}
+                            {{drip > 999 ? (drip/1000).toFixed(1) + 'k' : drip}}
                           </td>
                         </tr>
                         <tr>
@@ -284,7 +303,7 @@
                             <span><i style="color:rgba(26, 187, 156, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;WhatsApp</span>
                           </td>
                           <td class="tdclass">
-                              {{digital > 999 ? (digital/1000).toFixed(1) + 'k' : digital}}
+                            {{digital > 999 ? (digital/1000).toFixed(1) + 'k' : digital}}
                           </td>
                         </tr>
 
@@ -315,49 +334,44 @@
 
                 <div class="col-md-10">
                   <div style="height:auto" *ngIf="lineChartData.length == 2">
-                      <canvas baseChart  width="auto" height="90" 
-                      [datasets]="lineChartData"
-                      [labels]="lineChartLabels"
-                      [options]="lineChartOptions"
-                      [colors]="lineChartColors"
-                      [legend]="lineChartLegend"
-                      [chartType]="lineChartType"></canvas>
+                    <canvas baseChart width="auto" height="90" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                      [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
                   </div>
-                    
+
                 </div>
 
                 <div class="col-md-2">
-                    <div class="panel" style="border:0px;">
-                      <div class="panelheader text-center">
-                        Sent / Outbox
-                      </div>
-                      <br>
-                      <div class="panelcontent" *ngIf="sent!=null">
-                          <br>
-                          <div class="text-center">
-                            <div class="toptext">
-                              <span ><i style="color: #1ABB9C!important;" class="fa fa-rocket"></i>&nbsp;&nbsp;Sent</span>
-                            </div>
-                            <div class="centertext">
-                                {{sent > 999 ? (sent/1000).toFixed(1) + 'k' : sent}}
-                            </div>
-                            
-                          </div>
-                          <hr>
-                          <div class="text-center" *ngIf="outbox!=null">
-                              <div class="toptext">
-                                <span  ><i style="color: #1ABB9C!important;" class="fa fa-send"></i>&nbsp;&nbsp;Outbox</span>
-                              </div>
-                              <div class="centertext" >
-                                  {{outbox > 999 ? (outbox/1000).toFixed(1) + 'k' : outbox}}
-                              </div>
-                              
-                            </div>
-    
-                      </div>
-                      <br>
+                  <div class="panel" style="border:0px;">
+                    <div class="panelheader text-center">
+                      Sent / Outbox
                     </div>
+                    <br>
+                    <div class="panelcontent" *ngIf="sent!=null">
+                      <br>
+                      <div class="text-center">
+                        <div class="toptext">
+                          <span><i style="color: #1ABB9C!important;" class="fa fa-rocket"></i>&nbsp;&nbsp;Sent</span>
+                        </div>
+                        <div class="centertext">
+                          {{sent > 999 ? (sent/1000).toFixed(1) + 'k' : sent}}
+                        </div>
+
+                      </div>
+                      <hr>
+                      <div class="text-center" *ngIf="outbox!=null">
+                        <div class="toptext">
+                          <span><i style="color: #1ABB9C!important;" class="fa fa-send"></i>&nbsp;&nbsp;Outbox</span>
+                        </div>
+                        <div class="centertext">
+                          {{outbox > 999 ? (outbox/1000).toFixed(1) + 'k' : outbox}}
+                        </div>
+
+                      </div>
+
+                    </div>
+                    <br>
                   </div>
+                </div>
 
               </div>
               <br>

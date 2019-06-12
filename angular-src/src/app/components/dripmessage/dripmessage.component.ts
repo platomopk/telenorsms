@@ -22,7 +22,7 @@ export class DripmessageComponent implements OnInit {
   
   name:string=new Date().getTime() +  "-";
   language:String;
-  masking:String="";
+  masking:String="default";
   campaign:String;
   path:String;
   msg:String="";

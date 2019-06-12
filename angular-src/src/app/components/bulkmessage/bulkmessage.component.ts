@@ -24,7 +24,7 @@ export class BulkmessageComponent implements OnInit {
 
   name:String=new Date().getTime() +  "-";
   language:String="";
-  masking:String="";
+  masking:String="default";
   msg:String="";
   msgchars:number;
   msgcount:number;

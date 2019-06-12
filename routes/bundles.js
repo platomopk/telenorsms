@@ -28,7 +28,7 @@ router.post('/credit/register',(req,res)=>{
         created:moment.utc().add(5, 'hours').toDate()
     });
 
-    if(req.body.from == "sa@mangotree.com"){
+    if(req.body.from == "admin.mango@platomo.com"){
         // credit was requested from mangotree
         credit.save((err,credit)=>{
             if(err){
@@ -400,7 +400,7 @@ router.get('/:email',(req,resp)=>{
 
 
 router.get('/credit/:email',(req,resp)=>{
-    let query = {from:'sa@mangotree.com',to:req.params.email};
+    let query = {from:'admin.mango@platomo.com',to:req.params.email};
     Credit.find(query,null,{sort:{created:-1}},(err,doc)=>{
         if(err){
             throw err;
@@ -548,7 +548,7 @@ router.put('/receive',(req,res)=>{
 router.get('/credit/all/pending',(req,resp)=>{
     let query={
         payment:false,
-        from:'sa@mangotree.com'
+        from:'admin.mango@platomo.com'
     }
     Credit.find(query,null,{sort:{created:-1}},(err,doc)=>{
         if(err){

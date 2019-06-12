@@ -161,7 +161,7 @@ export class MastermanageaccountComponent implements OnInit {
     let credit = {
       smscredit:this.promocredit==null?0:this.promocredit,
       whatsappcredit:0,
-      from:'sa@mangotree.com',
+      from:'admin.mango@platomo.com',
       to:email,
       cost:0,
       payment:true,
@@ -182,7 +182,7 @@ export class MastermanageaccountComponent implements OnInit {
     let credit = {
       smscredit:0,
       whatsappcredit:this.promocredit==null?0:this.promocredit,
-      from:'sa@mangotree.com',
+      from:'admin.mango@platomo.com',
       to:email,
       cost:0,
       payment:true,

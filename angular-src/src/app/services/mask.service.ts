@@ -5,7 +5,7 @@ import {take} from 'rxjs/operators'
 
 @Injectable()
 export class MaskService {
-  // ip:String="http://localhost:3000/";
+  //ip:String="http://localhost:3000/";
   ip:String="";
   
   constructor(private http:Http) { }
