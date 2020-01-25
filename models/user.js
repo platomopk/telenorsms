@@ -7,147 +7,156 @@ const moment = MomentRange.extendMoment(Moment);
 
 //user schema
 const UserSchema = mongoose.Schema({
-    enckey:{
-        type:String,
-        default:""
-    },
-    salesemail:{
-        type:String,
-        default:""
-    },
-    fullname:{
+    company: {
         type: String,
-        default:""
+        default: ""
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    enckey: {
+        type: String,
+        default: ""
     },
-    phone:{
-        type:String,
-        required:true
+    salesemail: {
+        type: String,
+        default: ""
     },
-    password:{
-        type:String,
-        required:true
+    fullname: {
+        type: String,
+        default: ""
     },
-    rights:[String],
-    isparent:{
-        type:Boolean
+    firstname: {
+        type: String,
+        default: ""
     },
-    isdelegate:{
-        type:Boolean
+    lastname: {
+        type: String,
+        default: ""
     },
-    parent:{
-        type:String,
-        default:""
+    company: {
+        type: String,
+        default: ""
     },
-    parents:[String],
-    type:{
-        type:String,
-        default:""
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    expirybundle:{
-        type:Date,
-        default:moment.utc().toDate()
+    phone: {
+        type: String,
+        default: ""
     },
-    encryption:{
-        type:String,
-        default:'disable'
+    password: {
+        type: String,
+        required: true
     },
-    smstp:{
-        type:Number,
-        default:0
+    rights: [String],
+    isparent: {
+        type: Boolean
     },
-    watp:{
-        type:Number,
-        default:0
+    isdelegate: {
+        type: Boolean
     },
-    creditsms:{
-        type:Number,
-        default:0
+    parent: {
+        type: String,
+        default: ""
     },
-    creditwhatsapp:{
-        type:Number,
-        default:0
+    parents: [String],
+    type: {
+        type: String,
+        default: ""
     },
-    isactivated:{
-        type:Boolean,
-        default:false
+    expirybundle: {
+        type: Date,
+        default: moment.utc().toDate()
     },
-    issuspended:{
-        type:Boolean,
-        default:false
+    encryption: {
+        type: String,
+        default: 'disable'
     },
-    created:{
-        type:Date
+    smstp: {
+        type: Number,
+        default: 0
     },
-    ufone:{
-        type:String,
-        default:""
+    watp: {
+        type: Number,
+        default: 0
     },
-    telenor:{
-        type:String,
-        default:""
+    creditsms: {
+        type: Number,
+        default: 0
     },
-    zong:{
-        type:String,
-        default:""
+    creditwhatsapp: {
+        type: Number,
+        default: 0
     },
-    jazz:{
-        type:String,
-        default:""
+    isactivated: {
+        type: Boolean,
+        default: true
     },
-    warid:{
-        type:String,
-        default:""
+    issuspended: {
+        type: Boolean,
+        default: false
+    },
+    created: {
+        type: Date
+    },
+    ufone: {
+        type: String,
+        default: ""
+    },
+    telenor: {
+        type: String,
+        default: ""
+    },
+    zong: {
+        type: String,
+        default: ""
+    },
+    jazz: {
+        type: String,
+        default: ""
+    },
+    warid: {
+        type: String,
+        default: ""
     }
 });
 
 //to get this function from outside, export it
-const User = module.exports = mongoose.model('User',UserSchema);
+const User = module.exports = mongoose.model('User', UserSchema);
 
 
-module.exports.getUserById = function(id, callback){
-    User.findById(id,callback);
+module.exports.getUserById = function(id, callback) {
+    User.findById(id, callback);
 }
 
-module.exports.getUserByEmail = function(email, callback){
-    const query = {email: email};
-    User.findOne(query,callback);
+module.exports.getUserByEmail = function(email, callback) {
+    const query = { email: email };
+    User.findOne(query, callback);
 }
 
-module.exports.addUser = function(newUser, callback){
-    
-    bcrypt.genSalt(10, (err,salt)=>{
-        bcrypt.hash(newUser.password,salt,(err,hash)=>{
-            if(err){
+module.exports.addUser = function(newUser, callback) {
+
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) {
                 throw err;
                 //res.json({success:false,msg:err});
-            }else{
+            } else {
                 //res.json({success:false,msg:err});
                 newUser.password = hash;
                 newUser.save(callback);
             }
-            
+
         });
     });
-    
+
 }
 
 
 
-module.exports.comparePassword = function(password,hash,callback){
-    bcrypt.compare(password,hash,(err,isMatch)=>{
-        if(err) throw err;
-        callback(null,isMatch);
+module.exports.comparePassword = function(password, hash, callback) {
+    bcrypt.compare(password, hash, (err, isMatch) => {
+        if (err) throw err;
+        callback(null, isMatch);
     });
 }
-
-
-
-
-
-
-

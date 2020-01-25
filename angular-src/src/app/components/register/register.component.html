@@ -1,51 +1,165 @@
-<section id="registerSection">
+<section id="loginSection">
+    <div class="masterlogin">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="loginright">
+                    <div class="loginrightcontainer">
+                        <div class="leadtext">
+                            Welcome to Telenor
+                        </div>
+                        <div class="leadtext">
+                            SMS Portal.
+                        </div>
+                        <div class="small">
+                            Please create your account.
+                        </div>
+                        <div>
+                            <form (submit)="onRegister()">
+                                <div class="form-group namegroup">
+                                    <div>
+                                        <label for="exampleInputCompany">First Name</label>
+                                        <input type="text" [(ngModel)]="fname" name="fname" class="form-control" id="fname" aria-describedby="emailHelp" placeholder="Enter first name" required>
+                                    </div>
+                                    <div>
+                                        <label for="exampleInputCompany">Last Name</label>
+                                        <input type="text" [(ngModel)]="lname" name="lname" class="form-control" id="lname" aria-describedby="emailHelp" placeholder="Enter last name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputCompany">Company Name</label>
+                                    <input type="text" [(ngModel)]="company" name="company" class="form-control" id="Company" aria-describedby="emailHelp" placeholder="Enter company name" required>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" [(ngModel)]="email" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" required>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="Password" required>
+                                    <!-- <small id="emailHelp" class="form-text text-muted">By signing in, you declare to abide by the terms and conditions of this platform.</small> -->
+                                </div>
+                                <div class="form-group submitbtncontainer">
+                                    <div>
+                                        <button [disabled]="sent==true" type="submit" class="primarybtn">Sign Up</button>
+                                    </div>
+
+                                    <!-- <div class="clearfix"></div> -->
+                                    <!-- <button class="btn btn-default" [routerLink]="['../register']">Want to Join? Sign Up</button> -->
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="loginleft">
+                    <div class="loginleftcontainer">
+                        <img class="loginImg" src="assets/imgs/telenorlogo.png" alt="">
+                        <div class="leadtext">
+                            Do you already have
+                        </div>
+                        <div class="leadtext">
+                            an account?
+                        </div>
+                        <div class="small">
+                            Please log in by clicking the button below
+                        </div>
+                        <div>
+                            <input [routerLink]="['../login']" type="button" value="Login" class="secondarybtn">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+<section id="loginSection" style="display:none">
+    <div>
+        <form (submit)="onLogin()">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" [(ngModel)]="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" [(ngModel)]="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+                <small id="emailHelp" class="form-text text-muted">By signing in, you declare to abide by the terms and conditions of this platform.</small>
+            </div>
+            <div class="form-group">
+                <button [disabled]="sent==true" type="submit" class="btn btn-primary">Login</button>
+                <div class="clearfix"></div>
+                <button class="btn btn-default" [routerLink]="['../register']">Want to Join? Sign Up</button>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+
+
+
+<section id="registerSection2" style="display:none">
     <div>
         <form (submit)="onRegister()">
-          <div class="form-group">
-            <label for="fullname">Account Type</label>
-            <select name="type" [(ngModel)]="type" class="form-control" required>
+            <div class="form-group">
+                <label for="fullname">Account Type</label>
+                <select name="type" [(ngModel)]="type" class="form-control" required>
               <option value="regular" selected>Regular</option>
               <!-- <option value="omo">Mobile Operator</option> -->
             </select>
-          </div>
-          <div class="form-group">
-            <label for="fullname">Full Name</label>
-            <input type="text" [(ngModel)]="fullname" name="fullname" class="form-control" id="fullname" aria-describedby="fullnameHelp" placeholder="Enter full name" required>
-            <small id="fullnamhelp" class="form-text text-muted">This name will be used to address you in emails.</small>
-          </div>
-          <div class="form-group">
-              <label for="phone">Phone</label>
-              <input type="number" [(ngModel)]="phone" name="phone" class="form-control" id="phone" aria-describedby="phoneHelp" placeholder="Enter Phone #" required>
-              <small id="phonehelp" class="form-text text-muted">We'll never share your personal phone with anyone else.</small>
-            </div>
-          <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" [(ngModel)]="email" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" placeholder="Password" required>
-              <small id="passwordhelp" class="form-text text-muted">By signing in, you declare to abide by the terms and conditions of this platform.</small>
+                <label for="fullname">Full Name</label>
+                <input type="text" [(ngModel)]="fullname" name="fullname" class="form-control" id="fullname" aria-describedby="fullnameHelp" placeholder="Enter full name" required>
+                <small id="fullnamhelp" class="form-text text-muted">This name will be used to address you in emails.</small>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="number" [(ngModel)]="phone" name="phone" class="form-control" id="phone" aria-describedby="phoneHelp" placeholder="Enter Phone #" required>
+                <small id="phonehelp" class="form-text text-muted">We'll never share your personal phone with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" [(ngModel)]="email" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" placeholder="Password" required>
+                <small id="passwordhelp" class="form-text text-muted">By signing in, you declare to abide by the terms and conditions of this platform.</small>
             </div>
             <div class="form-group" *ngIf="type=='omo'">
-              <label for="password">Encryption Key</label>
-              <input type="text" class="form-control" [(ngModel)]="enckey" name="enckey" id="enckey" placeholder="Enter encryption key">
-              <small id="passwordhelp" class="form-text text-muted">This key will be used for encryption of your content. Be sure to keep it private. <span id="key" (click)="generateKey()">Generate random key</span></small>
-              
+                <label for="password">Encryption Key</label>
+                <input type="text" class="form-control" [(ngModel)]="enckey" name="enckey" id="enckey" placeholder="Enter encryption key">
+                <small id="passwordhelp" class="form-text text-muted">This key will be used for encryption of your content. Be sure to keep it private. <span id="key" (click)="generateKey()">Generate random key</span></small>
+
             </div>
             <div class="form-group">
                 <label for="password">Sales Executive's Email</label>
                 <input type="email" class="form-control" [(ngModel)]="salesemail" name="salesemail" id="salesemail" placeholder="Enter email" required>
                 <small id="passwordhelp" class="form-text text-muted">Sales Executive should input their registered email here.</small>
-              </div>
+            </div>
             <div class="form-group">
                 <button [disabled]="sent==true" type="submit" class="btn btn-primary">Sign Up</button>
                 <div class="clearfix"></div>
                 <button type="button" class="btn btn-default" [routerLink]="['../login']">Already a Member? Log In</button>
             </div>
-            
-          </form>
+
+        </form>
     </div>
-  </section>
-  
+</section>

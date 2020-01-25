@@ -1,0 +1,207 @@
+<section>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+            <app-topbar></app-topbar>
+            <section id="dashboardSection" style="margin-top:20px;">
+
+                <div>
+                    <h6 style="font-family:'telenor',sans-serif; text-transform:uppercase;">Distribution List</h6>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mainbox" style="min-height:auto !important;">
+                            <p class="lead">TARGET AUDIENCE DISTRIBUTION LISTS</p>
+                            <div>
+                                <table class="table table-sm table-condensed" style="font-size:smaller;">
+                                    <thead style="background: aliceblue;
+                                      color: #0693c6;
+                                      text-transform: uppercase;">
+                                        <tr>
+                                            <th>List Name</th>
+                                            <th class="text-center">Profiling Parameters</th>
+                                            <th class="text-center">Connection Type</th>
+                                            <th class="text-center">Location </th>
+                                            <th class="text-center">Extraction Date</th>
+                                            <th class="text-center">Count Of Subscribers</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>List # 1</b></td>
+                                            <td class="text-center">
+                                                <div style="margin:10px 0px 10px 0px">
+                                                    <span class="icons"><i class="fa fa-female"></i></span>
+                                                    <span class="icons"><i class="fa fa-male"></i></span>
+                                                    <span class="icons"><i class="fa fa-signal"></i></span>
+                                                    <span class="icons"><i class="fa fa-car"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="connectiontype">POST / PRE-PAID</div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div>DHA Phase 2</div>
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, January 2nd 2020
+                                            </td>
+                                            <td class="text-center">
+                                                <div><b>27850</b></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>List # 2</b></td>
+                                            <td class="text-center">
+                                                <div style="margin:10px 0px 10px 0px">
+                                                    <span class="icons"><i class="fa fa-female"></i></span>
+                                                    <span class="icons"><i class="fa fa-male"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="connectiontype">POST / PRE-PAID</div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div>Bahria Town Phase 7</div>
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, January 2nd 2020
+                                            </td>
+                                            <td class="text-center">
+                                                <div><b>2344</b></div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="background:white;padding:40px;box-shadow: 0px 0px 4px 0px #d6d6d6;" id="newlist">
+                            <div>
+                                <h6>Create New List</h6>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div>
+                                        <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+                                            <div style="font-weight:bold;margin-bottom:5px;">
+                                                Arpu
+                                            </div>
+                                            <div>
+                                                <span style="font-size:22px;font-weight:bold" class="bluecolor">{{rangeStart}}</span><span style="font-size:22px; font-weight:bold;">&nbsp;-&nbsp;</span><span class="bluecolor" style="font-size:22px;font-weight:bold">{{rangeEnd}}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <input id="ex2" type="text" class="span2" value="" data-slider-min="100" data-slider-max="5000" data-slider-step="100" data-slider-value="[100,1500]" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque beatae accusantium illum! Corrupti expedita architecto consequuntur saepe hic voluptatibus amet tempore distinctio, quasi corporis iste fuga, exercitationem iusto mollitia commodi.
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div style="font-weight:bold;margin-bottom:5px;">
+                                        Gender
+                                    </div>
+                                    <div>
+                                        <input type="button" value="Male" class="btn btn-sm btn-default">
+                                        <input type="button" value="Female" class="btn btn-sm btn-default">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div><span>•</span>&nbsp;Population Trends</div>
+                                    <div><span>•</span>&nbsp;CNIC Usage for SIM registration</div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div style="font-weight:bold;margin-bottom:5px;">
+                                        Handset Type
+                                    </div>
+                                    <div>
+                                        <input type="button" value="2G" class="btn btn-sm btn-default">
+                                        <input type="button" value="3G" class="btn btn-sm btn-default">
+                                        <input type="button" value="4G" class="btn btn-sm btn-default">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi quas perspiciatis dolore praesentium molestiae autem, ipsam sapiente, iste tempora adipisci nostrum iusto accusamus omnis recusandae atque doloremque aut,
+                                        veniam aliquid. </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div style="font-weight:bold;margin-bottom:5px;">
+                                        Connection Type
+                                    </div>
+                                    <div>
+                                        <input type="button" value="Postpaid" class="btn btn-sm btn-default">
+                                        <input type="button" value="Prepaid" class="btn btn-sm btn-default">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi quas perspiciatis dolore praesentium molestiae autem, ipsam sapiente, iste tempora adipisci nostrum iusto accusamus omnis recusandae atque doloremque aut,
+                                        veniam aliquid. </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div style="font-weight:bold;margin-bottom:5px;">
+                                        Location
+                                    </div>
+                                    <div style="display:flex;justify-content: flex-start;align-items:center;">
+                                        <div>City Name</div>
+                                        <div style="margin-left:15px"><select name="" id="" class="form-control form-control-sm">
+                                          <option value="">Select City</option>    
+                                          </select></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div style="font-weight:bold;margin-bottom:5px;">
+                                        Required Count
+                                    </div>
+                                    <div style="display:flex;justify-content: flex-start;align-items:center;">
+                                        <div>Number of Messages</div>
+                                        <div style="margin-left:15px;">
+                                            <input type="text" class="form-control form-control-sm" placeholder="Enter Quantity">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br>
+                            <div style="display:flex;align-items:center;justify-content:center">
+                                <input type="button" value="Generate New List" class="btn btn-sm btn-default bluebg">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </section>
+        </div>
+    </div>
+</section>

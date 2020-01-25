@@ -7,8 +7,8 @@ import {take} from 'rxjs/operators'
 @Injectable()
 export class MessagingService {
 
-  //ip:String="http://localhost:3000/";
-  ip:String="";
+  ip:String="http://localhost:3000/";
+  // ip:String="";
   
 
 

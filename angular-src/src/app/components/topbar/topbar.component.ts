@@ -14,6 +14,8 @@ export class TopbarComponent implements OnInit {
   refreshed:boolean;
   sidebarShow:boolean;
   instanceid:String="null";
+  firstname:String="";
+  profileClicked:boolean=false;
 
   nbclick:boolean=true;
 
@@ -23,8 +25,12 @@ export class TopbarComponent implements OnInit {
   constructor(private router:Router, private authService:AuthService, private data:DataService ) { 
     //this.loggedIn=false;
     this.sidebarShow=false;
+    this.firstname = JSON.parse(localStorage.getItem("user")).firstname;
 
+  }
 
+  showProfileDetails(){
+    this.profileClicked = !this.profileClicked;
   }
 
 

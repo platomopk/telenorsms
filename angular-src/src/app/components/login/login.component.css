@@ -1,24 +1,115 @@
-#loginSection{
+#loginSection {
     padding-left: 10px;
     padding-right: 10px;
     font-size: small;
     box-sizing: border-box;
 }
 
-.form-control{
-    font-size: small;
+.masterlogin {
+    background: white;
+    min-height: 510px;
+    width: 1150px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 70px;
+    box-shadow: 0px 0px 10px -3px #333;
 }
 
-.btn{
-    font-size: small;
-    width:100%;
+.col-md-6 {
+    height: 510px;
 }
 
-.btn-primary{
+.loginleftcontainer {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loginrightcontainer {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 250px;
+}
+
+.loginImg {
+    width: 160px !important;
+    margin-bottom: 30px;
+}
+
+.leadtext {
+    font-size: 24px;
+}
+
+.loginleft .small {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.loginright .small {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.loginleft {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(assets/imgs/primarybtn.png);
+    height: 100%;
+    border-top-left-radius: 70px;
+    border-bottom-left-radius: 70px;
+    background-size: 500%;
+    background-position: center center;
+    color: white;
+}
+
+.loginright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.form-control {
+    font-size: 10px;
+    border: 0px;
+    border-bottom: 2px solid lightgray;
+    border-radius: 0px;
+    padding-left: 0px;
+}
+
+.form-group label {
+    font-size: 10px;
+    margin-bottom: 0px;
+}
+
+.btn {
+    font-size: 10px;
+    width: auto;
+    padding: 10px 35px;
+}
+
+.submitbtncontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rememberme {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-primary {
     background-color: #1565C0;
-
 }
 
-.clearfix{
-    height:10px;
+.clearfix {
+    height: 10px;
+}
+
+.form-group {
+    margin-bottom: 10px;
 }

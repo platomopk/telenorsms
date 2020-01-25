@@ -1,386 +1,228 @@
 <section>
-  <div class="row no-gutters">
-    <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow" style=" background-color: #2a3f54;">
-      <app-navbar></app-navbar>
-    </div>
-    <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}" style="background: #F7F7F7">
-      <app-topbar></app-topbar>
-      <br>
-      <section id="dashboardSection">
-
-        <!-- topbar -->
-        <div class="row">
-          <div class="col-md-12" *ngIf="obj!=null">
-
-            <div class="row" style="margin:0px 0px 0px 0px;">
-              <div class="col-6 col-md-2" style=" margin-top: 5px;
-              margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-commenting-o"></i>&nbsp;SMS</span>
-                </div>
-                <div class="centertext">
-                  {{obj.creditsms}}
-                </div>
-                <div class="bottomtext">
-                  Throughput: <span style="color:#1ABB9C!important"><span><i class="fa fa-caret-up"></i></span>&nbsp;{{obj.smstp}}</span>
-                </div>
-              </div>
-              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
-              margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-whatsapp"></i>&nbsp;WhatsApp</span>
-                </div>
-                <div class="centertext">
-                  {{obj.creditwhatsapp}}
-                </div>
-                <div class="bottomtext">
-                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
-                </div>
-              </div>
-              <!-- <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
-                margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-lock"></i>&nbsp;Encryption</span>
-                </div>
-                <div class="centertext">
-                  <span style="color:#1ABB9C!important">{{obj.encryption}}</span>
-                </div>
-                <div class="bottomtext">
-                  Expiry: {{obj.expirybundle.substring(0,obj.expirybundle.indexOf('T'))}}
-                </div>
-              </div> -->
-              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
-              margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-envelope-o"></i>&nbsp;Email</span>
-                </div>
-                <div class="centertext">
-                  Disabled
-                </div>
-                <div class="bottomtext">
-                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
-                </div>
-              </div>
-              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
-                  margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-phone"></i>&nbsp;Robo-Call</span>
-                </div>
-                <div class="centertext">
-                  Disabled
-                </div>
-                <div class="bottomtext">
-                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
-                </div>
-              </div>
-              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
-              margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-internet-explorer"></i>&nbsp;Web Notifications</span>
-                </div>
-                <div class="centertext">
-                  Disabled
-                </div>
-                <div class="bottomtext">
-                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
-                </div>
-              </div>
-              <div class="col-6 col-md-2" style="border-left: 2px solid #ADB2B5;     margin-top: 5px;
-          margin-bottom: 5px; padding-left:20px;">
-                <div class="toptext">
-                  <span><i class="fa fa-bell"></i>&nbsp;In-App Notifications</span>
-                </div>
-                <div class="centertext">
-                  Disabled
-                </div>
-                <div class="bottomtext">
-                  Throughput: <span style="color:#E74C3C!important"><span><i class="fa fa-caret-down"></i></span>&nbsp;{{obj.watp}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow">
+            <app-navbar></app-navbar>
         </div>
+        <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+            <app-topbar></app-topbar>
+            <section id="dashboardSection">
 
-
-        <br><br>
-
-        <!-- quicksettingsrow -->
-        <div class="row">
-          <div class="col-md-12" style="padding:0px;">
-            <div class="row" style="margin:0">
-
-
-              <!-- *ngIf="showQuickSettings" -->
-              <div class="col-md-4" style="margin:5px 0px 5px 0px" *ngIf="showQuickSettings">
-                <div class="panel">
-                  <div class="panelheader">
-                    Quick Spotlight
-                  </div>
-                  <br>
-                  <div class="panelcontent">
-                    <div class="item" [routerLink]="['/messaging/compose/quick']">
-                      <span><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Send Quick Message</span>
-                    </div>
-                    <div class="item" [routerLink]="['/messaging/compose/bulk']">
-                      <span><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Send Bulk Message</span>
-                    </div>
-                    <div class="item" [routerLink]="['/messaging/compose/drip']">
-                      <span><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Send Drip Message</span>
-                    </div>
-                    <div class="item" [routerLink]="['/messaging/compose/digital']">
-                      <span><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Send WhatsApp Message</span>
-                    </div>
-                    <div class="item" [routerLink]="['/messaging/outbox']">
-                      <span><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Open Outbox</span>
-                    </div>
-                    <div class="item" [routerLink]="['/messaging/sent']">
-                      <span><i class="fa fa-angle-right"></i>&nbsp;&nbsp;Check Sent</span>
-                    </div>
-                  </div>
-                  <br>
-                </div>
-              </div>
-              <div class="col-md-4" style="margin:5px 0px 5px 0px">
-                <div class="panel">
-                  <div class="panelheader">
-                    Network Usage
-                  </div>
-                  <br>
-                  <div class="panelcontent">
-                    <div class="pritem row" *ngIf="ufone!=null">
-                      <div class="col-md-2 text-left align-self-center">
-                        Ufone
-                      </div>
-                      <div class="col-md-8 text-center align-self-center">
-                        <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="ufone" aria-valuemin="0" aria-valuemax="30000"
-                            [ngStyle]="{width: ((ufone/30000)*100) + '%', transition: transition}">
-                            <span class="sr-only">{{ufone}}% Complete</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
-                        {{ufone > 999 ? (ufone/1000).toFixed(1) + 'k' : ufone}}
-                      </div>
-                    </div>
-
-                    <div class="pritem row" *ngIf="telenor!=null">
-                      <div class="col-md-2 text-left align-self-center">
-                        Telenor
-                      </div>
-                      <div class="col-md-8 text-center align-self-center">
-                        <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="telenor" aria-valuemin="0" aria-valuemax="30000"
-                            [ngStyle]="{width: ((telenor/30000)*100) + '%', transition: transition}">
-                            <span class="sr-only">{{telenor}}% Complete</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
-                        {{telenor > 999 ? (telenor/1000).toFixed(1) + 'k' : telenor}}
-                      </div>
-                    </div>
-
-                    <div class="pritem row" *ngIf="warid!=null">
-                      <div class="col-md-2 text-left align-self-center">
-                        Warid
-                      </div>
-                      <div class="col-md-8 text-center align-self-center">
-                        <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="warid" aria-valuemin="0" aria-valuemax="30000"
-                            [ngStyle]="{width: ((warid/30000)*100) + '%', transition: transition}">
-                            <span class="sr-only">{{warid}}% Complete</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
-                        {{warid > 999 ? (warid/1000).toFixed(1) + 'k' : warid}}
-                      </div>
-                    </div>
-
-                    <div class="pritem row" *ngIf="jazz!=null">
-                      <div class="col-md-2 text-left align-self-center">
-                        Jazz
-                      </div>
-                      <div class="col-md-8 text-center align-self-center">
-                        <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="jazz" aria-valuemin="0" aria-valuemax="30000"
-                            [ngStyle]="{width: ((jazz/30000)*100) + '%', transition: transition}">
-                            <span class="sr-only">{{jazz}}% Complete</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
-                        {{jazz > 999 ? (jazz/1000).toFixed(1) + 'k' : jazz}}
-                      </div>
-                    </div>
-
-                    <div class="pritem row" *ngIf="zong!=null">
-                      <div class="col-md-2 text-left align-self-center">
-                        Zong
-                      </div>
-                      <div class="col-md-8 text-center align-self-center">
-                        <div class="progress">
-                          <div class="progress-bar bg-green" role="progressbar" [attr.aria-valuenow]="zong" aria-valuemin="0" aria-valuemax="30000"
-                            [ngStyle]="{width: ((zong/30000)*100) + '%', transition: transition}">
-                            <span class="sr-only">{{jazz}}% Complete</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 text-right  align-self-center" style="font-size: 20px;color: #73879C;">
-                        {{zong > 999 ? (zong/1000).toFixed(1) + 'k' : zong}}
-                      </div>
-                    </div>
-
-                  </div>
-                  <br>
-                </div>
-              </div>
-              <div class="col-md-4" style="margin:5px 0px 5px 0px">
-                <div class="panel">
-                  <div class="panelheader">
-                    Feature Usage &nbsp;&nbsp;<span *ngIf="featureusage == true"><i class="fa fa-spinner fa-spin"></i></span>
-                  </div>
-                  <br>
-                  <div class="panelcontent">
-
-
-                    <div style="display: -webkit-box;">
-                      <table style="width:50%">
-                        <tr>
-                          <td>
-                            <div style="padding-left:35px; font-weight:bold">
-                              Top Features
+                <div class="row no-gutters">
+                    <div class="col-md-5">
+                        <div class="mainbox">
+                            <p class="lead">LIVE CAMPAIGNS</p>
+                            <div>
+                                <table class="table table-sm table-condensed" style="font-size:smaller;">
+                                    <thead class="headerbg">
+                                        <tr>
+                                            <th>Campaign Name</th>
+                                            <th class="text-center">Phase</th>
+                                            <th class="text-center">% Completed</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Winter Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="broadcasting">
+                                                    Broadcasting
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><b>30%</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Autumn Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="scheduled">
+                                                    Scheduled
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><b>0%</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Clearance Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="extraction">
+                                                    Extraction
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><b>0%</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Eid Mela</b></td>
+                                            <td class="text-center">
+                                                <div class="results">
+                                                    Results
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><b>100%</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <div style="width:180px;height:auto;position:relative" *ngIf="doughnutChartData.length>0">
-                              <canvas baseChart style="position: relative;
-                                    left: -40px;
-                                    width:230px;
-                                    top: 15px;" [colors]="donutColors" [data]="doughnutChartData" [options]="doughnutChartOptions"
-                                [labels]="doughnutChartLabels" [legend]="doughnutChartLegend" [chartType]="doughnutChartType">
-                              </canvas>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mainbox">
+                            <p class="lead">QUEUE</p>
+                            <div>
+                                <div class="progress" style="margin-top:35px; height:30px; border-radius:60px;">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%;background-color: #19cae0;">
+                                        <span class="sr-only">70% Complete</span>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;
+                                margin-top: 25px;
+                                font-size: 16px;">
+                                    <b>13</b> Days left
+                                </div>
+                                <hr>
+                                <div>
+                                    <div style="margin-top: 20px;
+                                    padding: 15px;">
+                                        <div style="display: flex;
+                                        justify-content: space-between;"><span><i style="color: #0aa0cc;" class="fa fa-circle"></i>&nbsp;Total Broadcasts</span>
+                                            <div>2000</div>
+                                        </div>
+                                        <div style="display: flex;
+                                        justify-content: space-between;"><span><i style="color:#d6d6d6" class="fa fa-circle"></i>&nbsp;Remaining</span>
+                                            <div>2000</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </td>
-                        </tr>
-                      </table>
-
-
-                      <table style="width:50%; position:relative;background:#fff">
-                        <tr>
-                          <td style="font-weight:bold">Feature</td>
-                          <td style="font-weight:bold">Usage</td>
-                        </tr>
-                        <tr>
-                          <td class="tdclass">
-                            <span><i style="color:rgba(231, 76, 60, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;Quick</span>
-                          </td>
-                          <td class="tdclass">
-                            {{quick > 999 ? (quick/1000).toFixed(1) + 'k' : quick}}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="tdclass">
-                            <span><i style="color:rgba(52, 152, 219, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;Bulk</span>
-                          </td>
-                          <td class="tdclass">
-                            {{bulk > 999 ? (bulk/1000).toFixed(1) + 'k' : bulk}}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="tdclass">
-                            <span><i style="color:rgba(155, 89, 182, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;Drip</span>
-                          </td>
-                          <td class="tdclass">
-                            {{drip > 999 ? (drip/1000).toFixed(1) + 'k' : drip}}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="tdclass">
-                            <span><i style="color:rgba(26, 187, 156, 1)"  class="fa fa-square"></i>&nbsp;&nbsp;WhatsApp</span>
-                          </td>
-                          <td class="tdclass">
-                            {{digital > 999 ? (digital/1000).toFixed(1) + 'k' : digital}}
-                          </td>
-                        </tr>
-
-                      </table>
+                        </div>
                     </div>
-
-                  </div>
-                  <br>
+                    <div class="col-md-4">
+                        <div class="mainbox">
+                            <p class="lead">ALARMS</p>
+                            <div>
+                                <table id="alarmstable" class="table table-sm table-condensed" style="font-size:smaller;">
+                                    <thead class="headerbg">
+                                        <tr>
+                                            <th>Alarm Name</th>
+                                            <th>Action Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Alarm # 1</td>
+                                            <td class="bluecolor">Action Pending</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alarm # 2</td>
+                                            <td class="bluecolor">Action Taken</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alarm # 3</td>
+                                            <td class="bluecolor">Action Taken</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alarm # 4</td>
+                                            <td class="bluecolor">Action Completed</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-            </div>
-          </div>
+
+                <div class="row no-gutters" style="margin-top:10px;">
+                    <div class="col-md-8">
+                        <div class="mainbox">
+                            <p class="lead">DISTRIBUTION LISTS</p>
+                            <div>
+                                <table class="table table-sm table-condensed" style="font-size:smaller;">
+                                    <thead class="headerbg">
+                                        <tr>
+                                            <th>List Name</th>
+                                            <th class="text-center">Profiling Parameters</th>
+                                            <th class="text-center">Connection Type</th>
+                                            <th class="text-center">Extraction Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>List # 1</b></td>
+                                            <td class="text-center">
+                                                <div style="margin:10px 0px 10px 0px">
+                                                    <span class="icons"><i class="fa fa-female"></i></span>
+                                                    <span class="icons"><i class="fa fa-male"></i></span>
+                                                    <span class="icons"><i class="fa fa-signal"></i></span>
+                                                    <span class="icons"><i class="fa fa-car"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="connectiontype">POST / PRE-PAID</div>
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, January 2nd 2020
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>List # 2</b></td>
+                                            <td class="text-center">
+                                                <div style="margin:10px 0px 10px 0px">
+                                                    <span class="icons"><i class="fa fa-female"></i></span>
+                                                    <span class="icons"><i class="fa fa-male"></i></span>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="connectiontype">POST / PRE-PAID</div>
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, January 2nd 2020
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mainbox">
+                            <p class="lead">AUTO RESPONSES SENT</p>
+                            <div>
+                                <table id="alarmstable" class="table table-sm table-condensed" style="font-size:smaller;">
+                                    <thead class="headerbg">
+                                        <tr>
+                                            <th>CAMPAIGN</th>
+                                            <th class="text-center">RESPONSE RECV.</th>
+                                            <th class="text-center">RESPONSE SENT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><b>Winter Sale</b></td>
+                                            <td class="text-center">412</td>
+                                            <td class="text-center bluecolor">32</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Autumn Sale</b></td>
+                                            <td class="text-center">3092</td>
+                                            <td class="text-center bluecolor">219</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Eid Mela</b></td>
+                                            <td class="text-center">1202</td>
+                                            <td class="text-center bluecolor">1000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <br><br>
+
+            </section>
         </div>
-
-        <br>
-
-
-        <!-- bottom fullwidth chart -->
-        <div class="row">
-          <div class="col-md-12" style="margin:5px 0px 5px 0px">
-            <div class="panel">
-              <div class="panelheader">
-                Bandwidth Usage Details &nbsp;&nbsp;<span *ngIf="bandwidthusage == true"><i class="fa fa-spinner fa-spin"></i></span>
-              </div>
-              <br>
-              <div class="panelcontent row no-gutters">
-
-                <div class="col-md-10">
-                  <div style="height:auto" *ngIf="lineChartData.length == 2">
-                    <canvas baseChart width="auto" height="90" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
-                      [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
-                  </div>
-
-                </div>
-
-                <div class="col-md-2">
-                  <div class="panel" style="border:0px;">
-                    <div class="panelheader text-center">
-                      Sent / Outbox
-                    </div>
-                    <br>
-                    <div class="panelcontent" *ngIf="sent!=null">
-                      <br>
-                      <div class="text-center">
-                        <div class="toptext">
-                          <span><i style="color: #1ABB9C!important;" class="fa fa-rocket"></i>&nbsp;&nbsp;Sent</span>
-                        </div>
-                        <div class="centertext">
-                          {{sent > 999 ? (sent/1000).toFixed(1) + 'k' : sent}}
-                        </div>
-
-                      </div>
-                      <hr>
-                      <div class="text-center" *ngIf="outbox!=null">
-                        <div class="toptext">
-                          <span><i style="color: #1ABB9C!important;" class="fa fa-send"></i>&nbsp;&nbsp;Outbox</span>
-                        </div>
-                        <div class="centertext">
-                          {{outbox > 999 ? (outbox/1000).toFixed(1) + 'k' : outbox}}
-                        </div>
-
-                      </div>
-
-                    </div>
-                    <br>
-                  </div>
-                </div>
-
-              </div>
-              <br>
-            </div>
-          </div>
-        </div>
-        <br><br>
-
-      </section>
     </div>
-  </div>
 </section>

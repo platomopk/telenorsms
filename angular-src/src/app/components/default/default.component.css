@@ -1,26 +1,42 @@
-#dashboardSection{
-    padding-left: 25px;
-    padding-right: 25px;
+#dashboardSection {
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 10px;
     font-size: small;
     box-sizing: border-box;
-    background: #F7F7F7;
-    font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;
-    min-height: 1100px;
+    min-height: auto;
+    color: #4d4f5c;
 }
 
+.col-md-5,
+.col-md-3,
+.col-md-4,
+.col-md-8 {
+    padding: 0px 5px 0px 5px;
+}
 
-.menuitemscontainer{
+tr th {
+    font-size: smaller;
+    font-weight: bold;
+}
+
+.lead {
+    font-size: small;
+    font-weight: bold;
+}
+
+.menuitemscontainer {
     /* display: inline-block; */
 }
 
-.toptext{
+.toptext {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.471;
     color: #73879C;
 }
 
-.centertext{
+.centertext {
     font-size: 30px;
     line-height: 47px;
     font-weight: 600;
@@ -28,7 +44,7 @@
     text-transform: capitalize;
 }
 
-.bottomtext{
+.bottomtext {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.471;
@@ -45,18 +61,18 @@
     border-radius: 0;
 }
 
-.pritem{
+.pritem {
     padding: 0px 0px 4px 0px;
 }
 
-.tdclass{
-    padding-top:15px;
+.tdclass {
+    padding-top: 15px;
 }
 
-.panel{
+.panel {
     background: white;
     color: #73879C;
-    font-family: "Helvetica Neue",Roboto,Arial,"Droid Sans",sans-serif;
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     padding: 10px 17px;
     border: 1px solid #E6E9ED;
     opacity: 1;
@@ -64,18 +80,18 @@
     min-height: 270px;
 }
 
-.panelheader{
+.panelheader {
     font-size: 18px;
     font-weight: 400;
     border-bottom: 2px solid #E6E9ED;
     padding: 1px 5px 6px;
 }
 
-.panelcontent{
+.panelcontent {
     position: relative;
 }
 
-.item{
+.item {
     font-size: 13px;
     font-weight: 400;
     line-height: 1.471;
@@ -83,74 +99,145 @@
     cursor: pointer;
 }
 
-.item:hover{
-    color:#333;
+.item:hover {
+    color: #333;
 }
 
-.cardbg{
-    color:white;
-    background-color:#2f3d5a;
+.cardbg {
+    color: white;
+    background-color: #2f3d5a;
     /* background: linear-gradient(to right, #182848, #1565C0); */
 }
 
-.menuitemwrapper{
+.menuitemwrapper {
     cursor: pointer;
-    padding-bottom:5px;
+    padding-bottom: 5px;
     padding-top: 5px;
     padding-left: 10px;
 }
 
-.menuitemwrapper:hover{
-    color:#1565C0;
-    border-left:2px solid #1565C0;
+.menuitemwrapper:hover {
+    color: #1565C0;
+    border-left: 2px solid #1565C0;
     background: #1565c008;
 }
 
-.menuitemwrapper:focus{
+.menuitemwrapper:focus {
     box-sizing: border-box;
-    color:#1565C0;
-    border-left:2px solid #1565C0;
+    color: #1565C0;
+    border-left: 2px solid #1565C0;
     padding-left: 8px;
     background: #1565c008;
 }
 
-.hoverselected{
+.hoverselected {
     box-sizing: border-box;
-    color:#1565C0;
-    border-left:2px solid #1565C0;
+    color: #1565C0;
+    border-left: 2px solid #1565C0;
     padding-left: 8px;
     background: #1565c008;
 }
 
-.menuitem div{
+.menuitem div {
     display: inline-block;
     margin-right: 10px;
     font-size: small;
-    color:#333;
+    color: #333;
 }
 
-.badgecontainer{
+.badgecontainer {
     display: block;
 }
 
-.badge{
+.badge {
     background: #1565C0;
-    color:white;
+    color: white;
 }
 
-label{
+label {
     font-weight: bold;
     font-size: small;
 }
 
-th{
+th {
     font-weight: 400;
 }
 
-.primary{
-    color:#1565C0;
+.primary {
+    color: #1565C0;
 }
 
-.alternate{
-    color:#26C6DA;
+.alternate {
+    color: #26C6DA;
+}
+
+.broadcasting {
+    padding: 5px;
+    display: inline-block;
+    width: 80px !important;
+    background: #32c0f1;
+    font-weight: 400;
+    color: white;
+}
+
+.scheduled {
+    padding: 5px;
+    display: inline-block;
+    width: 80px !important;
+    background: #0388c1;
+    font-weight: 400;
+    color: white;
+}
+
+.extraction {
+    padding: 5px;
+    display: inline-block;
+    width: 80px !important;
+    background: #22e4ed;
+    font-weight: 400;
+    color: white;
+}
+
+.results {
+    padding: 5px;
+    display: inline-block;
+    width: 80px !important;
+    background: #9d9d9d;
+    font-weight: 400;
+    color: white;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+td {
+    padding: 10px 5px;
+}
+
+.mainbox {
+    background: white;
+    box-sizing: border-box;
+    padding: 15px;
+    min-height: 310px;
+    box-shadow: 0px 0px 4px 0px #d6d6d6;
+}
+
+.connectiontype {
+    background: #0693c6;
+    color: white;
+    display: inline;
+    padding: 5px;
+}
+
+.icons {
+    border: 1px solid #0693c6;
+    padding: 5px 8px;
+    border-radius: 15px;
+    color: white;
+    background: #1bd0e3;
+}
+
+.bluecolor {
+    color: #0693c6;
 }

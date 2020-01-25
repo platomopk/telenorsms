@@ -1,0 +1,712 @@
+<section>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+            <app-topbar></app-topbar>
+            <section id="dashboardSection" style="margin-top:20px;">
+
+                <div>
+                    <h6 style="font-family:'Poppins';text-transform:uppercase;">Create New Campaign</h6>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8" style="    padding: 10px 25px 10px 25px;">
+
+                        <div style="display:flex; flex-direction:horizontal; justify-content:space-between; background:white; padding:15px;" class="boxshadow">
+                            <div>
+                                Campaign Title
+                            </div>
+                            <div style="flex-grow:1;margin-left:25px;margin-right:25px;">
+                                <div>
+                                    <input type="text" class="form-control form-control-sm" placeholder="Enter campaign title here" style="font-size: small;
+                                      border: 0px;
+                                      border-bottom: 1px solid gray;
+                                      border-radius: 0;
+                                      padding: 0;">
+                                </div>
+                                <div><small>The campaign name will be used internally</small></div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div>
+                            <div>
+                                <label style="margin:0;padding:0">Add content and link</label>
+                            </div>
+                            <br>
+                            <div style="background:white; padding:10px 20px;" class="boxshadow">
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label style="font-weight:600;font-size:small">Input Language</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label style="font-weight:normal;font-size:small;" for=""><input type="radio" name="" id="" checked>&nbsp;Plain English</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label style="font-weight:normal;font-size:small;" for=""><input type="radio" name="" id="">&nbsp;Special Characters/Urdu</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label style="font-weight:600;font-size:small">Message Type</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label style="font-weight:normal;font-size:small;" for=""><input type="radio" name="" id="" checked>&nbsp;Text Message</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label style="font-weight:normal;font-size:small;" for=""><input type="radio" name="" id="">&nbsp;Flash Message/Urdu</label>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <select name="" class="form-control form-control-sm" id="">
+                                              <option value="">Select Mask</option>
+                                          </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input (click)="togglecontentfilter()" type="button" value="Content Filter" class="btn btn-default btn-block btn-sm" style="background:white; color:#333; border:1px solid #333;">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input (click)="toggleblocklist()" type="button" value="Block List" class="btn btn-default btn-block btn-sm" style="background:white; color:#333; border:1px solid #333;">
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row no-gutters">
+                                    <div class="col-md-3">
+                                        <input type="button" (click)="showInputContent()" value="Input Content" class="btn btn-default btn-block btn-sm btnbg">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="button" (click)="showChooseTemplate()" value="Choose Template" class="btn btn-default btn-block btn-sm unselectedbtnbg">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Input Content Here" [(ngModel)]="inputcontenttxt">Hello World</textarea>
+                                    </div>
+                                </div>
+                                <div *ngIf="choosetemplate" style="position: absolute;
+                                      left: 208px;
+                                      top: 335px;
+                                      width: 165px;">
+                                    <select name="" class="form-control form-control-sm" id="">
+                                          <option value="">Template # 1</option>
+                                          <option value="">Template # 2</option>
+                                      </select>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4" style="display: flex;
+                                          justify-content: flex-start;
+                                          align-items: center;">
+                                        <label style="display: flex;
+                                              align-items: center;
+                                              justify-content: center;" for=""><input type="checkbox" name="" id="">&nbsp;Bypass Block List</label>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-5" style="display:flex; justify-content:flex-end;align-items:center;">
+                                        <div>
+                                            <span><i class="fa fa-envelope bluecolor"></i>&nbsp;1</span>
+                                        </div>
+                                        <div style="margin-left:25px;">
+                                            {{inputcontenttxt.length}}/160
+                                        </div>
+                                        <div style="margin-left:25px">
+                                            <input type="button" value="Validate" class="btn btn-default btn-sm btnbg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Embed Tracking Link
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input style="padding: 0;
+                                      border: 0;
+                                      border-bottom: 1px solid gray;
+                                      border-radius: 0;" type="text" [(ngModel)]="url" class="form-control form-control-sm" placeholder="" name="" id="">
+                                        <div (click)="generateLink()" class="bluecolor" style="cursor:pointer"><small>Click here to auto generate link</small></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br><br>
+                            <div>
+                                <label style="margin:0;padding:0">Add content and link</label>
+                            </div>
+                            <br>
+                            <div style="background:white; padding:10px 20px;" class="boxshadow">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Select distribution list to broadcast campaign
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <input (click)="toggleUpload()" type="button" value="Upload List" class="btn btn-primary btn-sm btn-block primarybtn">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input (click)="toggleExisting()" type="button" value="Existing List" class="btn btn-primary btn-sm btn-block primarybtn">
+                                        <div *ngIf="existinglist" style="margin-top:5px;">
+                                            <select name="" class="form-control form-control-sm" id="">
+                                              <option value="">List # 1</option>
+                                              <option value="">List # 2</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input (click)="togglenewlist()" type="button" value="Extract List" class="btn btn-primary btn-sm btn-block primarybtn">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <br><br>
+                            <div>
+                                <label style="margin:0;padding:0">Scheduling Of Broadcast</label>
+                            </div>
+                            <br>
+                            <div style="background:white; font-size:small" class="boxshadow">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <input type="button" (click)="showScheduleImmediately()" style="font-size:13px;" value="Schedule Immediately" class="btn btn-default btn-sm btn-block primarybtnblue">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="button" (click)="showScheduleAfterBroadcast()" style="font-size:13px;" value="Schedule After Broadcast" class="btn btn-default btn-sm btn-block primarybtnblue">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="button" (click)="showScheduleRecurringBroadcast()" style="font-size:13px;" value="Schedule Recurring Broadcast" class="btn btn-default btn-sm btn-block primarybtnblue">
+                                    </div>
+                                </div>
+                                <!-- schedule immediately -->
+                                <br>
+                                <div style="height:50px;margin-left:65px;margin-right:65px;">
+                                    <angular2-date-picker *ngIf="datetimepicker" [(ngModel)]="date" [settings]="settings" (onDateSelect)="onDateSelect($event)"></angular2-date-picker>
+                                    <br>
+                                </div>
+                                <div class="row" *ngIf="scheduleimmediately">
+                                    <div class="col-md-6">
+                                        <div style="padding: 25px 20px 25px 65px;">
+                                            <div>
+                                                Campaign Start
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between; align-items:center">
+                                                <div>
+                                                    <span style="font-size:25px;color:#0693C6" [innerHTML]="sicsd">2</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sicsm">Jan</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sicsy">2019</span>
+                                                </div>
+                                                <div>
+                                                    <span (click)="showdatetimepicker('sicsdt')"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="text" [(ngModel)]="sicst" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6" style="border-left:1px solid #e0e0e0">
+                                        <div style="padding: 25px 65px 25px 20px;">
+                                            <div>
+                                                Campaign End
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between; align-items:center">
+                                                <div>
+                                                    <span style="font-size:25px;color:#0693C6" [innerHTML]="siced">2</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sicem">Jan</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sicey">2019</span>
+                                                </div>
+                                                <div>
+                                                    <span (click)="showdatetimepicker('sicedt')"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="text" [(ngModel)]="sicet" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- scehdule after broadcast -->
+                                <div *ngIf="scheduleafterbroadcast" style="padding:0px 65px 0px 65px;">
+                                    <select name="" class="form-control form-control-sm" id="">
+                                          <option value="">
+                                              <div>
+                                                  <div>Mega Sale | Broadcast Ending On 3rd Jan 2020 @ 9:00 PM</div>
+                                              </div>
+                                          </option>
+                                      </select>
+                                </div>
+                                <br>
+                                <div class="row" *ngIf="scheduleafterbroadcast">
+                                    <div class="col-md-6">
+                                        <div style="padding: 25px 20px 25px 65px;">
+                                            <div>
+                                                Campaign Start
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between; align-items:center">
+                                                <div>
+                                                    <span style="font-size:25px;color:#0693C6" [innerHTML]="sabcsd">2</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sabcsm">Jan</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sabcsy">2019</span>
+                                                </div>
+                                                <div>
+                                                    <span (click)="showdatetimepicker('sabcsdt')"><i class="fa fa-calendar"></i></span>
+
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="text" [(ngModel)]="sabcst" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6" style="border-left:1px solid #e0e0e0">
+                                        <div style="padding: 25px 65px 25px 20px;">
+                                            <div>
+                                                Campaign End
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between; align-items:center">
+                                                <div>
+                                                    <span style="font-size:25px;color:#0693C6" [innerHTML]="sabced">2</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sabcem">Jan</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="sabcey">2019</span>
+                                                </div>
+                                                <div>
+                                                    <span (click)="showdatetimepicker('sabcedt')"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="text" [(ngModel)]="sabcet" class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="schedulerecurringbroadcast">
+                                    <div class="col-md-6">
+                                        <div style="padding: 0px 20px 25px 65px;">
+                                            <div>
+                                                Campaign Start
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between; align-items:center">
+                                                <div>
+                                                    <span style="font-size:25px;color:#0693C6" [innerHTML]="srbcsd">2</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="srbcsm">Jan</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="srbcsy">2019</span>
+                                                </div>
+                                                <div>
+                                                    <span (click)="showdatetimepicker('srbcsdt')"><i class="fa fa-calendar"></i></span>
+
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="text" [(ngModel)]="srbcst" class="form-control form-control-sm" placeholder="First Time Slot">
+                                                <br>
+                                                <input type="text" [(ngModel)]="srbcst2" class="form-control form-control-sm" placeholder="Second Time Slot">
+                                                <br>
+                                                <input type="text" [(ngModel)]="srbcst3" class="form-control form-control-sm" placeholder="Third Time Slot">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6" style="border-left:1px solid #e0e0e0">
+                                        <div style="padding: 0px 65px 25px 20px;">
+                                            <div>
+                                                Campaign End
+                                            </div>
+                                            <div style="display: flex;
+                                            justify-content: space-between; align-items:center">
+                                                <div>
+                                                    <span style="font-size:25px;color:#0693C6" [innerHTML]="srbced">2</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="srbcem">Jan</span>&nbsp;
+                                                    <span style="font-size:medium" [innerHTML]="srbcey">2019</span>
+                                                </div>
+                                                <div>
+                                                    <span (click)="showdatetimepicker('srbcedt')"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="text" [(ngModel)]="srbcet" class="form-control form-control-sm" placeholder="First Time Slot">
+                                                <br>
+                                                <input type="text" [(ngModel)]="srbcet2" class="form-control form-control-sm" placeholder="Second Time Slot">
+                                                <br>
+                                                <input type="text" [(ngModel)]="srbcet3" class="form-control form-control-sm" placeholder="Third Time Slot">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br><br>
+                            </div>
+
+
+
+                            <br><br>
+                            <div>
+                                <label style="margin:0;padding:0">Campaign Finalization</label>
+                            </div>
+                            <br>
+                            <div style="background:white;padding:20px;" class="boxshadow">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div style="display: flex;
+                                          justify-content: space-between;
+                                          align-items: center;">
+                                            <div>Total Broadcast</div>
+                                            <div><input type="text" style="width: 50%;
+                                                border-radius: 3px;
+                                                box-shadow: none;" name="" id=""></div>
+                                        </div>
+                                        <br>
+                                        <div style="display: flex;
+                                          justify-content: space-between;
+                                          align-items: center;">
+                                            <div>Total Messages</div>
+                                            <div><input type="text" style="width: 50%;
+                                                border-radius: 3px;
+                                                box-shadow: none;" name="" id=""></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="display: flex;
+                                          justify-content: flex-start;
+                                          align-items: center;">
+                                            <div>
+                                                Total Campaign Cost
+                                            </div>
+                                            <div style="font-size: 20px;
+                                              margin-left: 50px;font-weight:bold;color:#0693C6">0</div>
+                                        </div>
+                                        <br>
+                                        <div style="display: flex;
+                                          justify-content: flex-start;
+                                          align-items: center;">
+                                            <div>
+                                                Remaining Credit
+                                            </div>
+                                            <div style="
+                                              margin-left: 50px;font-weight:bold;">1200</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <div style="display: flex;
+                                      justify-content: space-between;
+                                      align-items: center;">
+                                        <div>Are you sure you want to finalize the campaign?</div>
+                                        <div>
+                                            <input type="button" value="Cancel" class="btn btn-default btn-sm">
+                                            <input type="button" value="Launch Campaign" class="btn btn-default btn-sm btnbg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <div style="position:relative;width:287px;" class="d-block mx-auto">
+                            <div class="topbar"><img src="assets/imgs/status.png" style="width:100%" alt="status"></div>
+                            <div class="topbarmask">Telenor</div>
+                            <span style="position: absolute;
+                            top: 135px;
+                            left: 35px;
+                            color:#024639;
+                            z-index: 0;"><i class="fa fa-caret-left fa-2x"></i></span>
+                            <div class="bubble">{{inputcontenttxt}}</div>
+                            <img src="assets/imgs/phone.png" class="img img-responsive" alt="Phone Demo">
+                        </div>
+
+                    </div>
+                </div>
+
+                <br>
+
+
+                <!-- extract list -->
+                <div style="background:white;padding:40px;position:absolute;top:1000px;left:30px;border:1px solid #999;width:900px;display:none" id="newlist">
+
+                    <div>
+                        <h5>Create New List</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div>
+                                <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+                                    <div style="font-weight:bold;margin-bottom:10px;">
+                                        Arpu
+                                    </div>
+                                    <div>
+                                        <span style="font-size:22px;color:#0693C6;font-weight:bold">{{rangeStart}}</span><span style="font-size:22px; font-weight:bold;">-</span>
+                                        <span style="font-size:22px;color:#0693C6;font-weight:bold">{{rangeEnd}}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input id="ex2" type="text" class="span2" value="" data-slider-min="100" data-slider-max="5000" data-slider-step="100" data-slider-value="[100,1500]" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-8">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque beatae accusantium illum! Corrupti expedita architecto consequuntur saepe hic voluptatibus amet tempore distinctio, quasi corporis iste fuga, exercitationem iusto mollitia commodi.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="font-weight:bold;margin-bottom:5px;">
+                                Gender
+                            </div>
+                            <div>
+                                <input type="button" value="Male" class="btn btn-sm btn-default">
+                                <input type="button" value="Female" class="btn btn-sm btn-default">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div><span>•</span>&nbsp;Population Trends</div>
+                            <div><span>•</span>&nbsp;CNIC Usage for SIM registration</div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="font-weight:bold;margin-bottom:5px;">
+                                Handset Type
+                            </div>
+                            <div>
+                                <input type="button" value="2G" class="btn btn-sm btn-default">
+                                <input type="button" value="3G" class="btn btn-sm btn-default">
+                                <input type="button" value="4G" class="btn btn-sm btn-default">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi quas perspiciatis dolore praesentium molestiae autem, ipsam sapiente, iste tempora adipisci nostrum iusto accusamus omnis recusandae atque doloremque aut, veniam
+                                aliquid. </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="font-weight:bold;margin-bottom:5px;">
+                                Connection Type
+                            </div>
+                            <div>
+                                <input type="button" value="Postpaid" class="btn btn-sm btn-default">
+                                <input type="button" value="Prepaid" class="btn btn-sm btn-default">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi quas perspiciatis dolore praesentium molestiae autem, ipsam sapiente, iste tempora adipisci nostrum iusto accusamus omnis recusandae atque doloremque aut, veniam
+                                aliquid. </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div style="font-weight:bold;margin-bottom:5px;">
+                                Location
+                            </div>
+                            <div style="display:flex;justify-content: flex-start;align-items:center;">
+                                <div>City Name</div>
+                                <div style="margin-left:15px"><select name="" id="" class="form-control form-control-sm">
+                                      <option value="">Select City</option>    
+                                      </select></div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div style="font-weight:bold;margin-bottom:5px;">
+                                Required Count
+                            </div>
+                            <div style="display:flex;justify-content: flex-start;align-items:center;">
+                                <div>Number of Messages</div>
+                                <div style="margin-left:15px;">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Enter Quantity">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div style="display:flex;align-items:center;justify-content:center">
+                        <input type="button" value="Generate New List" class="btn btn-sm btn-default bluebg">
+                    </div>
+
+
+                </div>
+
+
+                <!-- upload -->
+                <div *ngIf="uploadboxshow" style="background:white; width:450px; padding:15px;position: absolute;
+                  top: 1000px;
+                  left: 30px;
+                  border: 1px solid #999;">
+                    <div style="margin-bottom: 15px;">
+                        <h6>Upload</h6>
+                    </div>
+                    <div style="background:#f2f2f2; display:flex; flex-direction:column; justify-content: center; align-items: center; height:400px;">
+                        <img src="assets/imgs/uploadicon.png" style="width: 35%;
+                          margin-bottom: 25px;" alt="upload icon">
+                        <div style="    text-transform: uppercase;
+                          font-size: 16px;">Drag and Drop</div>
+                        <div>your files to assets, or <a href="#">browse</a></div>
+                    </div>
+                </div>
+
+
+                <!-- content filter -->
+                <div *ngIf="contentfilterbox" style="background:white; width:695px; padding:20px; position:absolute;top:415px;left:30px; border:1px solid #999">
+                    <div style="margin-bottom: 15px;">
+                        <h6>Content Filter</h6>
+                    </div>
+                    <div>
+                        <b>Add words and phrases</b>
+                    </div>
+                    <div>
+                        <input type="text" class="form-control form-control-sm" placeholder="Type something.." name="" id="">
+                    </div>
+                    <div class="bluecolor">
+                        <small>Add words and phrases that will never be broadcasted from this account</small>
+                    </div>
+                    <br>
+                    <div class="text-right">
+                        <span class="bluecolor" style="margin-right:15px;">Select All</span>
+                        <span class="bluecolor" style="margin-right:15px;">None</span>
+                        <span class="bluecolor"><i class="fa fa-trash"></i></span>
+                    </div>
+                    <div style="padding:10px; border:1px solid #e0e0e0;">
+                        <div><b>Blocked words and phrases</b></div>
+                        <div style="height:150px;overflow-y:auto;margin-top:15px;">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                            <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        There is a banned PTA list of all words &amp; phrases that is automatically added in the blocklist. <a href="">Click here to view the list</a>
+                    </div>
+                    <br>
+                    <div style="display:flex; align-items:center; justify-content:flex-end">
+                        <div style="margin-right:15px;">Close</div>
+                        <div><input type="button" value="Bulk Upload" class="btn btn-default btn-sm btnbg"></div>
+                    </div>
+                </div>
+
+
+                <!-- B-party filter -->
+                <div *ngIf="blocklistbox" style="background:white; width:695px; padding:20px; position:absolute;top:415px;left:30px; border:1px solid #999">
+                    <div style="margin-bottom: 15px;">
+                        <h6>B - Party Filtering</h6>
+                    </div>
+                    <div>
+                        <b>Add mobile numbers to blocklist</b>
+                    </div>
+                    <div>
+                        <input type="text" class="form-control form-control-sm" placeholder="Type something.." name="" id="">
+                    </div>
+                    <div class="bluecolor">
+                        <small>Added numbers will never be broadcasted from this account</small>
+                    </div>
+                    <br>
+                    <div class="text-right">
+                        <span class="bluecolor" style="margin-right:15px;">Select All</span>
+                        <span class="bluecolor" style="margin-right:15px;">None</span>
+                        <span class="bluecolor"><i class="fa fa-trash"></i></span>
+                    </div>
+                    <div style="padding:10px; border:1px solid #e0e0e0;">
+                        <div><b>Blocked mobile numbers</b></div>
+                        <div style="height:150px;overflow-y:auto;margin-top:15px;">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                            <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+
+                        </div>
+                    </div>
+                    <br>
+                    <div style="display:flex; align-items:center; justify-content:flex-end">
+                        <div style="margin-right:15px;">Close</div>
+                        <div><input type="button" value="Bulk Upload" class="btn btn-default btn-sm btnbg"></div>
+                    </div>
+                </div>
+
+
+            </section>
+        </div>
+    </div>
+</section>

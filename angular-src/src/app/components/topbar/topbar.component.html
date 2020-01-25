@@ -1,68 +1,85 @@
 <section id="topbarsection">
-  <div class="" id="tpcontainerwrapper">
-    <div >
-      <div id="container">
-          <span (click)="navbarclicked()"><i class="fa fa-bars topbars"></i></span>&nbsp;<span *ngIf="navbarshow == false" [routerLink]="['/default']" ><label id="logotext">Mango Tree</label>&nbsp;&nbsp;</span>
-        <!-- <span (click)="navbarclicked()"><i class="fa fa-bars topbars"></i></span> -->
-        <!-- <label id="api">(Instance ID: {{instanceid}})</label> -->
-        <span id="tpdockright" *ngIf="loggedIn">
+    <div class="" id="tpcontainerwrapper">
+        <div>
+            <div id="container">
+                <span (click)="navbarclicked()"><i class="fa fa-bars topbars"></i></span>&nbsp;<span *ngIf="navbarshow == false" [routerLink]="['/default']"><label id="logotext">Telenor SMS Portal</label>&nbsp;&nbsp;</span>
+                <!-- <span (click)="navbarclicked()"><i class="fa fa-bars topbars"></i></span> -->
+                <!-- <label id="api">(Instance ID: {{instanceid}})</label> -->
+                <span id="tpdockright" *ngIf="loggedIn">
 
 
           <!-- new messages -->
           <!-- <span class="dockitems">
               <span (click)="onNewMessage()" ><i class="fa fa-retweet"></i>&nbsp;<span>Inbox</span></span>
-          </span> -->
+                </span> -->
 
-          <!-- name -->
-          <span class="dockitems">
-              <span (click)="onProfile()" ><i style="font-weight:100" class="fa fa-user-circle-o"></i>&nbsp;<span>Profile</span></span>
-          </span>
+                <span class="dockitems">
+                    <span (click)="onIssue()" ><i style="font-weight:100" class="fa fa-life-bouy"></i></span>
+                </span>
 
-          <!-- logout -->
-          <span class="dockitems">
-              <span (click)="onLogout()" ><i class="fa fa-sign-out"></i>&nbsp;<span>Logout</span></span>
-          </span>
-          
-        </span>
-        
-      </div>
+                <span class="dockitems">
+                    <span (click)="onBell()" ><i style="font-weight:100" class="fa fa-bell"></i></span>
+                </span>
+
+                <!-- name -->
+                <span (click)="showProfileDetails()" class="dockitems" style="padding-right:35px;padding-left:13px;border-left:1px solid #e0e0e0;position:relative">
+                <span   style="position:relative;">{{firstname}}&nbsp;&nbsp;&nbsp;<span><i class="fa fa-chevron-down"></i></span>&nbsp;&nbsp;<span style="position:absolute"><i style="font-weight:100" class="fa fa-user-circle-o fa-2x"></i></span>
+                </span>
+                <span *ngIf="profileClicked" style="position: absolute;
+                right: -5px;
+                background: white;
+                top: 55px;
+                z-index: 1;">
+                  <!-- <div class="detailsbox" (click)="onProfile()">Profile</div> -->
+                  <div class="detailsbox" (click)="onLogout()">Logout</div>
+                </span>
+                </span>
+
+                <!-- logout -->
+                <span class="dockitems" style="display:none">
+                  <span (click)="onLogout()" ><i class="fa fa-sign-out"></i>&nbsp;<span>Logout</span></span>
+                </span>
+
+                </span>
+
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div id="sidebar" *ngIf="sidebarShow">
-    <div class="header text-center">
-      <span><i class="fa fa-caret-down"></i></span>
+    <div id="sidebar" *ngIf="sidebarShow">
+        <div class="header text-center">
+            <span><i class="fa fa-caret-down"></i></span>
+        </div>
+
+        <!-- messages -->
+        <div class="cardcontainer">
+            <label>+92123456</label>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ipsa ...</p>
+            <small>9:30 pm</small>
+        </div>
+
+        <div class="cardcontainer">
+            <label>+92123456</label>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ipsa ...</p>
+            <small>9:30 pm</small>
+        </div>
+
+        <div class="cardcontainer">
+            <label>+92123456</label>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ipsa ...</p>
+            <small>9:30 pm</small>
+        </div>
+
     </div>
-
-    <!-- messages -->
-    <div class="cardcontainer">
-      <label >+92123456</label>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ipsa ...</p>
-      <small>9:30 pm</small>
-    </div>
-
-    <div class="cardcontainer">
-      <label >+92123456</label>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ipsa ...</p>
-      <small>9:30 pm</small>
-    </div>
-
-    <div class="cardcontainer">
-        <label >+92123456</label>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit Ipsa ...</p>
-        <small>9:30 pm</small>
-      </div>
-
-  </div>
 </section>
 
 <section *ngIf="1==2">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="marqueecontainer">
-          <marquee behaviour="scroll" scrollamount="4" onmouseover="this.stop()" onmouseout="this.start()"> Some important information to show here &emsp;&emsp;|&emsp;&emsp; Something else got launched &emsp;&emsp;|&emsp;&emsp; Have you tried this yet?  </marquee>
-      </div>
-      
+    <div class="row">
+        <div class="col-md-12">
+            <div class="marqueecontainer">
+                <marquee behaviour="scroll" scrollamount="4" onmouseover="this.stop()" onmouseout="this.start()"> Some important information to show here &emsp;&emsp;|&emsp;&emsp; Something else got launched &emsp;&emsp;|&emsp;&emsp; Have you tried this yet? </marquee>
+            </div>
+
+        </div>
     </div>
-  </div>
 </section>

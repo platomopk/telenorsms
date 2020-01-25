@@ -1,0 +1,159 @@
+<section>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+            <app-topbar></app-topbar>
+            <section id="dashboardSection" style="margin-top:20px;">
+
+                <div>
+                    <h6 class="font-family:'telenor';text-transform:uppercase;">FIREWALL</h6>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- content filter -->
+                        <div style="background:white; padding:20px;" class="boxshadow">
+                            <div style="margin-bottom: 15px;">
+                                <h6>Content Filter</h6>
+                            </div>
+                            <div>
+                                <b>Add words and phrases</b>
+                            </div>
+                            <div>
+                                <input type="text" class="form-control form-control-sm" placeholder="Type something.." name="" id="">
+                            </div>
+                            <div class="bluecolor">
+                                <small>Add words and phrases that will never be broadcasted from this account</small>
+                            </div>
+                            <br>
+                            <div class="text-right">
+                                <span class="bluecolor" style="margin-right:15px;">Select All</span>
+                                <span class="bluecolor" style="margin-right:15px;">None</span>
+                                <span class="bluecolor"><i class="fa fa-trash"></i></span>
+                            </div>
+                            <div style="padding:10px; border:1px solid #e0e0e0;">
+                                <div><b>Blocked words and phrases</b></div>
+                                <div style="height:150px;overflow-y:auto;margin-top:15px;">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                    <input type="button" value="Burritos" class="btn btn-default btn-sm independent">
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                There is a banned PTA list of all words &amp; phrases that is automatically added in the blocklist. <a href="">Click here to view the list</a>
+                            </div>
+                            <br>
+                            <div style="display:flex; align-items:center; justify-content:flex-end">
+                                <div style="margin-right:15px;">Close</div>
+                                <div><input type="button" value="Bulk Upload" class="btn btn-default btn-sm bluebg"></div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <!-- B-party filter -->
+                        <div style="background:white; padding:20px;" class="boxshadow">
+                            <div style="margin-bottom: 15px;">
+                                <h6>B - Party Filtering</h6>
+                            </div>
+                            <div>
+                                <b>Add mobile numbers to blocklist</b>
+                            </div>
+                            <div>
+                                <input type="text" class="form-control form-control-sm" placeholder="Type something.." name="" id="">
+                            </div>
+                            <div class="bluecolor">
+                                <small>Added numbers will never be broadcasted from this account</small>
+                            </div>
+                            <br>
+                            <div class="text-right">
+                                <span class="bluecolor" style="margin-right:15px;">Select All</span>
+                                <span class="bluecolor" style="margin-right:15px;">None</span>
+                                <span class="bluecolor"><i class="fa fa-trash"></i></span>
+                            </div>
+                            <div style="padding:10px; border:1px solid #e0e0e0;">
+                                <div><b>Blocked mobile numbers</b></div>
+                                <div style="height:150px;overflow-y:auto;margin-top:15px;">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+                                    <input type="button" value="92 333 514 1532" class="btn btn-default btn-sm blocked">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div style="display:flex; align-items:center; justify-content:flex-end">
+                                <div style="margin-right:15px;">Close</div>
+                                <div><input type="button" value="Bulk Upload" class="btn btn-default btn-sm bluebg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </section>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,115 @@
+<section>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+            <app-topbar></app-topbar>
+            <section id="dashboardSection" style="margin-top:20px;">
+
+                <div>
+                    <h6 style="font-family:'Poppins';text-transform:uppercase">HR Module</h6>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- content filter -->
+                        <div style="background:white; padding:20px;" class="boxshadow">
+                            <div style="margin-bottom: 15px;">
+                                <p class="lead">Add New Employee</p>
+                            </div>
+                            <br>
+                            <div class="row" id="addempbox">
+                                <div class="col-md-2 text-center">
+                                    <div>
+                                        <img style="    width: 113px;
+                                        border: 1px solid #7fc4fd;
+                                        border-radius: 32px;
+                                        padding: 15px;" src="assets/imgs/hrman.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <input type="text" class="form-control form-control-sm" placeholder="Enter full name" name="" id="">
+                                    </div>
+                                    <div>
+                                        <input type="email" class="form-control form-control-sm" placeholder="Enter email address" name="" id="">
+                                    </div>
+                                    <div>
+                                        <input type="text" class="form-control form-control-sm" placeholder="Enter job title" name="" id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div>
+                                        <input type="text" class="form-control form-control-sm" placeholder="Enter department" name="" id="">
+                                    </div>
+                                    <div>
+                                        <input type="email" class="form-control form-control-sm" placeholder="Enter mobile number" name="" id="">
+                                    </div>
+                                    <div>
+                                        <input type="button" value="Add Employee" class="btn btn-default btn-sm btn-block btnbg">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+
+                        </div>
+
+
+                        <br>
+                        <div class="" style="margin-top:5px;">
+                            <div class="" style="padding-right:0px;">
+                                <div class="mainbox">
+                                    <p class="lead">Employees</p>
+                                    <br>
+                                    <div>
+                                        <table class="table table-sm table-condensed" style="font-size:smaller;">
+                                            <thead class="headerbg">
+                                                <tr>
+
+                                                    <th>Name</th>
+                                                    <th>Title</th>
+                                                    <th>Department</th>
+                                                    <th>Email</th>
+                                                    <th>Mobile</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="">
+                                                    <td><span><i class="fa fa-user"></i></span>&nbsp;<b>Bechany Day</b></td>
+                                                    <td>Head of Solutions</td>
+                                                    <td><span class="bluecolor">•</span>&nbsp;Sales</td>
+                                                    <td>marketing@telenor.com</td>
+                                                    <td>0345 512 5124</td>
+                                                </tr>
+                                                <tr class="">
+                                                    <td><span><i class="fa fa-user"></i></span>&nbsp;<b>Anna k.</b></td>
+                                                    <td>National Sales Director</td>
+                                                    <td><span class="bluecolor">•</span>&nbsp;Marketing</td>
+                                                    <td>marketing@telenor.com</td>
+                                                    <td>0345 512 5124</td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <br>
+
+                    </div>
+                </div>
+
+
+
+
+            </section>
+        </div>
+    </div>
+</section>

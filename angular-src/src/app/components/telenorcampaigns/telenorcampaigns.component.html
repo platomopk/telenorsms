@@ -1,0 +1,311 @@
+<section>
+    <div class="row no-gutters">
+        <div class="col-12 col-sm-4 col-md-2" *ngIf="navbarshow">
+            <app-navbar></app-navbar>
+        </div>
+        <div class="col-12 col-sm-8 col-md-10" [ngClass]="{'col-12 col-sm-12 col-md-12':navbarshow==false}">
+            <app-topbar></app-topbar>
+            <section id="dashboardSection">
+
+                <div class="row no-gutters">
+                    <div class="col-md-3">
+                        <div class="pagetitle">
+                            Campaign Dashboard
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0;">
+                        <div class="spotlightbox">
+                            <div class="spotlightfirsthalf">
+                                <div class="slfhfd">
+                                    <span><img src="assets/imgs/undelivered.png" alt=""></span>
+                                </div>
+                                <div class="slfhsd">
+                                    <div style="font-size:medium; font-weight:bold;font-family:'Poppins',sans-serif;" class="bluecolor">9085</div>
+                                    <div>Total Undelivered</div>
+                                </div>
+                            </div>
+                            <div class="spotlightsecondhalf">
+                                <span class="campaignbookmark"><i class="fa fa-bookmark"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0;">
+                        <div class="spotlightbox">
+                            <div class="spotlightfirsthalf">
+                                <div class="slfhfd">
+                                    <span><img src="assets/imgs/unopened.png" alt=""></span>
+                                </div>
+                                <div class="slfhsd">
+                                    <div style="font-size:medium; font-weight:bold;font-family:'Poppins',sans-serif;" class="bluecolor">9085</div>
+                                    <div>Links Un-opened</div>
+                                </div>
+                            </div>
+                            <div class="spotlightsecondhalf">
+                                <span class="campaignbookmark"><i class="fa fa-bookmark"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0;padding-right:0">
+                        <div class="spotlightbox">
+                            <div class="spotlightfirsthalf">
+                                <div class="slfhfd">
+                                    <span><img src="assets/imgs/blocked.png" alt=""></span>
+                                </div>
+                                <div class="slfhsd">
+                                    <div style="font-size:medium; font-weight:bold;font-family:'Poppins',sans-serif;" class="bluecolor">9085</div>
+                                    <div>Blocked</div>
+                                </div>
+                            </div>
+                            <div class="spotlightsecondhalf">
+                                <span class="campaignbookmark"><i class="fa fa-bookmark"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row no-gutters" style="margin-top:12px;">
+                    <div class="col-md-3">
+                        <div class="leftbox totalsent" (click)="toggleSent()">
+                            <div class="lbl">
+                                <div>Total Sent</div>
+                                <div>
+                                    <div class="lbltitle">27.85K</div>
+                                    <div class="lblstatus" style="color:green"><span><i class="fa fa-arrow-up"></i>&nbsp;90.8%</span></div>
+                                </div>
+                            </div>
+                            <div class="lbr">
+                                <div class="lbrfd campaignbookmark">Save List <span style="margin-left:8px;"><i class="fa fa-bookmark"></i></span></div>
+                                <div class="smallgraphcontainer" id="">
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticallarge"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticallarge"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="leftbox totaldelivered" (click)="toggleDelivered()">
+                            <div class="lbl">
+                                <div>Total Delivered</div>
+                                <div>
+                                    <div class="lbltitle">27.85K</div>
+                                    <div class="lblstatus" style="color:green"><span><i class="fa fa-arrow-up"></i>&nbsp;59.8%</span></div>
+                                </div>
+                            </div>
+                            <div class="lbr">
+                                <div class="lbrfd campaignbookmark">Save List <span style="margin-left:8px;"><i class="fa fa-bookmark"></i></span></div>
+                                <div class="smallgraphcontainer" id="">
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticallarge"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticallarge"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="leftbox linksopened" (click)="toggleOpened()">
+                            <div class="lbl">
+                                <div>Links Opened</div>
+                                <div>
+                                    <div class="lbltitle">27.85K</div>
+                                    <div class="lblstatus" style="color:red"><span><i class="fa fa-arrow-down"></i>&nbsp;13.8%</span></div>
+                                </div>
+                            </div>
+                            <div class="lbr">
+                                <div class="lbrfd campaignbookmark">Save List <span style="margin-left:8px;"><i class="fa fa-bookmark"></i></span></div>
+                                <div class="smallgraphcontainer" id="">
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticallarge"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticallarge"></div>
+                                    <div class="verticalsmall"></div>
+                                    <div class="verticalmedium"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="col-md-9">
+
+                        <div style="height:calc(100% - 15px); background:white;padding-top:10px;padding-left:10px;padding-right:10px;box-shadow: 0px 0px 4px 0px #d6d6d6;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <div style="font-size:16px;margin-left:5px;">
+                                    Statistics
+                                </div>
+                                <div style="margin-right:5px;">
+                                    <select name="" class="form-control-sm" id="">
+                                        <option value="">Last 6 weeks</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div style="display: block; min-height: 90px;padding:10px;">
+                                <canvas baseChart #baseChart="base-chart" width="auto" height="90" [options]="options" [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="lineChartColors" [chartType]="lineChartType"></canvas>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="row no-gutters" style="margin-top:5px;">
+                    <div class="col-md-12" style="padding-right:0px;">
+                        <div class="mainbox">
+                            <p class="lead">CAMPAIGNS</p>
+                            <div>
+                                <table class="table table-sm table-condensed" style="font-size:smaller;">
+                                    <thead class="headerbg">
+                                        <tr>
+                                            <th>Campaign Name</th>
+                                            <th class="text-center">Phase</th>
+                                            <th class="text-center">% Completed</th>
+                                            <th class="text-center">Scheduled Time</th>
+                                            <th class="text-center">Expiry Time</th>
+                                            <th class="text-center">SMS Sent</th>
+                                            <th class="text-center">SMS Delivered</th>
+                                            <th class="text-center">Links Opened</th>
+                                            <th class="text-right">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="active">
+                                            <td><b>Winter Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="connectiontype broadcasting">Broadcasting</div>
+                                            </td>
+                                            <td class="text-center">
+                                                52%
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center">
+                                                27850
+                                            </td>
+                                            <td class="text-center">
+                                                18765
+                                            </td>
+                                            <td class="text-center">
+                                                <b>1532</b>
+                                            </td>
+                                            <td class="actiontd" [routerLink]="['/editcampaign']">
+                                            </td>
+                                        </tr>
+                                        <tr class="nactive">
+                                            <td><b>Summer Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="connectiontype scheduled">Scheduled</div>
+                                            </td>
+                                            <td class="text-center">
+                                                0%
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center">
+                                                0
+                                            </td>
+                                            <td class="text-center">
+                                                0
+                                            </td>
+                                            <td class="text-center">
+                                                <b>0</b>
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                        </tr>
+                                        <tr class="nactive">
+                                            <td><b>Eid Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="connectiontype results">Results</div>
+                                            </td>
+                                            <td class="text-center">
+                                                100%
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center">
+                                                3000
+                                            </td>
+                                            <td class="text-center">
+                                                2780
+                                            </td>
+                                            <td class="text-center">
+                                                <b>690</b>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr class="nactive">
+                                            <td><b>Spring Sale</b></td>
+                                            <td class="text-center">
+                                                <div class="connectiontype extraction">Extraction</div>
+                                            </td>
+                                            <td class="text-center">
+                                                0%
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center bluecolor">
+                                                02:00 PM, 2nd Jan'19
+                                            </td>
+                                            <td class="text-center">
+                                                0
+                                            </td>
+                                            <td class="text-center">
+                                                0
+                                            </td>
+                                            <td class="text-center">
+                                                <b>0</b>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <br>
+            </section>
+        </div>
+    </div>
+</section>

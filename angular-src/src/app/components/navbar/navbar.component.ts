@@ -252,6 +252,11 @@ export class NavbarComponent implements OnInit {
     
   }
 
+  shortcut:boolean=false;
+  toggleShortcut(){
+    this.shortcut= !this.shortcut;
+  }
+
 
   ngOnInit() {
     this.setRights();

@@ -1,116 +1,115 @@
 @media only screen and (max-width: 600px) {
-    #topbarsection{
+    #topbarsection {
         min-height: 75px;
         padding-left: 10px;
         padding-right: 10px;
-        background-color:#1565C0;
+        background-color: #1565C0;
     }
-
-    #tpdockright{
-        float:none;
+    #tpdockright {
+        float: none;
     }
-
-    .topbars{
+    .topbars {
         font-size: 18px !important;
         padding-left: 0px !important;
-        color: #515356!important;
+        color: #0ba1cc !important;
     }
-
-    #logotext{
+    #logotext {
         position: absolute;
-        top:13px !important;
+        top: 13px !important;
         font-weight: 300 !important;
-        padding:0px;
-        margin:0px;
-        padding-left:5px !important;
-        color:#515356!important;
+        padding: 0px;
+        margin: 0px;
+        padding-left: 5px !important;
+        color: #0ba1cc !important;
         font-size: 18px !important;
     }
 }
 
-.marqueecontainer{
+.marqueecontainer {
     padding-top: 4px;
     padding-bottom: 3px;
     font-size: small;
     padding-left: 10px;
     color: white;
-    background: #1565C0;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #182848, #1565C0);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #182848, #1565C0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+    background: #1565C0;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #182848, #1565C0);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #182848, #1565C0);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-#topbarsection{
+#topbarsection {
     min-height: 59px;
     padding-left: 10px;
     padding-right: 10px;
-    background: #EDEDED;
+    background: #fff;
     border-bottom: 1px solid #D9DEE4;
     margin-bottom: 10px;
 }
 
-#tpcontainerwrapper{
+#tpcontainerwrapper {
     position: relative;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-#api{
-    color:white;
+#api {
+    color: white;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
 
-#logotext{
-    padding:0px;
-    margin:0px;
-    color:#5A738E;
+#logotext {
+    padding: 0px;
+    margin: 0px;
+    color: #0ba1cc !important;
     font-weight: 300;
     font-size: 26px;
     position: absolute;
-    padding-left:5px !important;
-    top:7px;
+    padding-left: 5px !important;
+    top: 7px;
 }
 
-.topbars{
-    font-size: 26px;
-    padding-left:10px;
-    color:#5A738E;
+.topbars {
+    font-size: 24px;
+    padding-left: 15px;
+    color: #0ba1cc !important;
 }
 
-.topbars:hover{
-    color:#2a3f54;
+.topbars:hover {
+    color: #0ba1cc !important;
     cursor: pointer;
 }
 
-#logotext:hover{
-    color:#2a3f54;
+#logotext:hover {
+    color: #2a3f54;
     cursor: pointer;
 }
 
-#tpdockright{
-    float:right;
+#tpdockright {
+    float: right;
 }
 
-.dockitems{
+.dockitems {
     user-select: none;
     box-sizing: border-box;
     cursor: pointer;
-    font-size:13px;
-    padding:10px;
+    font-size: 13px;
+    padding: 10px;
     /* border:1px solid white; */
-    color:#515356!important;
-    margin-left:0px;
+    color: #515356!important;
+    margin-left: 0px;
 }
 
-.dockitems:hover{
-    background: #D9DEE4;  
+.dockitems:hover {
+    /* background: #D9DEE4; */
 }
 
-#sidebar{
+#sidebar {
     box-sizing: border-box;
-    border-left:2px solid #1565C0;
-    border-right:2px solid #1565C0;
-    border-bottom:2px solid #1565C0;
+    border-left: 2px solid #1565C0;
+    border-right: 2px solid #1565C0;
+    border-bottom: 2px solid #1565C0;
     background-color: white;
     position: absolute;
     z-index: 5;
@@ -118,7 +117,7 @@
     width: 225px;
 }
 
-.cardcontainer{
+.cardcontainer {
     cursor: pointer;
     padding: 10px;
     margin: 5px;
@@ -128,19 +127,25 @@
     /* padding-right: 10px; */
 }
 
-.cardcontainer label{
+.cardcontainer label {
     font-weight: bold;
-    margin:0px;
+    margin: 0px;
 }
 
-.cardcontainer p{
-    margin:0px;
+.cardcontainer p {
+    margin: 0px;
 }
 
-.cardcontainer small{
+.cardcontainer small {
     color: #1565C0;
 }
 
-.header{
+.header {
     color: #1565C0;
+}
+
+.detailsbox {
+    width: 120px;
+    padding: 10px 0 10px 15px;
+    border: 1px dashed #e0e0e0;
 }

@@ -1,3 +1,97 @@
 /* You can add global styles to this file, and also import other style files */
 
-  
+@font-face {
+    font-family: telenor;
+    src: url('assets/fonts/telenor.otf');
+}
+
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: none;
+    border-bottom: 2px solid #80bdff !important;
+}
+
+.secondarybtn {
+    background-size: cover;
+    background: url('assets/imgs/secondarybtn.png');
+    background-position: center center;
+    border: none;
+    padding: 8px 25px;
+    font-size: 11px;
+    border-radius: 6px;
+    color: #0FAED3;
+}
+
+.primarybtn {
+    background-size: cover;
+    background: url('assets/imgs/primarybtn.png');
+    background-position: center center;
+    border: none;
+    padding: 8px 25px;
+    font-size: 11px;
+    border-radius: 6px;
+    color: white;
+}
+
+.btn.focus,
+.btn:focus {
+    outline: 0;
+    box-shadow: none;
+}
+
+.slider.slider-horizontal {
+    width: 100%;
+    height: 20px;
+}
+
+.bluecolor {
+    color: #0388c1 !important;
+}
+
+.bluebg {
+    background: #0388c1 !important;
+    color: white;
+}
+
+.primarybtnblue {
+    background: #18a9f8 !important;
+    color: white;
+}
+
+.btn-default {
+    background: #808080;
+    color: white;
+}
+
+.btnbg {
+    background: #18a9f8;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #18a9f8, #1BD1E4);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #18a9f8, #1BD1E4);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+}
+
+.unselectedbtnbg {
+    background: #616161;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #9bc5c3, #616161);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #9bc5c3, #616161);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+}
+
+.headerbg {
+    background: #f5f6fa;
+    color: #0388c1;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.boxshadow {
+    box-shadow: 0px 0px 4px 0px #d6d6d6;
+}

@@ -18,17 +18,16 @@ export class LoginComponent implements OnInit {
     private router:Router,
     private authService:AuthService
   ) {
-    if( localStorage.getItem('id_loggedIn') != null && localStorage.getItem('id_loggedIn')=='true'){
-      // 
-      var objectu = JSON.parse(localStorage.getItem("user"));
-      if(objectu.type === 'sa'){
-        this.router.navigate(['/master/newaccount']);  
-      }else if(objectu.type === 'sales'){
-        this.router.navigate(['/salesreport']);  
-      }else{
-        this.router.navigate(['/default']);
-      }
-    }
+    // if( localStorage.getItem('id_loggedIn') != null && localStorage.getItem('id_loggedIn')=='true'){
+    //   var objectu = JSON.parse(localStorage.getItem("user"));
+    //   if(objectu.type === 'sa'){
+    //     this.router.navigate(['/master/newaccount']);  
+    //   }else if(objectu.type === 'sales'){
+    //     this.router.navigate(['/salesreport']);  
+    //   }else{
+    //     this.router.navigate(['/default']);
+    //   }
+    // }
   }
 
   ngOnInit() {

@@ -18,6 +18,9 @@ export class RegisterComponent implements OnInit {
   type:String="regular";
   salesemail:String="";
   enckey:String="";
+  fname:String="";
+  lname:String="";
+  company:String="";
   rights:String[];
 
   constructor(
@@ -31,27 +34,32 @@ export class RegisterComponent implements OnInit {
 
   onRegister(){
     this.sent = true;
-    // rights:['dashboard','messaging','notification','hybrid','reporting','contacts','tracker','pricing','settings'],
-    if(this.type == '' || this.salesemail=='')
-    {
-      alert("Please fill in all fields")
-      this.sent = false;
-      return false;
-    }
 
-    if(this.type == "omo"){
-      if(this.enckey == ""){
-        this.sent = false;
-        alert("Encryption key is required for this account type.")
-        return false;
-      }
-    }
+    // rights:['dashboard','messaging','notification','hybrid','reporting','contacts','tracker','pricing','settings'],
+    
+    // if(this.type == '' || this.salesemail=='')
+    // {
+    //   alert("Please fill in all fields")
+    //   this.sent = false;
+    //   return false;
+    // }
+
+    // if(this.type == "omo"){
+    //   if(this.enckey == ""){
+    //     this.sent = false;
+    //     alert("Encryption key is required for this account type.")
+    //     return false;
+    //   }
+    // }
 
     
     
     let user = {
-      fullname: this.fullname,
-      phone: this.phone,
+      // fullname: this.fullname,
+      // phone: this.phone,
+      company:this.company,
+      fname:this.fname,
+      lname:this.lname,
       email: this.email,
       password: this.password,
       rights:['contacts','tracker','pricing'],
@@ -60,15 +68,16 @@ export class RegisterComponent implements OnInit {
       parent:null,
       parents:[],
       type:this.type,
-      enckey:this.enckey,
-      salesemail:this.salesemail
+      action:"createsimpleuser"
+      // enckey:this.enckey,
+      // salesemail:this.salesemail
     }
 
-    if(!this.validateService.validateRegister(user)){
-      console.log("Please fill in all fields.");
-      this.sent= false;
-      return false;
-    }
+    // if(!this.validateService.validateRegister(user)){
+    //   console.log("Please fill in all fields.");
+    //   this.sent= false;
+    //   return false;
+    // }
 
     if(!this.validateService.validateEmail(user.email)){
       console.log("Please use a valid email.");
