@@ -34,7 +34,7 @@
         "nodemailer": "^6.2.1",
         "passport": "*",
         "passport-jwt": "*",
-        "soap": "^0.24.0",
+        "soap": "^0.45.0",
         "xml2js": "^0.4.19"
     },
     "engines": {
